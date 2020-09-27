@@ -1,0 +1,54 @@
+/* SCROLLBAR */
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 5px;
+}
+  
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+  
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* BOOTSTRAP */
+
+.custom-switch > *{
+    cursor: pointer;
+}
+
+/* JUDGMENT */
+
+.document-text {
+    max-height: 350px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    text-align: justify;
+    padding: 0.75rem;
+    overflow-y: auto;
+    background-color: #fff;
+    color: #495057;
+}
+
+.document-title {
+    width: 100%;
+}
+
+mark {
+    background-color: #fff2ac;
+}
+
+.judgment > div {
+    margin-bottom: 10px;
+}
