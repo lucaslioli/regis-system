@@ -4,7 +4,7 @@ Regis is system to provide relevance judgments about multimodal documents for de
 
 ## Requirements
 
-Regis is being developed using the open-source PHP web framework, Laravel 8.0. The requirements are the same as the framework, found in the [documentation (version 7.x)](https://laravel.com/docs/8.x). Laravel has support to different databases, the chosen one was [MySQL](https://www.mysql.com/).
+Regis is being developed using the open-source PHP web framework, Laravel 8.0. The requirements are the same as the framework, found in the [documentation (version 8.x)](https://laravel.com/docs/8.x). Laravel has support to different databases, the chosen one was [MySQL](https://www.mysql.com/).
 
 To run the project you will need to have installed [Composer](https://getcomposer.org/).
 
