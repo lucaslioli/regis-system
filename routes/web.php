@@ -22,4 +22,16 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 // Judgment routes
-Route::get('/judgments/create', 'JudgmentController@create')->name('judgments.create');
+route::get('/judgments/create', 'JudgmentController@create')->name('judgments.create');
+
+// Documents routes
+Route::get('/documents/index', 'DocumentController@index')->name('documents.index');
+
+// Queries routes
+Route::get('/queries/index', 'QueryController@index')->name('queries.index');
+Route::get('/queries/create', 'QueryController@create')->name('queries.create');
+Route::get('/queries/search', 'QueryController@search')->name('queries.search');
+Route::delete('/queries/{query}', 'QueryController@destroy')->name('queries.destroy');
+Route::get('/queries/{query}/edit', 'QueryController@edit')->name('queries.edit');
+Route::post('/queries/store', 'QueryController@store');
+Route::put('/queries/{query}', 'QueryController@update');

@@ -1,23 +1,19 @@
 /* SCROLLBAR */
 
-/* width */
 ::-webkit-scrollbar {
     width: 10px;
   }
   
-/* Track */
 ::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 5px;
 }
   
-/* Handle */
 ::-webkit-scrollbar-thumb {
     background: #888;
     border-radius: 5px;
 }
   
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
@@ -28,17 +24,23 @@
     cursor: pointer;
 }
 
+/* GENERAL */
+
+.pagination {
+    margin-top: 20px;
+}
+
+.content {
+    flex: 1;
+    margin-bottom: 30px;
+}
+
 /* JUDGMENT */
 
 .document-text {
-    max-height: 350px;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    text-align: justify;
-    padding: 0.75rem;
     overflow-y: auto;
-    background-color: #fff;
-    color: #495057;
+    max-height: 350px;
+    text-align: justify;
 }
 
 .document-title {

@@ -9,6 +9,8 @@ class Query extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['title', 'description', 'narrative', 'status'];
+
     public function judgments()
     {
         return $this->hasMany(Judgment::class);
