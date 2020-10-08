@@ -18,7 +18,7 @@ class CreateDocumentsTable extends Migration
             $table->string('doc_id');
             $table->string('file_name')->unique();
             $table->string('file_type')->default("txt"); // txt, pdf
-            $table->text('text_file');
+            $table->longText('text_file');
             $table->timestamps();
         });
     }

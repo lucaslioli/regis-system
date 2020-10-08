@@ -9,6 +9,8 @@ class Document extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['doc_id', 'file_name', 'file_type', 'text_file'];
+
     public function judgments()
     {
         return $this->hasMany(Judgment::class);

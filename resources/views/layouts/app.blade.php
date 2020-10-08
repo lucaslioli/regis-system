@@ -51,6 +51,10 @@
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item {{ Request::is('judgments/create') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('judgments.create') }}">Annotation</a>
+                            </li>
+
                             <li class="nav-item {{ Request::is('documents/*') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('documents.index') }}">Documents</a>
                             </li>

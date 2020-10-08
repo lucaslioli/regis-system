@@ -32,7 +32,7 @@
                     <div class="form-group row">
 
                         <div class="document-title d-flex justify-content-between">
-                            <label>Document: <a href="#">BR-BG.03964.pdf</a></label>
+                            <label>Document: <a href="#" target="blank">BR-BG.03964.pdf <i class="fas fa-external-link-alt"></i></a></label>
                             <label>25/100</label>
                         </div>
                         <div class="card">

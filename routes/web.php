@@ -26,6 +26,12 @@ route::get('/judgments/create', 'JudgmentController@create')->name('judgments.cr
 
 // Documents routes
 Route::get('/documents/index', 'DocumentController@index')->name('documents.index');
+Route::get('/documents/create', 'DocumentController@create')->name('documents.create');
+Route::get('/documents/search', 'DocumentController@search')->name('documents.search');
+Route::get('/documents/{document}', 'DocumentController@show')->name('documents.show');
+Route::delete('/documents/{document}', 'DocumentController@destroy')->name('documents.destroy');
+Route::post('/documents/store', 'DocumentController@store');
+Route::post('/documents/upload', 'DocumentController@upload');
 
 // Queries routes
 Route::get('/queries/index', 'QueryController@index')->name('queries.index');

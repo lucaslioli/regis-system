@@ -2,6 +2,7 @@
 
 @section('include')
     <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ asset('js/scripts.js') }}"></script>
 @endsection
 
 @section('content')
@@ -15,7 +16,7 @@
                     {{ $queries->total() }} queries find
                 </h5>
                 <a href="{{ route('queries.create') }}" class="btn btn-success" title="New query">
-                    <i class="fas fa-plus"></i> New Query
+                    <i class="fas fa-plus"></i> Create new Query
                 </a>
             </div>
         </div>
@@ -26,11 +27,14 @@
             <div class="row">
 
                 <div class="col-md-10">
-                    <input type="text" name="qry" id="qry" class="form-control" placeholder="Enter an ID or part of query..." value="{{ old('qry') }}">
+                    <input type="text" name="qry" id="qry" class="form-control"
+                        placeholder="Enter an ID or part of query..." value="{{ old('qry') }}">
                 </div>
 
                 <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary btn-block" id="btn-search"><i class="fas fa-search"></i> Search</button>
+                    <button type="submit" class="btn btn-primary btn-block" id="btn-search">
+                        <i class="fas fa-search"></i> Search
+                    </button>
                 </div>
 
             </div>
@@ -40,7 +44,7 @@
 
         <div id="response" role="alert"></div>
 
-        <table class="table table-hover">
+        <table class="table table-hover table-actions">
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -59,7 +63,7 @@
                         {{ $query->title }}
                     
                         <footer class="blockquote-footer">
-                            <strong>Correction:</strong> <i>{{ $query->description }}</i>
+                            <strong>Narrative:</strong> <i>{{ $query->narrative }}</i>
                         </footer>
                     </td>
                     <td class="text-muted">
@@ -103,36 +107,12 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-
             $("body").on("click", "#deleteQuery", function(e){
-
-                if(!confirm("Do you really want to do this?")) {
-                    return false;
-                }
-
                 e.preventDefault();
-                var id = $(this).data("id");
-                var token = $("meta[name='csrf-token']").attr("content");
-
-                $.ajax({
-                    url: this.href, //or use url: "query/"+id,
-                    type: 'DELETE',
-                    data: {
-                        _token: token,
-                        id: id
-                    },
-                    success: function (response){
-                        $("#response").removeClass("alert alert-danger");
-                        $("#response").addClass("alert alert-success");
-                        $("#response").html(response);
-                        $("#tr-"+id).remove();
-                    }
-                });
-                return false;
+                delete_resource(this);
             });
-            
-
         });
+
     </script>
 
 @endsection

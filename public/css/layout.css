@@ -35,12 +35,21 @@
     margin-bottom: 30px;
 }
 
+.table-actions tr td:last-child{
+    min-width: 100px;
+}
+
 /* JUDGMENT */
 
 .document-text {
     overflow-y: auto;
+    overflow-x: hidden;
     max-height: 350px;
     text-align: justify;
+}
+
+.document-show .document-text {
+    max-height: 500px;
 }
 
 .document-title {
