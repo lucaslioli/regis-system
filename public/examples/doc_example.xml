@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<add>
+	<doc>
+		<field name="docid">BR-BG.00001</field>
+		<field name="filename">BR-BG.00001.pdf</field>
+		<field name="filetype">PDF</field>
+		<field name="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dignissim consectetur lorem, vel iaculis magna tempor vitae. Fusce sagittis nibh ut felis mollis, a ultrices elit vulputate. Morbi et justo nulla. Proin egestas volutpat velit, et dapibus tortor iaculis sit amet. Mauris tempor, mi sit amet ultricies consectetur, justo dolor tristique orci, vel eleifend sapien enim nec lorem. Aenean vel elit egestas, vulputate nulla in, ultricies dui. Nulla ipsum elit, consequat quis orci nec, tincidunt elementum tortor.</field>
+	</doc>
+</add>
