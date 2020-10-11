@@ -15,6 +15,7 @@ class CreateQueriesTable extends Migration
     {
         Schema::create('queries', function (Blueprint $table) {
             $table->id();
+            $table->string('qry_id')->unique();
             $table->text('title');
             $table->text('description');
             $table->text('narrative');

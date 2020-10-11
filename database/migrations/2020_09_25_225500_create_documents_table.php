@@ -15,7 +15,7 @@ class CreateDocumentsTable extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->string('doc_id');
+            $table->string('doc_id')->unique();
             $table->string('file_name')->unique();
             $table->string('file_type')->default("txt"); // txt, pdf
             $table->longText('text_file');

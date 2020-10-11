@@ -9,7 +9,7 @@ class Query extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'narrative', 'status'];
+    protected $fillable = ['qry_id', 'title', 'description', 'narrative', 'status'];
 
     public function judgments()
     {
