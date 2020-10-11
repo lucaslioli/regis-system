@@ -40,7 +40,7 @@
             </div>
         </div>
         
-        <div class="form-group row">
+        <div class="form-group">
             <div class="card">
                 <div class="card-body document-text">
                     {{ $document->text_file }}
@@ -76,6 +76,8 @@
                         @if($errors->has('doc_files.*'))
                             <p class="text-danger">{{ $errors->first('doc_files.*') }}</p>
                         @endif
+
+                        <p class="text-muted">*Select the file with the same name as "File name"</p>
                     </div>
     
                     <div class="form-group col-md-4">
@@ -105,12 +107,12 @@
         });
 
         if($("#upload-form").length > 0){
-            /* show number of files selected */
+            /* show file value after file selected */
             document.getElementById('doc_files').addEventListener('change',function(e){
-                var files = document.getElementById("doc_files").files.length;
+                var fileName = document.getElementById("doc_files").files[0].name;
                 var nextSibling = e.target.nextElementSibling;
-                nextSibling.innerText = files + " files selected";
-            })
+                nextSibling.innerText = fileName;
+            });
 
             $(function(){
                 $('form').on('submit', function(event){

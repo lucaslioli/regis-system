@@ -60,10 +60,6 @@ class DocumentController extends Controller
         $files = $request->file('xml_files');
 
         foreach($files as $file){
-            if(!$file->isValid() || $file->getClientOriginalExtension() != 'xml')
-                return response()
-                    ->view('documents.create', ['response' => "ERROR: The file ".$file->getClientOriginalName()." is not valid!"], 400);
-
             $xmlString = file_get_contents($file);
             $xml = simplexml_load_string($xmlString);
 

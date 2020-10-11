@@ -48,8 +48,10 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Query Title</th>
+                    <th scope="col">ID</th>
+                    <th scope="col" class="td-highlight">Query Title</th>
                     <th scope="col">Description</th>
+                    <th scope="col">Narrative</th>
                     <th scope="col" class="text-center">Actions</th>
                 </tr>
             </thead>
@@ -59,15 +61,17 @@
 
                 <tr id="tr-{{ $query->id }}">
                     <td>{{ $query->id }}</td>
-                    <td>
-                        {{ $query->title }}
-                    
-                        <footer class="blockquote-footer">
-                            <strong>Narrative:</strong> <i>{{ $query->narrative }}</i>
-                        </footer>
-                    </td>
+
+                    <td>{{ $query->qry_id }}</td>
+
+                    <td class="td-highlight">{{ $query->title }}</td>
+
                     <td class="text-muted">
-                        {{ Str::of($query->description)->limit(120) }}
+                        {{ Str::of($query->description)->limit(95) }}
+                    </td>
+
+                    <td class="text-muted">
+                        {{ Str::of($query->narrative)->limit(95) }}
                     </td>
 
                     <td class="text-center">

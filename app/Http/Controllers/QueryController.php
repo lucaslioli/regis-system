@@ -49,13 +49,53 @@ class QueryController extends Controller
      */	
     public function store(Request $request)	
     {
+        $qBefore = Query::count();
+        $qIgnoreded = 0;
+
         if($request->file('xml_file') != NULL){
-            $request->validate(['xml_file' => 'required|mimes:xml']);
+            $request->validate([
+                'xml_files' => 'required',
+                'xml_files' => 'mimes:xml'
+            ]);
+        
+            $file = $request->file('xml_file');
+
+            $xmlString = file_get_contents($file);
+            $xml = simplexml_load_string($xmlString);
+
+            if ($xml === false)
+                return response()
+                    ->view('queries.create', ['response' => "ERROR: Failed loading XML from ".$file->getClientOriginalName()], 400);
+
+            foreach($xml->top as $top){
+                $test_query = Query::where('qry_id', $top->num)
+                    ->orWhere('title', $top->title)
+                    ->first();
+
+                if($test_query){
+                    $qIgnoreded++;
+                    continue;
+                }
+
+                Query::create([
+                    'qry_id' => $top->num,
+                    'title' => $top->title,
+                    'description' => $top->desc,
+                    'narrative' => $top->narr
+                ]);
+            }
             
         }else
             Query::create($this->validadeQuery());
 
-        return redirect(route("queries.index"));
+        $data = array(
+            "response" => "Success!",
+            "queries" => (Query::count() - $qBefore),
+            "ignored" => $qIgnoreded
+        );
+
+        return response()
+            ->view('queries.create', $data, 200);
     }
 
     /**
@@ -88,6 +128,7 @@ class QueryController extends Controller
     public function validadeQuery()
     {
         return request()->validate([
+            'qry_id' => 'required',
             'title' => 'required',
             'description' => 'required',
             'narrative' => 'required'
@@ -118,5 +159,13 @@ class QueryController extends Controller
             ->paginate(15);
 
         return view('queries.index', compact('queries'));
+    }
+
+    public function setDocuments(Request $resquest)
+    {
+        // TO DO
+        $data = array();
+        return response()
+            ->view('queries.create', $data, 200);
     }
 }

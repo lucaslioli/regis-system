@@ -40,4 +40,5 @@ Route::get('/queries/search', 'QueryController@search')->name('queries.search');
 Route::delete('/queries/{query}', 'QueryController@destroy')->name('queries.destroy');
 Route::get('/queries/{query}/edit', 'QueryController@edit')->name('queries.edit');
 Route::post('/queries/store', 'QueryController@store');
+Route::post('/queries/documents', 'QueryController@setDocuments');
 Route::put('/queries/{query}', 'QueryController@update');

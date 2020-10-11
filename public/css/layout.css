@@ -39,6 +39,11 @@
     min-width: 100px;
 }
 
+.td-highlight {
+    border-left: 2px solid #dee2e6;
+    border-right: 2px solid #dee2e6;
+}
+
 /* JUDGMENT */
 
 .document-text {

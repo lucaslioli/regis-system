@@ -9,7 +9,7 @@
     <div class="container">
 
         <h1>Upload New Documents</h1>
-        <p class="text-muted">*Repeated files will be ignored</p>
+        <p class="text-muted">* Repeated files will be ignored</p>
         <hr>
 
         {{-- SAVE MULTIPLES XML FILES --}}
@@ -23,11 +23,11 @@
                 </div>
             </div>
 
-            <div class="form-row">
+            <div class="form-row mb-0">
 
-                <div class="form-group col-md-8">
+                <div class="form-group col-md-8 mb-0">
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="xml_files" name="xml_files[]" accept="xml/*" multiple required>
+                        <input type="file" class="custom-file-input" id="xml_files" name="xml_files[]" accept="text/xml" multiple required>
                         <label class="custom-file-label" for="xml_files">Select XML files (max of 20 files)</label>
                     </div>
 
@@ -36,13 +36,23 @@
                     @endif
                 </div>
 
-                <div class="form-group col-md-4">
-                    <button type="submit" class="btn btn-primary btn-block" id="btn-xmls" onclick="">Process XML files</button>
+                <div class="form-group col-md-4 mb-0">
+                    <button type="submit" class="btn btn-success btn-block" id="btn-xmls" onclick="">Process XML files</button>
                 </div>
 
             </div>
+
+            <div class="form-row">
+                <div class="col-md-12">
+                    <a href="{{ asset('examples/doc_example.xml') }}" target="blank">
+                        <i class="fas fa-link"></i> XML example file
+                    </a>
+                </div>
+            </div>
         
         </form>
+
+        <br><br>
 
         {{-- SAVE MULTIPLES PDF OR IMAGE FILES --}}
 
@@ -70,7 +80,7 @@
                 </div>
 
                 <div class="form-group col-md-4">
-                    <button type="submit" class="btn btn-secondary btn-block" id="btn-docs" onclick="start_loading(this)">Process files</button>
+                    <button type="submit" class="btn btn-primary btn-block" id="btn-docs" onclick="start_loading(this)">Process files</button>
                 </div>
 
             </div>
