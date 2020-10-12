@@ -83,7 +83,7 @@ class DocumentController extends Controller
         }
 
         $data = array(
-            "response" => "Success!",
+            "response" => "Completed!",
             "documents" => (Document::count() - $dbefore),
         );
 

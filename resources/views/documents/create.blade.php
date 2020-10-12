@@ -93,7 +93,7 @@
 
         <div id="response-text">
             @if(isset($response))
-                <div class="{{ Str::contains($response, 'ERROR') ? 'text-danger' : 'text-success' }}" role="alert"> {{ $response }} </div>
+                <div class="alert {{ Str::contains($response, 'ERROR') ? 'text-danger' : 'text-success' }}" role="alert"> {{ $response }} </div>
 
                 @if(isset($documents))
                     Total of {{ $documents }} documents inserted

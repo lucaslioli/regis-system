@@ -18,6 +18,6 @@ class Document extends Model
 
     public function queries()
     {
-        return $this->belongsToMany(Query::class);
+        return $this->belongsToMany(Query::class)->withTimestamps();
     }
 }

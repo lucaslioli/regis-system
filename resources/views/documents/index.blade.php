@@ -59,19 +59,13 @@
             @forelse ($documents as $document)
 
                 <tr id="tr-{{ $document->id }}">
-                    <td>{{ $document->id }}</td>
+                    <td> {{ $document->id }} </td>
 
-                    <td>
-                        {{ $document->doc_id }}
-                    </td>
+                    <td> {{ $document->doc_id }} </td>
 
-                    <td>
-                        {{ $document->file_name }}
-                    </td>
+                    <td> {{ $document->file_name }} </td>
 
-                    <td>
-                        {{ $document->file_type }}
-                    </td>
+                    <td> {{ $document->file_type }} </td>
 
                     <td class="text-center">
                         <a href="{{ route('documents.show', $document) }}" class="btn btn-sm btn-outline-primary" 

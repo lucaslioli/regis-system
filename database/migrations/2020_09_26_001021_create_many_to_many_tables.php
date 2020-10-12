@@ -20,7 +20,7 @@ class CreateManyToManyTables extends Migration
             $table->timestamps();
         });
 
-        Schema::create('judgement_query', function (Blueprint $table) {
+        Schema::create('judgment_query', function (Blueprint $table) {
             $table->id();
             $table->foreignId('judgment_id')->constrained()->onDelete('cascade');
             $table->foreignId('query_id')->constrained()->onDelete('cascade');

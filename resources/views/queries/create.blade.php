@@ -2,6 +2,7 @@
 
 @section('include')
     <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ asset('js/scripts.js') }}"></script>
 @endsection
 
 @section('content')
@@ -40,7 +41,7 @@
                                         type="text" id="title" name="title" placeholder="Inform the query">
                         
                                     @error('title')
-                                        <p class="text-danger">{{ $errors->first('title') }}</p>
+                                        <p class="text-danger">{{ $message }}</p>
                                     @enderror
                                 </div>
 
@@ -52,7 +53,7 @@
                                         type="text" id="qry_id" name="qry_id" placeholder="Inform the query ID">
                         
                                     @error('qry_id')
-                                        <p class="text-danger">{{ $errors->first('qry_id') }}</p>
+                                        <p class="text-danger">{{ $message }}</p>
                                     @enderror
                                 </div>
                             </div>
@@ -66,7 +67,7 @@
                                     rows="3">{{ old('description', $query->description ?? '') }}</textarea>
 
                                 @error('description')
-                                    <p class="text-danger">{{ $errors->first('description') }}</p>
+                                    <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
 
@@ -79,7 +80,7 @@
                                     rows="3">{{ old('narrative', $query->narrative ?? '') }}</textarea>
 
                                 @error('narrative')
-                                    <p class="text-danger">{{ $errors->first('narrative') }}</p>
+                                    <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
 
@@ -122,19 +123,18 @@
                                 <div class="form-row mb-0">
 
                                     <div class="custom-file col-md-8 mb-0">
-                                        <input class="custom-file-input @error('xml_file') is-invalid @enderror" accept="text/xml"
-                                            type="file" id="xml_file" name="xml_file" value="{{ old('xml_file') }}">
-                                        <label class="custom-file-label" for="xml_file">Select a XML file (recomended size of 2M)</label>
+                                        <input class="custom-file-input @error('multiple_queries_file') is-invalid @enderror" 
+                                            accept="text/xml" type="file" id="multiple_queries_file" name="multiple_queries_file"
+                                            value="{{ old('multiple_queries_file') }}">
+                                        <label class="custom-file-label" for="multiple_queries_file">Select a XML file (recomended size of 2M)</label>
 
-                                        @error('xml_file')
-                                            <p class="text-danger">{{ $errors->first('xml_file') }}</p>
+                                        @error('multiple_queries_file')
+                                            <p class="text-danger">{{ $message }}</p>
                                         @enderror
                                     </div>
 
-                                    <br><br>
-
                                     <div class="form-group col-md-4 mb-0">
-                                        <button type="submit" class="btn btn-block btn-primary" id="btn-xml" onclick="start_loading(this)">
+                                        <button type="submit" class="btn btn-block btn-primary" id="btn-multiple" onclick="start_loading(this)">
                                             <i class="fas fa-cogs"></i> Submit
                                         </button>
                                     </div>
@@ -167,7 +167,7 @@
                     <div class="card-header" data-toggle="collapse" 
                         data-target="#collapse-correlate" aria-expanded="true" aria-controls="collapse-correlate">
                         <h2 class="mb-0 head-accordion">
-                            <span>Correlate queries with documents using JSON file</span>
+                            <span>Correlate queries with documents using XML file</span>
                             <i class="fas fa-chevron-down"></i>
                         </h2>
                     </div>
@@ -175,29 +175,38 @@
                     <div id="collapse-correlate" class="collapse" data-parent="#accordion-queries">
                         <div class="card-body">
 
-                            <form method="POST" action="/queries/documents" enctype="multipart/form-data" id="queries-documents">
+                            <form method="POST" action="/queries/setDocuments" enctype="multipart/form-data" id="queries-documents">
                                 @csrf
 
-                                <div class="form-row">
+                                <div class="form-row mb-0">
 
-                                    <div class="form-group col-md-8">
+                                    <div class="form-group col-md-8 mb-0">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="json_file" name="json_file" accept="text/xml"
+                                            <input type="file" class="custom-file-input" id="correlation_file" name="correlation_file" accept="text/xml"
                                                 accept="application/json" required>
-                                            <label class="custom-file-label" for="json_file">Select JSON file</label>
+                                            <label class="custom-file-label" for="correlation_file">Select XML file</label>
                                         </div>
 
-                                        @if($errors->has('json_file.*'))
-                                            <p class="text-danger">{{ $errors->first('json_file') }}</p>
+                                        @if($errors->has('correlation_file.*'))
+                                            <p class="text-danger">{{ $errors->first('correlation_file') }}</p>
                                         @endif
                                     </div>
 
-                                    <div class="form-group col-md-4">
-                                        <button type="submit" class="btn btn-dark btn-block" id="btn-json" onclick="start_loading(this)">
+                                    <div class="form-group col-md-4 mb-0">
+                                        <button type="submit" class="btn btn-dark btn-block" id="btn-correlate" onclick="start_loading(this)">
                                             <i class="fas fa-cog"></i> Process file
                                         </button>
                                     </div>
 
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col-md-12 d-flex">
+                                        <a href="{{ asset('examples/queries_documents_example.xml') }}" target="blank">
+                                            <i class="fas fa-link"></i> XML example file
+                                        </a>
+                                        <p class="text-muted ml-3">* Repeated correlations will be ignored</p>
+                                    </div>
                                 </div>
 
                             </form>
@@ -215,17 +224,90 @@
 
         <div id="response-text">
             @if(isset($response))
-                <div class="{{ Str::contains($response, 'ERROR') ? 'text-danger' : 'text-success' }}" role="alert"> {{ $response }} </div>
+                <div class="alert {{ Str::contains($response, 'ERROR') ? 'alert-danger' : 'alert-success' }}" role="alert"> {{ $response }} </div>
 
                 @if(isset($queries))
-                    Total of {{ $queries }} querie(s) inserted. <br>
+                    Total of {{ $queries }} data recorded. <br>
                 @endif
 
-                @if(isset($ignored) && $ignored != 0)
-                    Total of {{ $ignored }} querie(s) ignored.
+                @if(isset($ignored) && $ignored != "")
+                    Items {{ $ignored }} have been <strong>ignored due to duplication</strong>.
+                @endif
+
+                @if(isset($invalid) && $invalid != "")
+                    The items {{ $invalid }} are invalid.
                 @endif
             @endif
         </div>
+
+        {{-- DOCUMENTS CORRELATION --}}
+
+        @if(isset($query->exists))
+
+            <div class="accordion" id="accordion-query-documents">
+                <div class="card">
+
+                    <div class="card-header" data-toggle="collapse"
+                        data-target="#collapse-documents" aria-expanded="true" aria-controls="collapse-documents">
+                        <h2 class="mb-0 head-accordion">
+                            <span>Documents related to the Query</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-documents" class="collapse show" data-parent="#accordion-query-documents">
+                        <div class="card-body">
+
+                            <div id="response" role="alert"></div>
+
+                            <table class="table table-hover table-sm table-actions table-query-documents">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Doc ID</th>
+                                        <th scope="col">File name</th>
+                                        <th scope="col" class="text-center">File type</th>
+                                        <th scope="col" class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @forelse ($query->documents as $key => $doc)
+                                        <tr id="tr-{{ $doc->id }}">
+                                            <td> {{ $key+1 }} </td>
+                                            <td> {{ $doc->doc_id }} </td>
+                                            <td> {{ $doc->file_name }} </td>
+                                            <td class="text-center"> {{ $doc->file_type }} </td>
+                                            <td class="text-center">
+                                                <a href="{{ route('documents.show', $doc) }}" class="btn btn-sm btn-outline-primary" 
+                                                    id="viewDocument" data-id="{{ $doc->id }}" title="View document">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+
+                                                <a href="{{ route('queries.detachDocument', [$query, $doc]) }}" class="btn btn-sm btn-outline-danger" 
+                                                    id="deleteDocument" data-id="{{ $doc->id }}" title="Detach document">
+                                                    <i class="fas fa-unlink"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="6" class="text-center">
+                                                <i class="fas fa-ban"></i> No documents related.
+                                            </td>
+                                        </tr>
+                                    @endforelse
+
+                                </tbody>
+                            </table>
+                        
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        @endif
 
     </div>
 
@@ -233,39 +315,54 @@
 
 @section('scripts')
 
-    <script >
-        /* show file value after file selected */
-        document.getElementById('xml_file').addEventListener('change',function(e){
-            var fileName = document.getElementById("xml_file").files[0].name;
-            var nextSibling = e.target.nextElementSibling;
-            nextSibling.innerText = fileName;
-        });
-
-        /* show file value after file selected */
-        document.getElementById('json_file').addEventListener('change',function(e){
-            var fileName = document.getElementById("json_file").files[0].name;
-            var nextSibling = e.target.nextElementSibling;
-            nextSibling.innerText = fileName;
-        });
-
+    <script>
+        // SUBMIT CREATE AND EDIT
         $(function(){
             $('form').on('submit', function(event){
                 event.stopPropagation();
 
                 $("#btn-create").prop('disabled', true);
-                $("#btn-xmls").prop('disabled', true);
+                $("#btn-multiples").prop('disabled', true);
                 $("#btn-docs").prop('disabled', true);
             });
         });
 
+        // SUBMIT UPLOAD AND CORRELATION
+        if($("#multiple_queries_file").length > 0){
+            /* show file value after file selected */
+            document.getElementById('multiple_queries_file').addEventListener('change',function(e){
+                var fileName = document.getElementById("multiple_queries_file").files[0].name;
+                var nextSibling = e.target.nextElementSibling;
+                nextSibling.innerText = fileName;
+            });
+
+            /* show file value after file selected */
+            document.getElementById('correlation_file').addEventListener('change',function(e){
+                var fileName = document.getElementById("correlation_file").files[0].name;
+                var nextSibling = e.target.nextElementSibling;
+                nextSibling.innerText = fileName;
+            });
+        }
+
         function start_loading(OBJ) {
-            if ((OBJ.id == 'btn-xml' && $("#xml_file").val() == "") && (OBJ.id == 'btn-doc' && $("#json_file").val() == ""))
+            if ((OBJ.id == 'btn-multiple' && $("#multiple_queries_file").val() == "") 
+                && (OBJ.id == 'btn-correlate' && $("#correlation_file").val() == ""))
                 return;
 
             OBJ.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...';
 
             $("#response-text").html('<div class="text-danger" role="alert">Processing data...</div>');
         };
+
+        // DETACH DOCUMENT
+        if($("#deleteDocument").length > 0){
+            $(document).ready(function () {
+                $("body").on("click", "#deleteDocument", function(e){
+                    e.preventDefault();
+                    delete_resource(this);
+                });
+            });
+        }
     </script>
 
 @endsection

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<add>
+    <top>
+        <num name="qryid">Q1</num>
+        <doc>
+            <field name="docid">BR-BG.00001</field>
+            <field name="docid">BR-BG.00002</field>
+            <field name="docid">BR-BG.00003</field>
+            <field name="docid">BR-BG.00004</field>
+        </doc>
+    </top>
+
+    <top>
+        <num name="qryid">Q2</num>
+        <doc>
+            <field name="docid">BR-BG.00005</field>
+            <field name="docid">BR-BG.00006</field>
+            <field name="docid">BR-BG.00007</field>
+            <field name="docid">BR-BG.00008</field>
+        </doc>
+    </top>
+</add>
