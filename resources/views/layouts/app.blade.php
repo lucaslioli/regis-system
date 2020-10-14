@@ -23,11 +23,22 @@
 </head>
 <body>
     <div id="app">
+
+        {{-- NAVBAR --}}
+
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Regis System') }}
-                </a>
+
+                <div class="navbar-all-brand">
+                    <a class="navbar-brand" href="{{ url('/') }}">
+                        {{ config('app.name', 'Regis System') }}
+                        {{-- <img src="{{ asset('logo.png') }}" alt="logo"> --}}
+                    </a>
+                    <span class="navbar-text">
+                        Retrieval Evaluation for Geoscientific Information Systems
+                    </span>
+                </div>
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -86,10 +97,82 @@
             </div>
         </nav>
 
+        {{-- CONTENT --}}
+
         <main class="py-4">
             @yield('content')
         </main>
+
     </div>
+
+    {{-- FOOTER --}}
+
+    <footer class="footer font-small bg-gray pt-4">
+
+        <div class="container">
+    
+            <div class="row">
+        
+                <div class="col-md-4">
+        
+                    <h5 class="text-uppercase">About</h5>
+                    <p>Regis is a system to provide relevance judgments about multimodal documents for provided queries.
+                    Regis is being developed as part of a collaboration between the Institute of Informatics at UFRGS and Petrobras.
+                    </p>
+        
+                </div>
+        
+                <div class="col-md-2">
+        
+                    <h5 class="text-uppercase">Links</h5>
+            
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://github.com/lucaslioli/regis-system" target="_blank">Github</a>
+                        </li>
+                        <li>
+                            <a href="http://inf.ufrgs.br" target="_blank">Institute of Informatics</a>
+                        </li>
+                        <li>
+                            <a href="http://ufrgs.br" target="_blank">UFRGS</a>
+                        </li>
+                        <li>
+                            <a href="https://petrobras.com.br/" target="_blank">Petrobras</a>
+                        </li>
+                    </ul>
+        
+                </div>
+
+                <div class="col-md-3">
+
+                    <h5>&nbsp;</h5>
+                    
+                    <div class="d-flex">
+                        <div class="logo">
+                            <img src="{{ asset('images/logo-ppgc.png') }}" alt="Logo PPGC">
+                        </div>
+                        <div class="logo">
+                            <img src="{{ asset('images/logo-ufrgs.png') }}" alt="Logo UFRGS">
+                        </div>
+                        <div class="logo">
+                            <img src="{{ asset('images/logo-petrobras.png') }}" alt="Logo Petrobras">
+                        </div>
+                    </div>
+                    
+                </div>
+        
+                <div class="col-md-3">
+        
+                    <h5 class="text-uppercase">Address</h5>
+                    <p>Institute of Informatics, UFRGS</b><br>Av. Bento Gonçalves, 9500<br>Porto Alegre, RS, Brasil<br>91501-970</p>
+        
+                </div>
+        
+            </div>
+    
+        </div>
+    
+    </footer>
 
     @yield('scripts')
 

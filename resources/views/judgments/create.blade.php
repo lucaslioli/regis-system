@@ -10,9 +10,9 @@
             <div class="row d-flex flex-column">
                 <label for="query_title">Query title:</label>
                 <div class="card mb-3">
+                    <input type="hidden" id="query_id" value="">
                     <div class="card-body">Lorem ipsum dolor sit amet consectetur adipiscing elit</div>
                 </div>
-                {{-- <input type="text" class="form-control" id="query_title" value="Lorem ipsum dolor sit amet"> --}}
             </div>
 
             <div class="form-group row">
@@ -32,7 +32,7 @@
                     <div class="form-group row">
 
                         <div class="document-title d-flex justify-content-between">
-                            <label>Document: <a href="#" target="blank">BR-BG.03964.pdf <i class="fas fa-external-link-alt"></i></a></label>
+                            <label>Original document: <a href="#" target="blank">BR-BG.03964.pdf <i class="fas fa-external-link-alt"></i></a></label>
                             <label>25/100</label>
                         </div>
                         <div class="card">
@@ -52,24 +52,28 @@
                 </div>
     
                 <div class="form-group col-3">
-                    <label>Judgment:</label>
+                    <label>With respect to the query, this document is:</label>
 
                     <div class="judgment">
                         <div class="custom-control custom-switch">
+                            {{-- 1.0 --}}
                             <input type="radio" class="custom-control-input" id="very-relevant" name="judgment">
-                            <label class="custom-control-label" for="very-relevant">1.0 - Very Relevant</label>
+                            <label class="custom-control-label" for="very-relevant">Very Relevant</label> 
                         </div>
                         <div class="custom-control custom-switch">
+                            {{-- 0.7 --}}
                             <input type="radio" class="custom-control-input" id="relevant" name="judgment">
-                            <label class="custom-control-label" for="relevant">0.7 - Relevant</label>
+                            <label class="custom-control-label" for="relevant">Relevant</label>
                         </div>
                         <div class="custom-control custom-switch">
+                            {{-- 0.3 --}}
                             <input type="radio" class="custom-control-input" id="little-relevant" name="judgment">
-                            <label class="custom-control-label" for="little-relevant">0.3 - Little Relevant</label>
+                            <label class="custom-control-label" for="little-relevant">Marginally Relevant</label>
                         </div>
                         <div class="custom-control custom-switch">
+                            {{-- 0.0 --}}
                             <input type="radio" class="custom-control-input" id="not-relevant" name="judgment">
-                            <label class="custom-control-label" for="not-relevant">0.0 - Not Relevant</label>
+                            <label class="custom-control-label" for="not-relevant">Not Relevant</label>
                         </div>
                     </div>
 

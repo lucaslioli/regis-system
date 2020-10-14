@@ -1,6 +1,6 @@
 # Regis - Retrieval Evaluation for Geoscientific Information Systems
 
-Regis is system to provide relevance judgments about multimodal documents for determined queries. This process will help to construct a new multimodal test collection in the Geoscience domain. Regis is being developed as part of a collaboration between the Institute of Informatics at UFRGS and Petrobras.
+Regis is a system to provide relevance judgments about multimodal documents for determined queries. This process will help to construct a new multimodal test collection in the Geoscience domain. Regis is being developed as part of a collaboration between the Institute of Informatics at UFRGS and Petrobras.
 
 ## Requirements
 
