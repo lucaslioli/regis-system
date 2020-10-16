@@ -10,6 +10,8 @@
 
     <title>{{ config('app.name', 'Regis System') }}</title>
 
+    <link rel="shortcut icon" href="{{ asset('images/regis-favicon.png') }}" />
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
@@ -22,17 +24,17 @@
 
 </head>
 <body>
-    <div id="app">
+    <div id="app" class="app">
 
         {{-- NAVBAR --}}
 
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
 
-                <div class="navbar-all-brand">
+                <div class="navbar-all-brand d-flex align-items-center">
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Regis System') }}
-                        {{-- <img src="{{ asset('logo.png') }}" alt="logo"> --}}
+                        {{-- {{ config('app.name', 'Regis System') }} --}}
+                        <img src="{{ asset('images/regis-logo.png') }}" alt="logo">
                     </a>
                     <span class="navbar-text">
                         Retrieval Evaluation for Geoscientific Information Systems
@@ -99,7 +101,7 @@
 
         {{-- CONTENT --}}
 
-        <main class="py-4">
+        <main class="pt-4 content">
             @yield('content')
         </main>
 
@@ -107,7 +109,7 @@
 
     {{-- FOOTER --}}
 
-    <footer class="footer font-small bg-gray pt-4">
+    <footer class="footer font-small bg-white pt-4">
 
         <div class="container">
     

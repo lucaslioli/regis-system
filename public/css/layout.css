@@ -34,19 +34,19 @@ body {
     min-height: 100vh;
   }
   
-  .content {
+.app, .content {
     flex: 1;
     margin-bottom: 30px;
-  }
+}
   
-  .footer {
+.footer {
     bottom: 0;
     width: 100%;
     padding-bottom: 10px;
-    border-top: 1px solid #e9ecef;
+    box-shadow: -1px -1px 0.25rem rgba(0, 0, 0, 0.075) !important;
   }
   
-  .footer .logo {
+.footer .logo {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -58,10 +58,18 @@ body {
     margin: 5px;
   }
   
-  .footer .logo img {
+.footer .logo img {
     max-height: 90%;
     max-width: 90%;
-  }
+}
+
+/* NAVBAR */
+
+.navbar img {
+    /* object-fit: contain; */
+    width: auto;
+    max-height: 40px;
+}
 
 /* BOOTSTRAP */
 
