@@ -63,7 +63,13 @@
 
                     <td> {{ $document->doc_id }} </td>
 
-                    <td> {{ $document->file_name }} </td>
+                    <td>
+                        @if(file_exists(public_path()."/documents/".$document->file_name))
+                            <a href="/documents/{{ $document->file_name }}" target="blank">{{ Str::of($document->file_name)->limit(100) }}</a>
+                        @else
+                            {{ Str::of($document->file_name)->limit(100) }}
+                        @endif
+                    </td>
 
                     <td> {{ $document->file_type }} </td>
 

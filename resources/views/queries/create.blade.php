@@ -23,7 +23,8 @@
                     </h2>
                 </div>
 
-                <div id="collapse-create" class="collapse show" data-parent="#accordion-queries">
+                <div class="collapse @if(!$errors->has('multiple_queries_file') && !$errors->has('correlation_file')) show @endif"
+                    id="collapse-create" data-parent="#accordion-queries">
                     <div class="card-body">
 
                         <form method="POST" action="/queries/{{ $query->id ?? 'store' }}" id="form-create-query">
@@ -113,7 +114,7 @@
                         </h2>
                     </div>
 
-                    <div id="collapse-upload" class="collapse" data-parent="#accordion-queries">
+                    <div id="collapse-upload" class="collapse @error('multiple_queries_file') show @enderror" data-parent="#accordion-queries">
                         <div class="card-body">
 
                             <form method="POST" action="/queries/{{ $query->id ?? 'store' }}" 
@@ -129,7 +130,7 @@
                                         <label class="custom-file-label" for="multiple_queries_file">Select a XML file (recomended size of 2M)</label>
 
                                         @error('multiple_queries_file')
-                                            <p class="text-danger">{{ $message }}</p>
+                                            <p class="text-danger mt-4">{{ $message }}</p>
                                         @enderror
                                     </div>
 
@@ -172,7 +173,7 @@
                         </h2>
                     </div>
 
-                    <div id="collapse-correlate" class="collapse" data-parent="#accordion-queries">
+                    <div id="collapse-correlate" class="collapse @error('correlation_file') show @enderror" data-parent="#accordion-queries">
                         <div class="card-body">
 
                             <form method="POST" action="/queries/setDocuments" enctype="multipart/form-data" id="queries-documents">
@@ -182,13 +183,14 @@
 
                                     <div class="form-group col-md-8 mb-0">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="correlation_file" name="correlation_file" accept="text/xml"
-                                                accept="application/json" required>
+                                            <input type="file" class="custom-file-input @error('correlation_file') is-invalid @enderror" 
+                                                id="correlation_file" name="correlation_file"
+                                                accept="text/xml" accept="application/json" required>
                                             <label class="custom-file-label" for="correlation_file">Select XML file</label>
                                         </div>
 
                                         @if($errors->has('correlation_file.*'))
-                                            <p class="text-danger">{{ $errors->first('correlation_file') }}</p>
+                                            <p class="text-danger mt-4">{{ $errors->first('correlation_file') }}</p>
                                         @endif
                                     </div>
 
@@ -218,26 +220,6 @@
 
             @endif
 
-        </div>
-
-        {{-- DISPLAY RESPONSE --}}
-
-        <div id="response-text">
-            @if(isset($response))
-                <div class="alert {{ Str::contains($response, 'ERROR') ? 'alert-danger' : 'alert-success' }}" role="alert"> {{ $response }} </div>
-
-                @if(isset($queries))
-                    Total of {{ $queries }} data recorded. <br>
-                @endif
-
-                @if(isset($ignored) && $ignored != "")
-                    Items {{ $ignored }} have been <strong>ignored due to duplication</strong>.
-                @endif
-
-                @if(isset($invalid) && $invalid != "")
-                    The items {{ $invalid }} are invalid.
-                @endif
-            @endif
         </div>
 
         {{-- DOCUMENTS CORRELATION --}}
@@ -308,6 +290,26 @@
             </div>
 
         @endif
+
+        {{-- DISPLAY RESPONSE --}}
+
+        <div id="response-text">
+            @if(isset($response))
+                <div class="alert {{ Str::contains($response, 'ERROR') ? 'alert-danger' : 'alert-success' }}" role="alert"> {{ $response }} </div>
+
+                @if(isset($queries))
+                    Total of {{ $queries }} data recorded. <br>
+                @endif
+
+                @if(isset($ignored) && $ignored != "")
+                    Items {{ $ignored }} have been <strong>ignored due to duplication</strong>.
+                @endif
+
+                @if(isset($invalid) && $invalid != "")
+                    The items {{ $invalid }} are invalid.
+                @endif
+            @endif
+        </div>
 
     </div>
 

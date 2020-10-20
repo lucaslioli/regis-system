@@ -58,7 +58,7 @@ class QueryController extends Controller
         if($request->file('multiple_queries_file') != NULL){
             $request->validate([
                 'multiple_queries_file' => 'required',
-                'multiple_queries_file' => 'mimes:xml'
+                'multiple_queries_file' => 'mimes:xml,html'
             ]);
         
             $file = $request->file('multiple_queries_file');
@@ -70,6 +70,10 @@ class QueryController extends Controller
             if ($xml === false)
                 return response()
                     ->view('queries.create', ['response' => "ERROR: Failed loading XML from ".$file->getClientOriginalName()], 400);
+
+            if (!$xml->top || !$xml->top[0]->num || !$xml->top[0]->title || !$xml->top[0]->desc || !$xml->top[0]->narr)
+                return response()
+                    ->view('queries.create', ['response' => "ERROR: The file does not have the expected fields. See the example."], 400);
 
             foreach($xml->top as $top){
                 // Test duplicate query
