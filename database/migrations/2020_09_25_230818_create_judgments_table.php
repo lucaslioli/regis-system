@@ -15,12 +15,13 @@ class CreateJudgmentsTable extends Migration
     {
         Schema::create('judgments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedDecimal('judgment', 2, 1); // 1.0, 0.7, 0.3, 0.0
+            $table->string('judgment'); // Very Relevant, Relevant, Marginally Relevant, Not Relevant
             $table->text('observation')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('query_id')->constrained()->onDelete('cascade');
             $table->foreignId('document_id')->constrained()->onDelete('cascade');
             $table->timestamps();
+            $table->unique(['query_id', 'document_id', 'user_id']);
         });
     }
 

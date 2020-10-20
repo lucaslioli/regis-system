@@ -143,7 +143,6 @@ a {
   color: #007bff !important;
 }
 
-
 /* SCROLLBAR */
 
 ::-webkit-scrollbar {
@@ -207,6 +206,10 @@ body {
 .footer .logo img {
     max-height: 90%;
     max-width: 90%;
+}
+
+.text-advise {
+  color: #ff9a00 !important;
 }
 
 /* BOOTSTRAP */

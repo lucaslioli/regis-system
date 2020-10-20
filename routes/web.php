@@ -22,7 +22,11 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 // Judgment
+route::get('/judgments/index', 'JudgmentController@index')->name('judgments.index');
 route::get('/judgments/create', 'JudgmentController@create')->name('judgments.create');
+Route::get('/judgments/search', 'JudgmentController@search')->name('judgments.search');
+Route::get('/judgments/{judgment}/edit', 'JudgmentController@edit')->name('judgments.edit');
+Route::delete('/judgments/{judgment}', 'JudgmentController@destroy')->name('judgments.destroy');
 
 // Documents
 Route::get('/documents/index', 'DocumentController@index')->name('documents.index');
@@ -37,8 +41,8 @@ Route::post('/documents/upload', 'DocumentController@upload');
 Route::get('/queries/index', 'QueryController@index')->name('queries.index');
 Route::get('/queries/create', 'QueryController@create')->name('queries.create');
 Route::get('/queries/search', 'QueryController@search')->name('queries.search');
-Route::delete('/queries/{query}', 'QueryController@destroy')->name('queries.destroy');
 Route::get('/queries/{query}/edit', 'QueryController@edit')->name('queries.edit');
+Route::delete('/queries/{query}', 'QueryController@destroy')->name('queries.destroy');
 Route::post('/queries/store', 'QueryController@store');
 Route::put('/queries/{query}', 'QueryController@update');
 
