@@ -1,3 +1,149 @@
+/*!
+ * Complement and update Bootstrap 4 styles
+ */
+
+/*
+ * primary: #3490dc > #007bff
+ * hover: #227dc7  > #0069d9
+ */
+
+:root {
+    --blue: #007bff;
+    --primary: #007bff;
+}
+
+a {
+  color: #007bff;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9;
+  border-color: #2176bd;
+}
+
+.btn-primary:focus,
+.btn-primary.focus {
+  background-color: #0069d9;
+  border-color: #2176bd;
+}
+
+.btn-primary.disabled,
+.btn-primary:disabled {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-outline-primary {
+  color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-outline-primary:hover {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-outline-primary.disabled,
+.btn-outline-primary:disabled {
+  color: #007bff;
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled):active,
+.btn-outline-primary:not(:disabled):not(.disabled).active,
+.show > .btn-outline-primary.dropdown-toggle {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-link {
+  color: #007bff;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+  background-color: #007bff;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  border-color: #007bff;
+  background-color: #007bff;
+}
+
+.custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::before {
+  border-color: #007bff;
+  background-color: #007bff;
+}
+
+.custom-range::-webkit-slider-thumb {
+  background-color: #007bff;
+}
+
+.custom-range::-moz-range-thumb {
+  background-color: #007bff;
+}
+
+.custom-range::-ms-thumb {
+  background-color: #007bff;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  background-color: #007bff;
+}
+
+.navbar img {
+  /* object-fit: none; */
+  width: auto;
+  max-height: 40px;
+}
+
+.navbar-light .navbar-nav .show > .nav-link,
+.navbar-light .navbar-nav .active > .nav-link,
+.navbar-light .navbar-nav .nav-link.show,
+.navbar-light .navbar-nav .nav-link.active {
+  color: #007bff;
+}
+
+.page-link {
+  color: #007bff;
+}
+
+.page-item.active .page-link {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.badge-primary {
+  background-color: #007bff;
+}
+
+.progress-bar {
+  background-color: #007bff;
+}
+
+.list-group-item.active {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.bg-primary {
+  background-color: #007bff !important;
+}
+
+.border-primary {
+  border-color: #007bff !important;
+}
+
+.text-primary {
+  color: #007bff !important;
+}
+
+
 /* SCROLLBAR */
 
 ::-webkit-scrollbar {
@@ -61,14 +207,6 @@ body {
 .footer .logo img {
     max-height: 90%;
     max-width: 90%;
-}
-
-/* NAVBAR */
-
-.navbar img {
-    /* object-fit: contain; */
-    width: auto;
-    max-height: 40px;
 }
 
 /* BOOTSTRAP */
