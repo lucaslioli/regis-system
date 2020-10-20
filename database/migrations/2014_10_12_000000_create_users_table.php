@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('role')->default('default');
             $table->boolean('tour')->default(true);
             $table->string('password');
+            $table->string('current_query')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
