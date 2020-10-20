@@ -11,6 +11,8 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    const ADMIN_ROLE = 'admin';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -49,5 +51,10 @@ class User extends Authenticatable
     public function queries()
     {
         return $this->belongsToMany(Query::class);
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === self::ADMIN_ROLE;
     }
 }
