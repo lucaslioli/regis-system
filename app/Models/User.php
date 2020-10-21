@@ -57,4 +57,25 @@ class User extends Authenticatable
     {
         return $this->role === self::ADMIN_ROLE;
     }
+
+    public function setCurrentQuery($query_id = NULL)
+    {
+        $this->current_query = $query_id;
+        $this->save();
+    }
+
+    public function getCurrentQuery()
+    {
+        return Query::where('id', $this->current_query)->first();
+    }
+
+    public function documentsJudgedByQuery($query_id = NULL)
+    {
+        if(!$query_id)
+            $query_id = $this->current_query;
+
+        return Judgment::where('user_id', $this->id)
+            ->where('query_id', $query_id)
+            ->pluck('document_id')->all();
+    }
 }

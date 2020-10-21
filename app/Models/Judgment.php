@@ -9,6 +9,8 @@ class Judgment extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['judgment', 'observation', 'user_id', 'query_id', 'document_id'];
+
     public function user()
     {
         return $this->belongsTo(User::class);

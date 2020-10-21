@@ -25,4 +25,21 @@ class Query extends Model
     {
         return $this->belongsToMany(Document::class)->withTimestamps();
     }
+
+    public function getDocumentsIds()
+    {
+        return $this->documents->pluck('id');
+    }
+
+    public function increaseAnnotators()
+    {
+        $this->annotators++;
+        $this->save();
+    }
+
+    public function setStatus(String $status)
+    {
+        $this->status = $status;
+        $this->save();
+    }
 }

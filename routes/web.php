@@ -31,6 +31,8 @@ route::get('/judgments/create', 'JudgmentController@create')->name('judgments.cr
 Route::get('/judgments/search', 'JudgmentController@search')->name('judgments.search');
 Route::get('/judgments/{judgment}/edit', 'JudgmentController@edit')->name('judgments.edit');
 Route::delete('/judgments/{judgment}', 'JudgmentController@destroy')->name('judgments.destroy');
+Route::post('/judgments/store', 'JudgmentController@store');
+Route::put('/judgments/{judgment}', 'JudgmentController@update');
 
 // Documents
 Route::get('/documents/index', 'DocumentController@index')->name('documents.index');
