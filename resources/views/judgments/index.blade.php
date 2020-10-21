@@ -63,11 +63,11 @@
                     <td>{{ $judgment->id }}</td>
 
                     <td> 
-                        {{ Str::of($judgment->queryy->title)->limit(64) }}
+                        {{ Str::of($judgment->queryy->title)->limit(50) }}
                     </td>
 
                     <td>
-                        {{ Str::of($judgment->document->file_name)->limit(64) }}
+                        {{ Str::of($judgment->document->file_name)->limit(45) }}
                     </td>
 
                     <td class="td-highlight @switch($judgment->judgment)

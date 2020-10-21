@@ -50,8 +50,8 @@
                     <td>{{ $user->name }}</td>
                     <td class="text-muted">{{ $user->email }}</td>
                     <td class="text-center">
-                        <span class="badge badge-{{ $user->annotations ? 'primary' : 'secondary' }} badge-pill">
-                            {{ $user->annotations ?? 0 }}
+                        <span class="badge badge-{{ $user->judgments->count() ? 'primary' : 'secondary' }} badge-pill">
+                            {{ $user->judgments->count() ?? 0 }}
                         </span>
                     </td>
                 </tr>

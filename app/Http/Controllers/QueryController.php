@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use DB;
 
+use Illuminate\Http\Request;
+
 use App\Models\Query;
 use App\Models\Document;
-use Illuminate\Http\Request;
 
 class QueryController extends Controller
 {
@@ -95,7 +96,7 @@ class QueryController extends Controller
             }
             
         }else
-            Query::create($this->validadeQuery());
+            Query::create($this->validateQuery());
 
         $data = array(
             "response" => "Completed!",
@@ -129,12 +130,12 @@ class QueryController extends Controller
     public function update(Request $request, Query $query)
     {
         // $this->authorize('update', $query);
-        $query->update($this->validadeQuery());
+        $query->update($this->validateQuery());
 
         return redirect(route("queries.index"));
     }
 
-    public function validadeQuery()
+    public function validateQuery()
     {
         return request()->validate([
             'qry_id' => 'required',

@@ -19,7 +19,7 @@ class CreateQueriesTable extends Migration
             $table->text('title');
             $table->text('description');
             $table->text('narrative');
-            $table->string('status')->default("Incomplete"); // Incomplete, Complete, Tiebreak
+            $table->string('status')->default("Incomplete"); // Incomplete, Semi Complete, Complete, Tiebreak
             $table->integer('annotators')->default(0);
             $table->timestamps();
         });

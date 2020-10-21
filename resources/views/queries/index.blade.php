@@ -51,9 +51,11 @@
                     <th scope="col">ID</th>
                     <th scope="col" class="td-highlight">Query Title</th>
                     <th scope="col">Description</th>
-                    <th scope="col">Narrative</th>
+                    {{-- <th scope="col">Narrative</th> --}}
                     <th scope="col">Status</th>
-                    <th scope="col" class="text-center">Annotators</th>
+                    <th scope="col" class="text-center" title="Documents">Docs.</th>
+                    <th scope="col" class="text-center" title="Annotators">Annots.</th>
+                    <th scope="col" class="text-center" title="Judgments">Judgs.</th>
                     <th scope="col" class="text-center">Actions</th>
                 </tr>
             </thead>
@@ -69,22 +71,27 @@
                     <td class="td-highlight">{{ $query->title }}</td>
 
                     <td class="text-muted">
-                        {{ Str::of($query->description)->limit(50) }}
+                        {{ Str::of($query->description)->limit(100) }}
                     </td>
 
-                    <td class="text-muted">
+                    {{-- <td class="text-muted">
                         {{ Str::of($query->narrative)->limit(50) }}
-                    </td>
+                    </td> --}}
 
                     <td>
                         <span class="badge badge-pill @switch($query->status)
                             @case("Incomplete") {{ "badge-secondary" }} @break
+                            @case("Semi Complete") {{ "badge-primary" }} @break
                             @case("Complete") {{ "badge-success" }} @break
                             @case("Tiebreak") {{ "badge-danger" }} @break
                         @endswitch">{{ $query->status }}</span>
                     </td>
 
+                    <td class="text-center">{{ $query->documents->count() }}</td>
+
                     <td class="text-center">{{ $query->annotators }}</td>
+
+                    <td class="text-center">{{ $query->judgments->count() }}</td>
 
                     <td class="text-center">
                         <a href="{{ route('queries.edit', $query) }}" class="btn btn-sm btn-outline-secondary" title="Edit query">

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+
 use App\Models\Judgment;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -27,10 +28,7 @@ class UserController extends Controller
     {
         // $this->authorize('id-admin');
 
-        $users = User::addSelect(['annotations' => 
-                Judgment::selectRaw('sum(judgment) as annotations')
-                ->whereColumn('user_id', 'users.id')
-            ])->paginate(15);
+        $users = User::paginate(15);
 
         return view('users.index', compact('users'));
     }

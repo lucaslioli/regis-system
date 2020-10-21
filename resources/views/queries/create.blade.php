@@ -27,6 +27,24 @@
                     id="collapse-create" data-parent="#accordion-queries">
                     <div class="card-body">
 
+                        @isset($query->exists)
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <strong>Total of Documents related: </strong> {{ $query->documents->count() }}
+                                </div>
+                                <div class="col-4">
+                                    <strong>Total of Judgments already made: </strong> {{ $query->judgments->count() }}
+                                </div>
+                                <div class="col-4">
+                                    <strong>Number of Annotators: </strong> {{ $query->annotators }}
+                                </div>
+                            </div>
+
+                            <hr>
+
+                        @endisset
+
                         <form method="POST" action="/queries/{{ $query->id ?? 'store' }}" id="form-create-query">
                             @csrf
                             @isset($query->exists)
