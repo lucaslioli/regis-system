@@ -23,12 +23,16 @@ class Query extends Model
 
     public function documents()
     {
-        return $this->belongsToMany(Document::class)->withTimestamps();
+        return $this->belongsToMany(Document::class)
+            ->withPivot(['judgments', 'status'])
+            ->withTimestamps();
     }
 
-    public function getDocumentsIds()
+    public function documentJudgments($document_id)
     {
-        return $this->documents->pluck('id');
+        foreach ($this->documents as $document)
+            if($document->id == $document_id)
+                return $document->pivot->judgments;
     }
 
     public function increaseAnnotators()

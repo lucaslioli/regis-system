@@ -69,12 +69,6 @@ class User extends Authenticatable
         return Query::where('id', $this->current_query)->first();
     }
 
-    public function getQueriesJudged()
-    {
-        return Judgment::where('user_id', $this->id)
-            ->pluck('query_id')->all();
-    }
-
     public function documentsJudgedByQuery($query_id = NULL)
     {
         if(!$query_id)

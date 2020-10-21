@@ -32,9 +32,12 @@ if(!function_exists('highlightWords'))
 {
     function highlightWords(String $text, String $words)
     {
+        // To avoid break the HTML
+        $text = str_replace("<", "< ", $text);
+
         foreach (explode(" ", $words) as $word)
             $text = str_ireplace($word, "<mark>".$word."</mark>", $text);
-        
+
         return $text;
     }
 }

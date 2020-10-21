@@ -55,3 +55,8 @@ Route::put('/queries/{query}', 'QueryController@update');
 // Document - Query
 Route::post('/queries/setDocuments', 'QueryController@attachDocuments');
 Route::delete('/queries/detachDocument/{query}/{document}', 'QueryController@detachDocument')->name('queries.detachDocument');
+
+// Tiebreak
+Route::get('/tiebreaks/index', 'TiebreakController@index')->name('tiebreaks.index');
+Route::get('/tiebreaks/search', 'TiebreakController@search')->name('tiebreaks.search');
+Route::get('/tiebreaks/{query}/{document}/edit', 'TiebreakController@edit')->name('tiebreaks.edit');

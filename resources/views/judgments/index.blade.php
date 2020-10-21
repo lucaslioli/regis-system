@@ -25,7 +25,7 @@
 
                 <div class="col-md-10">
                     <input type="text" name="qry" id="qry" class="form-control"
-                        placeholder="Enter an ID, observation or judgement provided..." value="{{ old('qry') }}">
+                        placeholder="Enter some information about the judgment to filter by it..." value="{{ old('qry') }}">
                 </div>
 
                 <div class="col-md-2">
@@ -45,7 +45,7 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">ID</th>
+                    {{-- <th scope="col">ID</th> --}}
                     <th scope="col">Query</th>
                     <th scope="col">Document</th>
                     <th scope="col" class="td-highlight">Judgment</th>
@@ -58,16 +58,16 @@
             @forelse ($judgments as $key => $judgment)
 
                 <tr id="tr-{{ $judgment->id }}">
-                    <td>{{ $key }}</td>
+                    <td>{{ $key+1 }}</td>
 
-                    <td>{{ $judgment->id }}</td>
+                    {{-- <td>{{ $judgment->id }}</td> --}}
 
                     <td> 
                         {{ Str::of($judgment->queryy->title)->limit(50) }}
                     </td>
 
                     <td>
-                        {{ Str::of($judgment->document->file_name)->limit(45) }}
+                        {{ Str::of($judgment->document->file_name)->limit(40) }}
                     </td>
 
                     <td class="td-highlight @switch($judgment->judgment)
@@ -79,19 +79,29 @@
                         {{ $judgment->judgment }}
                     </td>
 
-                    <td>
-                        {{ Str::of($judgment->observation)->limit(64) }}
+                    <td class="">
+                        @if($judgment->untie)
+                            <span class="badge badge-pill badge-danger mr-1">Tiebreak</span>
+                        @endif
+                        {{ Str::of($judgment->observation)->limit(40) }}
                     </td>
 
                     <td class="text-center">
-                        <a href="{{ route('judgments.edit', $judgment) }}" class="btn btn-sm btn-outline-secondary" title="Edit judgment">
-                            <i class="fas fa-edit"></i>
-                        </a>
+                        @if($judgment->untie)
+                            <a href="{{ route('judgments.edit', $judgment) }}" class="btn btn-sm btn-outline-danger" title="Look judgment">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        @else
+                            <a href="{{ route('judgments.edit', $judgment) }}" class="btn btn-sm btn-outline-primary" title="Edit judgment">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        @endif
 
                         {{-- <a href="{{ route('judgments.destroy', $judgment) }}" class="btn btn-sm btn-outline-danger" 
                             id="deleteJudgment" data-id="{{ $judgment->id }}" title="Delete Judgment">
                             <i class="fas fa-trash"></i>
                         </a> --}}
+
                     </td>
                 </tr>
 

@@ -15,6 +15,8 @@ class CreateManyToManyTables extends Migration
     {
         Schema::create('document_query', function (Blueprint $table) {
             $table->id();
+            $table->integer('judgments')->default(0);
+            $table->string('status')->default('review'); // review, agreed, tiebreak, solved
             $table->foreignId('query_id')->constrained()->onDelete('cascade');
             $table->foreignId('document_id')->constrained()->onDelete('cascade');
             $table->timestamps();

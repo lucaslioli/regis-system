@@ -40,10 +40,19 @@ class JudgmentController extends Controller
     public function search(Request $request)
     {
         $qry = $request->get('qry');
-        
-        $judgments = Judgment::where('id', $qry)
-            ->orWhere('judgment', 'LIKE', "%$qry%")
+
+        $search = DB::table('judgments')
+            ->join('queries', 'queries.id', '=', 'judgments.query_id')
+            ->join('documents', 'documents.id', '=', 'judgments.document_id')
+            ->select('judgments.*')
+            ->where('judgment', 'LIKE', "%$qry%")
             ->orWhere('observation', 'LIKE', "%$qry%")
+            ->orWhere('queries.title', 'LIKE', "%$qry%")
+            ->orWhere('documents.file_name', 'LIKE', "%$qry%")
+            ->get();
+
+        $judgments = Judgment::where('user_id', Auth::user()->id)
+            ->whereIn('id', $search->map->id)
             ->paginate(15);
 
         return view('judgments.index', compact('judgments'));
@@ -56,18 +65,19 @@ class JudgmentController extends Controller
      */
     public function create()
     {
+        $user = Auth::user();
         // Test the current page that the user is annotation and return
-        if(Auth::user()->current_query != NULL){
-            $query = Query::where('id', Auth::user()->current_query)->first();
+        if($user->current_query != NULL){
+            $query = Query::where('id', $user->current_query)->first();
 
             
             // Get documents judged by the user for the query
-            $documents_judged = Auth::user()->documentsJudgedByQuery($query->id);
+            $documents_judged = $user->documentsJudgedByQuery($query->id);
 
             // Select a document to be annotated
-            $document = Document::whereIn('id', $query->getDocumentsIds())
-                    ->whereNotIn('id', $documents_judged)
-                    ->first();
+            $document = Document::whereIn('id', $query->documents->map->id)
+                ->whereNotIn('id', $documents_judged)
+                ->first();
 
             $progress = [
                 "document" => count($documents_judged)+1,
@@ -82,8 +92,8 @@ class JudgmentController extends Controller
             if(!$queries_with_documents)
                 return view('judgments.create');
 
-            // Get queries already annotated by the user
-            $queries_judged = Auth::user()->getQueriesJudged();
+            // Get queries attached to the user
+            $queries_judged = $user->queries->map->id;
 
             // Get the first query with 1 annotator
             $query = Query::where('annotators', 1)
@@ -102,9 +112,11 @@ class JudgmentController extends Controller
 
             // Update the queries annotators and users current page
             $query->increaseAnnotators();
-            Auth::user()->setCurrentQuery($query->id);
+            $user->setCurrentQuery($query->id);
+            $user->queries()->attach($query);
         }
 
+        // Update the text_file with the markers
         $document->text_file = highlightWords($document->text_file, removeStopWords($query->title));
 
         return view('judgments.create', [
@@ -120,25 +132,36 @@ class JudgmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response	
      */	
-    public function store(Request $request)	
+    public function store(Request $request)
     {
+        $user = Auth::user();
         $validated_judgment = $this->validateJudgment();
-        $validated_judgment['user_id'] = Auth::user()->id;
+        $validated_judgment['user_id'] = $user->id;
 
         // Register the judgment
-        Judgment::create($validated_judgment);
+        $judgment = Judgment::create($validated_judgment);
 
-        $query = Auth::user()->getCurrentQuery();
-        $documents_judged = Auth::user()->documentsJudgedByQuery($query->id);
+        // Increments the judgments counter for the document-query pair
+        $pivot_judgments = $judgment->queryy->documentJudgments($judgment->document->id);
+        $judgment->queryy->documents()->updateExistingPivot(
+            $judgment->document->id, ['judgments' => $pivot_judgments+1]);
 
-        // Update the status if all documents have been judged
-        if(count($query->documents) == count($documents_judged)){
-            if($query->status == "Semi Complete")
-                $query->setStatus("Complete");
-            else
-                $query->setStatus("Semi Complete");
+        if(!$judgment->untie){
+            $query = $user->getCurrentQuery();
+            $documents_judged = $user->documentsJudgedByQuery($query->id);
 
-            Auth::user()->setCurrentQuery(NULL);
+            // Update the status if all documents have been judged
+            if(count($query->documents) == count($documents_judged)){
+                if($query->status == "Semi Complete")
+                    $query->setStatus("Complete");
+                else
+                    $query->setStatus("Semi Complete");
+
+                $user->setCurrentQuery(NULL);
+            }
+        }else{
+            $judgment->queryy->documents()->updateExistingPivot(
+                $judgment->document->id, ['status' => 'solved']);
         }
 
         return redirect(route('judgments.create'));
@@ -152,13 +175,18 @@ class JudgmentController extends Controller
      */
     public function edit(Judgment $judgment)
     {
+        if($judgment->user_id != Auth::user()->id && !Auth::user()->isAdmin())
+            return abort(403);
+
         $documents_judged = Auth::user()->documentsJudgedByQuery($judgment->queryy->id);
 
+        // Set up the progress for the query
         $progress = [
             "document" => count($documents_judged),
             "bar" => count($documents_judged)*100/count($judgment->queryy->documents)
         ];
 
+        // Update the text_file with the markers
         $judgment->document->text_file = highlightWords(
             $judgment->document->text_file, 
             removeStopWords($judgment->queryy->title));
@@ -192,6 +220,7 @@ class JudgmentController extends Controller
         return request()->validate([
             'judgment' => ['required', 'in:Very Relevant,Relevant,Marginally Relevant,Not Relevant'],
             'observation' => 'nullable',
+            'untie' => 'required|bool',
             'query_id' => 'required',
             'document_id' => 'required'
         ]);

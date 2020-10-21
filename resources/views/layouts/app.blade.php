@@ -37,7 +37,7 @@
                         <img src="{{ asset('images/regis-logo.png') }}" alt="logo">
                     </a>
                     <span class="navbar-text">
-                        Retrieval Evaluation for Geoscientific Information Systems
+                        Retrieval Evaluation for <br>Geoscientific Information Systems
                     </span>
                 </div>
 
@@ -72,6 +72,12 @@
                                 <a class="nav-link" href="{{ route('judgments.index') }}">My Annotations</a>
                             </li>
 
+                            <li class="nav-item {{ Request::is('tiebreaks/*') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('tiebreaks.index') }}">Tiebreaks</a>
+                            </li>
+
+                            <li class="nav-item nav-divisor"></li>
+
                             @can('id-admin')
 
                                 <li class="nav-item {{ Request::is('documents/*') ? 'active' : '' }}">
@@ -85,6 +91,8 @@
                                 <li class="nav-item {{ Request::is('users/index') ? 'active' : '' }}">
                                     <a class="nav-link" href="{{ route('users.index') }}">Users</a>
                                 </li>
+
+                                <li class="nav-item nav-divisor"></li>
 
                             @endcan
 

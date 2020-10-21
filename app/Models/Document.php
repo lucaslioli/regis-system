@@ -18,6 +18,8 @@ class Document extends Model
 
     public function queries()
     {
-        return $this->belongsToMany(Query::class)->withTimestamps();
+        return $this->belongsToMany(Query::class)
+            ->withPivot(['judgments', 'status'])
+            ->withTimestamps();
     }
 }

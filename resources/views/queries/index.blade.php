@@ -49,6 +49,7 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">ID</th>
+                    {{-- <th scope="col">Num</th> --}}
                     <th scope="col" class="td-highlight">Query Title</th>
                     <th scope="col">Description</th>
                     {{-- <th scope="col">Narrative</th> --}}
@@ -65,6 +66,8 @@
 
                 <tr id="tr-{{ $query->id }}">
                     <td>{{ $query->id }}</td>
+
+                    {{-- <td>{{ $query->id }}</td> --}}
 
                     <td>{{ $query->qry_id }}</td>
 
@@ -94,7 +97,7 @@
                     <td class="text-center">{{ $query->judgments->count() }}</td>
 
                     <td class="text-center">
-                        <a href="{{ route('queries.edit', $query) }}" class="btn btn-sm btn-outline-secondary" title="Edit query">
+                        <a href="{{ route('queries.edit', $query) }}" class="btn btn-sm btn-outline-primary" title="Edit query">
                             <i class="fas fa-edit"></i>
                         </a>
 

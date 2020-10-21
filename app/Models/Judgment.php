@@ -9,7 +9,7 @@ class Judgment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['judgment', 'observation', 'user_id', 'query_id', 'document_id'];
+    protected $fillable = ['judgment', 'observation', 'untie', 'user_id', 'query_id', 'document_id'];
 
     public function user()
     {
