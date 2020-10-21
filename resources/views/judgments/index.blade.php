@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('include')
-    <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
-    <script src="{{ asset('js/scripts.js') }}"></script>
+    {{-- <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ asset('js/scripts.js') }}"></script> --}}
 @endsection
 
 @section('content')
@@ -13,7 +13,7 @@
             <h1>My Annotations</h1>
             <div class="d-flex align-items-baseline">
                 <h5 class="text-secondary mr-3">
-                    {{ $judgments->total() }} annotations find
+                    {{ $judgments->total() }} annotations found
                 </h5>
             </div>
         </div>
@@ -88,10 +88,10 @@
                             <i class="fas fa-edit"></i>
                         </a>
 
-                        <a href="{{ route('judgments.destroy', $judgment) }}" class="btn btn-sm btn-outline-danger" 
+                        {{-- <a href="{{ route('judgments.destroy', $judgment) }}" class="btn btn-sm btn-outline-danger" 
                             id="deleteJudgment" data-id="{{ $judgment->id }}" title="Delete Judgment">
                             <i class="fas fa-trash"></i>
-                        </a>
+                        </a> --}}
                     </td>
                 </tr>
 
@@ -117,7 +117,7 @@
 
 @section('scripts')
     
-    <script type="text/javascript">
+    {{-- <script type="text/javascript">
 
         $(document).ready(function () {
             $("body").on("click", "#deleteJudgment", function(e){
@@ -126,6 +126,6 @@
             });
         });
 
-    </script>
+    </script> --}}
 
 @endsection

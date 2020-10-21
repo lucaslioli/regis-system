@@ -13,7 +13,7 @@
             <h1>Documents</h1>
             <div class="d-flex align-items-baseline">
                 <h5 class="text-secondary mr-3">
-                    {{ $documents->total() }} documents find
+                    {{ $documents->total() }} documents found
                 </h5>
                 <a href="{{ route('documents.create') }}" class="btn btn-success" title="Upload documents">
                     <i class="fas fa-plus"></i> Upload documents

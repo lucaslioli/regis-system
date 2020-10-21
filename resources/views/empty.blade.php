@@ -7,7 +7,7 @@
         @if (isset($msg))
             {{ $msg }}
         @else
-            Sorry, no registers find in the database.
+            Sorry, no registers found in the database.
         @endif
     </div>
 </div>

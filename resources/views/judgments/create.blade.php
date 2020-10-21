@@ -16,10 +16,11 @@
             </div>
 
             <div class="form-group row">
-                <label for="query_description">Description:</label>
+                <label for="query_description">Description and Narrative:</label>
                 <div class="card w-100">
                     <div class="card-body"> 
-                        {{ $query->description }}
+                        <span><strong>Desc.:</strong> {{ $query->description }}</span><br>
+                        <span class="mt-2"><strong>Narr.:</strong> {{ $query->narrative }}</span>
                     </div>
                 </div>
             </div>
@@ -64,7 +65,7 @@
                 {{-- JUDGMENT SPACE --}}
         
                 <div class="form-group col-3">
-                    <label>With respect to the query, this document is:</label>
+                    <label><strong>With respect to the query, this document is:</strong></label>
 
                     <form method="POST" action="/judgments/{{ $judgment->id ?? 'store' }}" id="form-judgment">
                         @csrf
@@ -108,9 +109,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="observation">Observations:</label>
+                            <label for="observation">Comments and suggestions (optional):</label>
                             <textarea class="form-control" id="observation" name="observation" 
-                                rows="4" placeholder="Your observations..."></textarea>
+                                rows="4" placeholder="Enter here your comments and suggestions (optional)..."></textarea>
                         </div>
 
                         <button type="submit" class="btn btn-block {{ isset($judgment) ? 'btn-primary' : 'btn-success' }}">

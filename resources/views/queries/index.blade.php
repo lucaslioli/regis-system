@@ -13,7 +13,7 @@
             <h1>Queries</h1>
             <div class="d-flex align-items-baseline">
                 <h5 class="text-secondary mr-3">
-                    {{ $queries->total() }} queries find
+                    {{ $queries->total() }} queries found
                 </h5>
                 <a href="{{ route('queries.create') }}" class="btn btn-success" title="New query">
                     <i class="fas fa-plus"></i> Create new Query
@@ -52,7 +52,7 @@
                     <th scope="col" class="td-highlight">Query Title</th>
                     <th scope="col">Description</th>
                     {{-- <th scope="col">Narrative</th> --}}
-                    <th scope="col">Status</th>
+                    <th scope="col" class="text-center">Status</th>
                     <th scope="col" class="text-center" title="Documents">Docs.</th>
                     <th scope="col" class="text-center" title="Annotators">Annots.</th>
                     <th scope="col" class="text-center" title="Judgments">Judgs.</th>
@@ -78,7 +78,7 @@
                         {{ Str::of($query->narrative)->limit(50) }}
                     </td> --}}
 
-                    <td>
+                    <td class="text-center">
                         <span class="badge badge-pill @switch($query->status)
                             @case("Incomplete") {{ "badge-secondary" }} @break
                             @case("Semi Complete") {{ "badge-primary" }} @break

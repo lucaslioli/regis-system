@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Regis System') }}</title>
+    <title>{{ config('app.name', 'REGIS System') }}</title>
 
     <link rel="shortcut icon" href="{{ asset('images/regis-favicon.png') }}" />
 
@@ -33,7 +33,7 @@
 
                 <div class="navbar-all-brand d-flex align-items-center">
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{-- {{ config('app.name', 'Regis System') }} --}}
+                        {{-- {{ config('app.name', 'REGIS System') }} --}}
                         <img src="{{ asset('images/regis-logo.png') }}" alt="logo">
                     </a>
                     <span class="navbar-text">
@@ -126,8 +126,8 @@
                 <div class="col-md-4">
         
                     <h5 class="text-uppercase">About</h5>
-                    <p>Regis is a system to provide relevance judgments about multimodal documents for provided queries.
-                    Regis is being developed as part of a collaboration between the Institute of Informatics at UFRGS and Petrobras.
+                    <p>REGIS is a test colletction for Multimodal Information Retrieval composed of queries, documents, and relevance judgements.
+                    REGIS is being developed as part of a collaboration between the Institute of Informatics at UFRGS and Petrobras.
                     </p>
         
                 </div>
