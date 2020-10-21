@@ -25,6 +25,8 @@ class DocumentController extends Controller
      */
     public function index()
     {
+        $this->authorize('id-admin');
+
         $documents = Document::paginate(15);
 
         return view('documents.index', compact('documents'));
@@ -38,6 +40,8 @@ class DocumentController extends Controller
      */
     public function show(Document $document)
     {
+        $this->authorize('id-admin');
+
         return view('documents.show', [
             'document' => $document
         ]);
@@ -50,6 +54,8 @@ class DocumentController extends Controller
      */
     public function create()
     {
+        $this->authorize('id-admin');
+
         return view('documents.create');
     }
 
@@ -61,6 +67,8 @@ class DocumentController extends Controller
      */	
     public function store(Request $request)	
     {
+        $this->authorize('id-admin');
+
         $request->validate([
             'xml_files' => 'required',
             'xml_files.*' => 'mimes:xml'
@@ -110,6 +118,8 @@ class DocumentController extends Controller
      */	
     public function upload(Request $request)
     {
+        $this->authorize('id-admin');
+
         $request->validate([
             'doc_files' => 'required',
             'doc_files.*' => 'mimes:pdf,jpeg,png,gif'
@@ -139,6 +149,8 @@ class DocumentController extends Controller
      */
     public function destroy(Document $document)
     {
+        $this->authorize('id-admin');
+
         $id = $document->id;
         $document->delete();
 
@@ -147,6 +159,8 @@ class DocumentController extends Controller
 
     public function search(Request $request)
     {
+        $this->authorize('id-admin');
+
         $qry = $request->get('qry');
         
         $documents = Document::where('id', $qry)

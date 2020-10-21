@@ -28,7 +28,7 @@ class QueryController extends Controller
      */
     public function index()
     {
-        // $this->authorize('id-admin');
+        $this->authorize('id-admin');
 
         $queries = Query::paginate(15);
 
@@ -42,6 +42,8 @@ class QueryController extends Controller
      */
     public function create()
     {
+        $this->authorize('id-admin');
+
         return view('queries.create');
     }
 
@@ -53,6 +55,8 @@ class QueryController extends Controller
      */	
     public function store(Request $request)	
     {
+        $this->authorize('id-admin');
+
         $qBefore = Query::count();
         $qIgnored = "";
 
@@ -116,6 +120,8 @@ class QueryController extends Controller
      */
     public function edit(Query $query)
     {
+        $this->authorize('id-admin');
+
         // Uses the same view as create
         return view('queries.create', ['query' => $query]);
     }
@@ -129,6 +135,8 @@ class QueryController extends Controller
      */
     public function update(Request $request, Query $query)
     {
+        $this->authorize('id-admin');
+
         // $this->authorize('update', $query);
         $query->update($this->validateQuery());
 
@@ -153,6 +161,8 @@ class QueryController extends Controller
      */
     public function destroy(Query $query)
     {
+        $this->authorize('id-admin');
+
         $id = $query->id;
         $query->delete();
 
@@ -161,6 +171,8 @@ class QueryController extends Controller
 
     public function search(Request $request)
     {
+        $this->authorize('id-admin');
+
         $qry = $request->get('qry');
         
         $queries = Query::where('id', $qry)
@@ -179,6 +191,8 @@ class QueryController extends Controller
      */	
     public function attachDocuments(Request $request)
     {
+        $this->authorize('id-admin');
+
         $request->validate([
             'correlation_file' => 'required',
             'correlation_file' => 'mimes:xml'
@@ -251,6 +265,8 @@ class QueryController extends Controller
      */
     public function detachDocument(Query $query, Document $document)
     {
+        $this->authorize('id-admin');
+
         $id = $query->id;
         
         $query->documents()->detach($document);

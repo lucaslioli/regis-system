@@ -26,7 +26,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        // $this->authorize('id-admin');
+        $this->authorize('id-admin');
 
         $users = User::paginate(15);
 
@@ -35,7 +35,7 @@ class UserController extends Controller
 
     public function search(Request $request)
     {
-        // $this->authorize('id-admin');
+        $this->authorize('id-admin');
 
         $qry = $request->get('qry');
         
