@@ -82,13 +82,19 @@ class JudgmentController extends Controller
             if(!$queries_with_documents)
                 return view('judgments.create');
 
-            // Get the first query with 1 annotator if has
-            $query = Query::whereIn('id', $queries_with_documents)
-                ->where('annotators', 1)->first();
+            // Get queries already annotated by the user
+            $queries_judged = Auth::user()->getQueriesJudged();
+
+            // Get the first query with 1 annotator
+            $query = Query::where('annotators', 1)
+                ->whereIn('id', $queries_with_documents)
+                ->whereNotIn('id', $queries_judged)->first();
 
             // Get the first query
             if(!$query)
-                $query = Query::whereIn('id', $queries_with_documents)->first();
+                $query = Query::where('annotators', '<', 2)
+                    ->whereIn('id', $queries_with_documents)
+                    ->whereNotIn('id', $queries_judged)->first();
 
             $document = Document::whereIn('id', $query->documents)->first();
 
