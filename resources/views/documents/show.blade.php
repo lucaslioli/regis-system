@@ -41,9 +41,15 @@
         </div>
         
         <div class="form-group">
+            <label><strong>Document text:</strong></label>
             <div class="card">
                 <div class="card-body document-text">
-                    {{ $document->text_file }}
+                    @if($document->file_type == "IMG")
+                        <div class="card-body document-image d-flex justify-content-center">
+                            <img src="/documents/{{ $document->file_name }}" alt="Document image file">
+                        </div>
+                    @endif
+                    {!! $document->text_file !!}
                 </div>
             </div>
         </div>

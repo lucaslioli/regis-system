@@ -28,12 +28,25 @@ if(!function_exists('removeStopWords'))
     }
 }
 
+if(!function_exists('textToHtml'))
+{
+    function textToHtml(String $text)
+    {
+        // To avoid break the HTML
+        $text = str_replace("<", "< ", $text);
+
+        $text = str_replace("\n", "<br> ", $text);
+
+        return $text;
+    }
+}
+
 if(!function_exists('highlightWords'))
 {
     function highlightWords(String $text, String $words)
     {
         // To avoid break the HTML
-        $text = str_replace("<", "< ", $text);
+        $text = textToHtml($text);
 
         foreach (explode(" ", $words) as $word)
             $text = str_ireplace($word, "<mark>".$word."</mark>", $text);

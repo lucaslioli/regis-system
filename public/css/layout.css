@@ -278,6 +278,11 @@ body {
     text-align: justify;
 }
 
+.document-image img {
+    width: 50%;
+    height: auto;
+}
+
 .document-show .document-text {
     max-height: 500px;
 }

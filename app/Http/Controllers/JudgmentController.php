@@ -81,7 +81,7 @@ class JudgmentController extends Controller
 
             $progress = [
                 "document" => count($documents_judged)+1,
-                "bar" => count($documents_judged)*100/count($query->documents)
+                "bar" => round(count($documents_judged)*100/count($query->documents), 1)
             ];
 
         }else{

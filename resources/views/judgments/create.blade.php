@@ -9,14 +9,14 @@
             {{-- QUERY SPACE --}}
 
             <div class="row d-flex flex-column">
-                <label for="query_title">Query title:</label>
+                <label for="query_title"><strong>Query title:</strong></label>
                 <div class="card mb-3">
                     <div class="card-body"> {{ $query->title }} </div>
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="query_description">Description and Narrative:</label>
+                <label for="query_description"><strong>Description and Narrative:</strong></label>
                 <div class="card w-100">
                     <div class="card-body"> 
                         <span><strong>Desc.:</strong> {{ $query->description }}</span><br>
@@ -51,7 +51,7 @@
                     <div class="form-group row">
 
                         <div class="document-title d-flex justify-content-between">
-                            <label>Original document: {{ $document->doc_id }} - 
+                            <label><strong>Original document:</strong> {{ $document->doc_id }} - 
                                 @if(file_exists(public_path()."/documents/".$document->file_name))
                                     <a href="/documents/{{ $document->file_name }}" target="blank">
                                         {{ $document->file_name }}
@@ -72,11 +72,20 @@
 
                         <div class="card">
                             <div class="card-body document-text">
+
+                                @if($document->file_type == "IMG")
+                                    <div class="card-body document-image d-flex justify-content-center">
+                                        <img src="/documents/{{ $document->file_name }}" alt="Document image file">
+                                    </div>
+                                @endif
+
                                 {!! $document->text_file !!}
+
                             </div>
                         </div>
-
                     </div>
+
+
                 </div>
 
                 {{-- JUDGMENT SPACE --}}

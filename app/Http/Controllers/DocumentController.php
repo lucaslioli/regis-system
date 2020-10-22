@@ -42,6 +42,8 @@ class DocumentController extends Controller
     {
         $this->authorize('id-admin');
 
+        $document->text_file = textToHtml($document->text_file);
+
         return view('documents.show', [
             'document' => $document
         ]);
