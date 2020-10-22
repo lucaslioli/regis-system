@@ -51,7 +51,7 @@
                     <div class="form-group row">
 
                         <div class="document-title d-flex justify-content-between">
-                            <label>Original document: 
+                            <label>Original document: {{ $document->doc_id }} - 
                                 @if(file_exists(public_path()."/documents/".$document->file_name))
                                     <a href="/documents/{{ $document->file_name }}" target="blank">
                                         {{ $document->file_name }}
