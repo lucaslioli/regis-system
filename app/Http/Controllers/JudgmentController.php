@@ -151,7 +151,7 @@ class JudgmentController extends Controller
             $documents_judged = $user->documentsJudgedByQuery($query->id);
 
             // Update the status if all documents have been judged
-            if(count($query->documents) == count($documents_judged)){
+            if(count($query->documents) <= count($documents_judged)){
                 if($query->status == "Semi Complete")
                     $query->setStatus("Complete");
                 else
