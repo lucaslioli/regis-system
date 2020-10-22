@@ -47,6 +47,7 @@ Route::post('/documents/upload', 'DocumentController@upload');
 Route::get('/queries/index', 'QueryController@index')->name('queries.index');
 Route::get('/queries/create', 'QueryController@create')->name('queries.create');
 Route::get('/queries/search', 'QueryController@search')->name('queries.search');
+Route::get('/queries/qrels', 'QueryController@qrelsExport')->name('queries.qrels');
 Route::get('/queries/{query}/edit', 'QueryController@edit')->name('queries.edit');
 Route::delete('/queries/{query}', 'QueryController@destroy')->name('queries.destroy');
 Route::post('/queries/store', 'QueryController@store');

@@ -92,6 +92,11 @@
                                     <a class="nav-link" href="{{ route('users.index') }}">Users</a>
                                 </li>
 
+                                <li class="nav-item d-flex align-items-center ml-2 mr-2">
+                                    <a href="{{ route('queries.qrels') }}" 
+                                        class="btn btn-sm btn-outline-secondary" type="button">Download qrels</a>
+                                </li>
+
                                 <li class="nav-item nav-divisor"></li>
 
                             @endcan

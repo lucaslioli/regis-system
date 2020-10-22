@@ -41,3 +41,23 @@ if(!function_exists('highlightWords'))
         return $text;
     }
 }
+
+if(!function_exists('mapjudgment'))
+{
+    function mapJudgment($judgment)
+    {
+        switch ($judgment) {
+            case 'Very Relevant':
+                return 1.0;
+
+            case 'Relevant':
+                return 0.7;
+
+            case 'Marginally Relevant':
+                return 0.3;
+    
+            default:
+                return 0.0;
+        }
+    }
+}

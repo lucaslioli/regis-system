@@ -4,8 +4,8 @@
 
 /*
  * primary: #3490dc > #007bff
- * sucess: #38c172 > #28a745
  * hover: #227dc7  > #0069d9
+ * sucess: #38c172 > #28a745
  */
 
 :root {
@@ -127,6 +127,13 @@ a {
 .show > .btn-outline-success.dropdown-toggle {
     background-color: #28a745;
     border-color: #28a745;
+}
+
+.btn-success:hover,
+.btn-success:focus,
+.btn-success.focus {
+    background-color: #218838;
+    border-color: #218838;
 }
 
 .badge-success,

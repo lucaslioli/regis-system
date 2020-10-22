@@ -15,8 +15,12 @@
                 <h5 class="text-secondary mr-3">
                     {{ $queries->total() }} queries found
                 </h5>
-                <a href="{{ route('queries.create') }}" class="btn btn-success" title="New query">
+                <a href="{{ route('queries.create') }}" class="btn btn-success mr-3" title="New query">
                     <i class="fas fa-plus"></i> Create new Query
+                </a>
+
+                <a href="{{ route('queries.qrels') }}"  class="btn btn-outline-secondary" type="button">
+                    <i class="fas fa-download"></i> Download qrels
                 </a>
             </div>
         </div>
