@@ -41,7 +41,7 @@
         </div>
         
         <div class="form-group">
-            <label><strong>Document text:</strong></label>
+            <label><strong>Document content:</strong></label>
             <div class="card">
                 <div class="card-body document-text">
                     @if($document->file_type == "IMG")

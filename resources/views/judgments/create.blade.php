@@ -167,7 +167,7 @@
 
         @else 
 
-            <div class="row d-flex flex-column align-items-center justify-content-center mt-5">
+            <div class="d-flex flex-column align-items-center justify-content-center mt-5">
                 <h1 class="mt-5"><i class="fas fa-sad-tear"></i></h1>
                 <h4>Sorry, there is no document available to be annotated!</h4>
             </div>
