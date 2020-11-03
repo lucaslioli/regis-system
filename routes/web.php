@@ -61,3 +61,8 @@ Route::delete('/queries/detachDocument/{query}/{document}', 'QueryController@det
 Route::get('/tiebreaks/index', 'TiebreakController@index')->name('tiebreaks.index');
 Route::get('/tiebreaks/search', 'TiebreakController@search')->name('tiebreaks.search');
 Route::get('/tiebreaks/{query}/{document}/edit', 'TiebreakController@edit')->name('tiebreaks.edit');
+
+// Solr
+Route::get('/basicSearch', function () {
+    return view('solr.basic_search');
+});
