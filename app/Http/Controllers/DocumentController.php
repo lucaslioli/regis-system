@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Document;
+use SimpleXMLElement;
 
 class DocumentController extends Controller
 {
@@ -77,6 +78,7 @@ class DocumentController extends Controller
         ]);
 
         $dbefore = Document::count();
+        $dIgnored = "";
         
         $files = $request->file('xml_files');
 
@@ -88,28 +90,89 @@ class DocumentController extends Controller
                 return response()
                     ->view('documents.create', ['response' => "ERROR: Failed loading XML from ".$file->getClientOriginalName()], 400);
 
+            foreach($xml->doc as $doc)
+                if(!$this->create_document_xml($doc))
+                    $dIgnored .= $doc->field[0] . ", ";
+        }
+
+        $data = array(
+            "response" => "Completed!",
+            "documents" => (Document::count() - $dbefore),
+            "ignored" => substr($dIgnored, 0, -2)
+        );
+
+        return response()
+            ->view('documents.create', $data, 200);
+    }
+
+    public function store_from_path(Request $request)	
+    {
+        $this->authorize('id-admin');
+
+        $request->validate([
+            'directory' => 'required'
+        ]);
+            
+        $dbefore = Document::count();
+        $dIgnored = "";
+
+        // /home/lucas/Datasets/Petrobras-Regis/AMOSTRA-TESTES/xml/
+
+        // dd(is_dir($request->get('directory')));
+
+        $path = $request->get('directory');
+        $path = (substr($path, -1) == '/') ? $path: $path.'/';
+
+        // The result of file_exists is cached
+        clearstatcache();
+
+        if(!file_exists($path))
+            return response()
+                ->view('documents.create', ['response' => "ERROR: Directory not found, ".$path], 400);
+        
+        $files = glob($path.'*.{xml}', GLOB_BRACE);
+
+        foreach($files as $file){
+            $xmlString = file_get_contents($file);
+            $xml = simplexml_load_string($xmlString);
+
+            if ($xml === false)
+                return response()
+                    ->view('documents.create', ['response' => "ERROR: Failed loading XML from ".$file->getClientOriginalName()], 400);
+
             foreach($xml->doc as $doc){
-                $test_document = Document::where('doc_id', $doc->field[0])->first();
-
-                if($test_document)
-                    continue;
-
-                    Document::create([
-                    'doc_id' => $doc->field[0],
-                    'file_name' => $doc->field[1],
-                    'file_type' => $doc->field[2],
-                    'text_file' => $doc->field[3],
-                ]);
+                if(!$this->create_document_xml($doc))
+                    $dIgnored .= $doc->field[0] . ", ";
             }
         }
 
         $data = array(
             "response" => "Completed!",
             "documents" => (Document::count() - $dbefore),
+            "ignored" => substr($dIgnored, 0, -2)
         );
 
         return response()
             ->view('documents.create', $data, 200);
+    }
+
+    public function create_document_xml(SimpleXMLElement $doc)
+    {
+        $test_document = Document::where('doc_id', $doc->field[0])->first();
+
+        if($test_document)
+            return false;
+
+        $doc->field[1] = str_replace('%20', '_', $doc->field[1]);
+        $doc->field[1] = str_replace(' ', '_', $doc->field[1]);
+        $doc->field[1] = str_replace('%', '', $doc->field[1]);
+
+        return Document::create([
+            'doc_id' => $doc->field[0],
+            'file_name' => $doc->field[1],
+            'file_type' => $doc->field[2],
+            'text_file' => $doc->field[3],
+        ]);
     }
 
     /**	

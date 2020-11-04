@@ -87,6 +87,10 @@
                 var html= "<hr><b>Documents found:</b> " + rsp.response.numFound+"<hr>";
 
                 rsp.response.docs.forEach(element => {
+                    element.filename = element.filename.replace('%20', '_');
+                    element.filename = element.filename.replace(' ', '_');
+                    element.filename = element.filename.replace('%', '');
+
                     html += "<div class='doc'>";
 
                     html += "<b>Doc ID</b>: "+element.docid;

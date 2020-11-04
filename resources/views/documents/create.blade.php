@@ -14,18 +14,18 @@
 
         {{-- SAVE MULTIPLES XML FILES --}}
 
-        <form method="POST" action="/documents/store" enctype="multipart/form-data">
+        <form method="POST" action="/documents/store" enctype="multipart/form-data" class="mb-5">
             @csrf
 
             <div class="form-row">
-                <div class="col-md-12">
+                <div class="col-12">
                     <label><strong>Upload XML Documents</strong></label>
                 </div>
             </div>
 
             <div class="form-row mb-0">
 
-                <div class="form-group col-md-8 mb-0">
+                <div class="form-group col-8 mb-0">
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" id="xml_files" name="xml_files[]" accept="text/xml" multiple required>
                         <label class="custom-file-label" for="xml_files">Select XML files (max of 20 files)</label>
@@ -36,14 +36,16 @@
                     @endif
                 </div>
 
-                <div class="form-group col-md-4 mb-0">
-                    <button type="submit" class="btn btn-success btn-block" id="btn-xmls" onclick="">Process XML files</button>
+                <div class="form-group col-4 mb-0">
+                    <button type="submit" class="btn btn-success btn-block" id="btn-xmls" onclick="">
+                        <i class="fas fa-cog"></i> Process XML files
+                    </button>
                 </div>
 
             </div>
 
             <div class="form-row">
-                <div class="col-md-12">
+                <div class="col-12">
                     <a href="{{ asset('examples/doc_example.xml') }}" target="blank">
                         <i class="fas fa-link"></i> XML example file
                     </a>
@@ -52,7 +54,38 @@
         
         </form>
 
-        <br><br>
+        {{-- PROCESS FILES FROM DIRECTORY --}}
+
+        <form method="POST" action="/documents/store_from_path" class="mb-5">
+            @csrf
+
+            <div class="form-row">
+                <div class="col-12">
+                    <label><strong>Process XML Documents from a Directory (in the server)</strong></label>
+                </div>
+            </div>
+
+            <div class="form-row mb-0">
+
+                <div class="form-group col-8">
+                    <input class="form-control @error('directory') is-invalid @enderror" 
+                        value="{{ old('Directory') }}" required
+                        type="text" id="directory" name="directory" placeholder="Inform the full server directory">
+        
+                    @error('title')
+                        <p class="text-danger">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="form-group col-4 mb-0">
+                    <button type="submit" class="btn btn-dark btn-block" id="btn-xmls" onclick="">
+                        <i class="fas fa-cogs"></i> Process path files
+                    </button>
+                </div>
+
+            </div>
+        
+        </form>
 
         {{-- SAVE MULTIPLES PDF OR IMAGE FILES --}}
 
@@ -60,14 +93,14 @@
             @csrf
 
             <div class="form-row">
-                <div class="col-md-12">
+                <div class="col-12">
                     <label><strong>Upload the own documents (PDF or Image)</strong></label>
                 </div>
             </div>
 
             <div class="form-row">
 
-                <div class="form-group col-md-8">
+                <div class="form-group col-8">
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" id="doc_files" name="doc_files[]" 
                             accept="application/pdf,image/png,image/jpeg,image/gif" multiple required>
@@ -79,8 +112,10 @@
                     @endif
                 </div>
 
-                <div class="form-group col-md-4">
-                    <button type="submit" class="btn btn-primary btn-block" id="btn-docs" onclick="start_loading(this)">Process files</button>
+                <div class="form-group col-4">
+                    <button type="submit" class="btn btn-primary btn-block" id="btn-docs" onclick="start_loading(this)">
+                        <i class="fas fa-file-upload"></i> Upload files
+                    </button>
                 </div>
 
             </div>
@@ -97,6 +132,10 @@
 
                 @if(isset($documents))
                     Total of {{ $documents }} documents inserted
+                @endif
+
+                @if(isset($ignored) && $ignored != "")
+                    Documents {{ $ignored }} have been <strong>ignored due to duplication</strong>.
                 @endif
             @endif
         </div>
