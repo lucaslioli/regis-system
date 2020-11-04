@@ -87,7 +87,9 @@
                     </div>
     
                     <div class="form-group col-md-4">
-                        <button type="submit" class="btn btn-secondary btn-block" id="btn-doc" onclick="start_loading(this)">Process file</button>
+                        <button type="submit" class="btn btn-secondary btn-block" id="btn-doc" onclick="start_loading(this)">
+                            <i class="fas fa-file-upload"></i> Upload file
+                        </button>
                     </div>
     
                 </div>

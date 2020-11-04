@@ -45,7 +45,7 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    {{-- <th scope="col">ID</th> --}}
+                    <th scope="col">ID</th>
                     <th scope="col">Query</th>
                     <th scope="col">Document</th>
                     <th scope="col" class="td-highlight">Judgment</th>
@@ -60,7 +60,7 @@
                 <tr id="tr-{{ $judgment->id }}">
                     <td>{{ $key+1 }}</td>
 
-                    {{-- <td>{{ $judgment->id }}</td> --}}
+                    <td>{{ $judgment->queryy->qry_id }}</td>
 
                     <td> 
                         {{ Str::of($judgment->queryy->title)->limit(50) }}

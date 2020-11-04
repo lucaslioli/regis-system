@@ -66,6 +66,7 @@ class JudgmentController extends Controller
     public function create()
     {
         $user = Auth::user();
+
         // Test the current page that the user is annotation and return
         if($user->current_query != NULL){
             $query = Query::where('id', $user->current_query)->first();
@@ -95,12 +96,27 @@ class JudgmentController extends Controller
             // Get queries attached to the user
             $queries_judged = $user->queries->map->id;
 
-            // Get the first query with 1 annotator
-            $query = Query::where('annotators', 1)
-                ->whereIn('id', $queries_with_documents)
-                ->whereNotIn('id', $queries_judged)->first();
+            // Check if there are any query that get new documents attached after the user complete it
+            $query = DB::table('queries')
+                ->select('queries.id',
+                    DB::raw('count(document_query.document_id) as docs'), // Count documents by query
+                    DB::raw('sum(case when query_user.user_id = '.$user->id.' then 1 else 0 end) AS judgs')) // Count user judgs by query
+                ->join('document_query', 'document_query.query_id', '=', 'queries.id')
+                ->join('query_user', 'query_user.query_id', '=', 'queries.id')
+                ->whereIn('queries.id', $queries_judged) // Queries already judged by the user
+                ->groupBy('queries.id')
+                ->havingRaw('docs > judgs') // When there are more documents then judgments
+                ->first();
 
-            // Get the first query
+            // Get the first query with 1 annotator
+            if(!$query)
+                $query = Query::where('annotators', 1)
+                    ->whereIn('id', $queries_with_documents)
+                    ->whereNotIn('id', $queries_judged)->first();
+            else
+                $query = Query::find($query->id);
+
+            // Get the first query available
             if(!$query)
                 $query = Query::where('annotators', '<', 2)
                     ->whereIn('id', $queries_with_documents)

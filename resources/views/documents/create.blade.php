@@ -131,7 +131,7 @@
                 <div class="alert {{ Str::contains($response, 'ERROR') ? 'text-danger' : 'text-success' }}" role="alert"> {{ $response }} </div>
 
                 @if(isset($documents))
-                    Total of {{ $documents }} documents inserted
+                    Total of {{ $documents }} documents inserted. <br><br>
                 @endif
 
                 @if(isset($ignored) && $ignored != "")

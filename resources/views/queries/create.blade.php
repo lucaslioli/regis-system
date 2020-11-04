@@ -316,11 +316,11 @@
                 <div class="alert {{ Str::contains($response, 'ERROR') ? 'alert-danger' : 'alert-success' }}" role="alert"> {{ $response }} </div>
 
                 @if(isset($queries))
-                    Total of {{ $queries }} data recorded. <br>
+                    Total of {{ $queries }} data recorded. <br><br>
                 @endif
 
                 @if(isset($ignored) && $ignored != "")
-                    Items {{ $ignored }} have been <strong>ignored due to duplication</strong>.
+                    Items {{ $ignored }} have been <strong>ignored due to duplication</strong>. <br><br>
                 @endif
 
                 @if(isset($invalid) && $invalid != "")
