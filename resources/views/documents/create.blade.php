@@ -128,10 +128,12 @@
 
         <div id="response-text">
             @if(isset($response))
-                <div class="alert {{ Str::contains($response, 'ERROR') ? 'text-danger' : 'text-success' }}" role="alert"> {{ $response }} </div>
+                <div class="alert {{ Str::contains($response, 'ERROR') ? 'alert-danger' : 'alert-success' }}" role="alert">
+                    {{ $response }}
+                </div>
 
                 @if(isset($documents))
-                    Total of {{ $documents }} documents inserted. <br><br>
+                    Total of {{ $documents }} documents inserted. <br>
                 @endif
 
                 @if(isset($ignored) && $ignored != "")

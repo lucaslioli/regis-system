@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Document;
+
 use SimpleXMLElement;
+use Exception;
 
 class DocumentController extends Controller
 {
@@ -163,12 +165,19 @@ class DocumentController extends Controller
         $doc->field[1] = str_replace(' ', '_', $doc->field[1]);
         $doc->field[1] = str_replace('%', '', $doc->field[1]);
 
-        return Document::create([
-            'doc_id' => $doc->field[0],
-            'file_name' => $doc->field[1],
-            'file_type' => $doc->field[2],
-            'text_file' => $doc->field[3],
-        ]);
+        try{
+            return Document::create([
+                'doc_id' => $doc->field[0],
+                'file_name' => $doc->field[1],
+                'file_type' => $doc->field[2],
+                'text_file' => $doc->field[3],
+            ]);
+
+        } catch (Exception $e){
+            $errorCode = $e->errorInfo[1];
+            if($errorCode == 1062)
+                return false;
+        }
     }
 
     /**	
