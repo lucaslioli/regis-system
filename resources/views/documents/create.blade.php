@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="form-group col-4 mb-0">
-                    <button type="submit" class="btn btn-success btn-block" id="btn-xmls" onclick="">
+                    <button type="submit" class="btn btn-success btn-block" id="btn-xmls" onclick="start_loading(this)">
                         <i class="fas fa-cog"></i> Process XML files
                     </button>
                 </div>
@@ -78,7 +78,7 @@
                 </div>
 
                 <div class="form-group col-4 mb-0">
-                    <button type="submit" class="btn btn-dark btn-block" id="btn-xmls" onclick="">
+                    <button type="submit" class="btn btn-dark btn-block" id="btn-directory" onclick="start_loading(this)">
                         <i class="fas fa-cogs"></i> Process path files
                     </button>
                 </div>
@@ -166,12 +166,15 @@
                 event.stopPropagation();
         
                 $("#btn-xmls").prop('disabled', true);
+                $("#btn-directory").prop('disabled', true);
                 $("#btn-docs").prop('disabled', true);
             });
         });
 
         function start_loading(OBJ) {
-            if ((OBJ.id == 'btn-xmls' && $("#xml_files").val() == "") || (OBJ.id == 'btn-docs' && $("#doc_files").val() == ""))
+            if ((OBJ.id == 'btn-xmls' && $("#xml_files").val() == "") || 
+                (OBJ.id == 'btn-directory' && $("#directory").val() == "") ||
+                (OBJ.id == 'btn-docs' && $("#doc_files").val() == ""))
                 return ;
 
             OBJ.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...';

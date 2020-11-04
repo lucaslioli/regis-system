@@ -116,10 +116,6 @@ class DocumentController extends Controller
         $dbefore = Document::count();
         $dIgnored = "";
 
-        // /home/lucas/Datasets/Petrobras-Regis/AMOSTRA-TESTES/xml/
-
-        // dd(is_dir($request->get('directory')));
-
         $path = $request->get('directory');
         $path = (substr($path, -1) == '/') ? $path: $path.'/';
 
