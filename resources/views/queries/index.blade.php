@@ -15,8 +15,8 @@
                 <h5 class="text-secondary mr-3">
                     {{ $queries->total() }} queries found
                 </h5>
-                <a href="{{ route('queries.create') }}" class="btn btn-success mr-3" title="New query">
-                    <i class="fas fa-plus"></i> Create new Query
+                <a href="{{ route('queries.create') }}" class="btn btn-success mr-3" title="Create and attach Documents">
+                    <i class="fas fa-tools"></i> Manage Queries
                 </a>
 
                 <a href="{{ route('queries.qrels') }}"  class="btn btn-outline-secondary" type="button">

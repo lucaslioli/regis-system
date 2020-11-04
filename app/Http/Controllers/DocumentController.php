@@ -117,6 +117,11 @@ class DocumentController extends Controller
         $dbefore = Document::count();
         $dIgnored = "";
 
+        $list = $request->file('document_list');
+
+        if($list != null)
+            $list = array_unique(explode("\n", file_get_contents($list)));
+
         $path = $request->get('directory');
         $path = (substr($path, -1) == '/') ? $path: $path.'/';
 
@@ -137,6 +142,9 @@ class DocumentController extends Controller
                     ->view('documents.create', ['response' => "ERROR: Failed loading XML from ".$file->getClientOriginalName()], 400);
 
             foreach($xml->doc as $doc){
+                if($list != null && in_array($doc->field[0], $list))
+                    continue;
+
                 if(!$this->create_document_xml($doc))
                     $dIgnored .= $doc->field[0] . ", ";
             }

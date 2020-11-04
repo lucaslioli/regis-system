@@ -106,7 +106,7 @@
                             <div class="form-row d-flex justify-content-end">
                                 <div class="col-md-4">
                                     <button type="submit" class="btn btn-block btn-success" id="btn-create">
-                                        <i class="fas fa-plus"></i> Submit
+                                        <i class="fas fa-save"></i> Submit
                                     </button>
                                 </div>
                             </div>
@@ -203,7 +203,7 @@
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input @error('correlation_file') is-invalid @enderror" 
                                                 id="correlation_file" name="correlation_file"
-                                                accept="text/xml" accept="application/json" required>
+                                                accept="text/xml" required>
                                             <label class="custom-file-label" for="correlation_file">Select XML file</label>
                                         </div>
 
@@ -276,7 +276,7 @@
                                         <tr id="tr-{{ $doc->id }}">
                                             <td> {{ $key+1 }} </td>
                                             <td> {{ $doc->doc_id }} </td>
-                                            <td> {{ $doc->file_name }} </td>
+                                            <td> {{ Str::of($doc->file_name)->limit(100) }} </td>
                                             <td class="text-center"> {{ $doc->file_type }} </td>
                                             <td class="text-center">
                                                 <a href="{{ route('documents.show', $doc) }}" class="btn btn-sm btn-outline-primary" 

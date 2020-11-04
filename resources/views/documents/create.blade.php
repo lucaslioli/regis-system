@@ -56,7 +56,7 @@
 
         {{-- PROCESS FILES FROM DIRECTORY --}}
 
-        <form method="POST" action="/documents/store_from_path" class="mb-5">
+        <form method="POST" action="/documents/store_from_path" enctype="multipart/form-data" class="mb-5">
             @csrf
 
             <div class="form-row">
@@ -84,8 +84,25 @@
                 </div>
 
             </div>
+
+            <div class="form-row mb-0">
+
+                <div class="form-group col-8">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="document_list" name="document_list" accept="text/plain">
+                        <label class="custom-file-label" for="document_list">Select a file with a list of documents</label>
+                    </div>
+
+                    @if($errors->has('document_list'))
+                        <p class="text-danger">{{ $errors->first('document_list.*') }}</p>
+                    @endif
+                </div>
+
+            </div>
         
         </form>
+
+        <hr>
 
         {{-- SAVE MULTIPLES PDF OR IMAGE FILES --}}
 
@@ -154,14 +171,20 @@
             var files = document.getElementById("xml_files").files.length;
             var nextSibling = e.target.nextElementSibling;
             nextSibling.innerText = files + " files selected";
-        })
+        });
 
         /* show number of files selected */
         document.getElementById('doc_files').addEventListener('change',function(e){
             var files = document.getElementById("doc_files").files.length;
             var nextSibling = e.target.nextElementSibling;
             nextSibling.innerText = files + " files selected";
-        })
+        });
+
+        document.getElementById('document_list').addEventListener('change',function(e){
+            var fileName = document.getElementById("document_list").files[0].name;
+                var nextSibling = e.target.nextElementSibling;
+                nextSibling.innerText = fileName;
+        });
 
         $(function(){
             $('form').on('submit', function(event){
