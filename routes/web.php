@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Auth::routes();
 
@@ -65,4 +65,4 @@ Route::get('/tiebreaks/{query}/{document}/edit', 'TiebreakController@edit')->nam
 // Solr
 Route::get('/basicSearch', function () {
     return view('solr.basic_search');
-});
+})->name('basic_seach');

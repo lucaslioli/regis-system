@@ -112,7 +112,7 @@
         <div class="container mt-5">
             <pre class="d-flex justify-content-between">
                 <div><b>Searching into REGIS Collection</b><br>Total of 21656 PDF documents<br><br>{{--
-                --}}<a href="{{ url()->previous() }}">Return to system</a>
+                --}}<a href="{{ url()->previous()!=route('basic_seach') ? url()->previous() : route('welcome') }}">Return to system</a>
                 </div>
 
                 <div>                    <b>Apache Solr 8.6.3 Config</b>
