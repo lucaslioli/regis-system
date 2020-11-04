@@ -244,6 +244,7 @@ class QueryController extends Controller
                 }
 
                 $query->documents()->attach($document);
+                $query->setStatus("Incomplete");
             }
         }
 

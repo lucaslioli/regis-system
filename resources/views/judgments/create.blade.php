@@ -25,6 +25,14 @@
                 </div>
             </div>
 
+            @if(isset($incomplete_query) && $incomplete_query)
+            
+                <div class="row mb-3 text-primary">
+                    <span>New documents were added to this query, please, complete it before get a fresh one.</span>
+                </div>
+
+            @endif
+
             @if(isset($tiebreak) || (isset($judgment) && $judgment->untie))
 
                 <div class="row progress mt-4 mb-5">
@@ -70,8 +78,8 @@
                             </label>
                         </div>
 
-                        <div class="card">
-                            <div class="card-body document-text">
+                        <div class="card w-100">
+                            <div class="card-body document-text w-100">
 
                                 @if($document->file_type == "IMG")
                                     <div class="card-body document-image d-flex justify-content-center">

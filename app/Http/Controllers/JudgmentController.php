@@ -67,10 +67,11 @@ class JudgmentController extends Controller
     {
         $user = Auth::user();
 
+        $incomplete_query = 0;
+
         // Test the current page that the user is annotation and return
         if($user->current_query != NULL){
             $query = Query::where('id', $user->current_query)->first();
-
             
             // Get documents judged by the user for the query
             $documents_judged = $user->documentsJudgedByQuery($query->id);
@@ -79,11 +80,6 @@ class JudgmentController extends Controller
             $document = Document::whereIn('id', $query->documents->map->id)
                 ->whereNotIn('id', $documents_judged)
                 ->first();
-
-            $progress = [
-                "document" => count($documents_judged)+1,
-                "bar" => round(count($documents_judged)*100/count($query->documents), 1)
-            ];
 
         }else{
             // Get queries with documents related
@@ -97,24 +93,23 @@ class JudgmentController extends Controller
             $queries_judged = $user->queries->map->id;
 
             // Check if there are any query that get new documents attached after the user complete it
-            $query = DB::table('queries')
-                ->select('queries.id',
-                    DB::raw('count(document_query.document_id) as docs'), // Count documents by query
-                    DB::raw('sum(case when query_user.user_id = '.$user->id.' then 1 else 0 end) AS judgs')) // Count user judgs by query
-                ->join('document_query', 'document_query.query_id', '=', 'queries.id')
-                ->join('query_user', 'query_user.query_id', '=', 'queries.id')
-                ->whereIn('queries.id', $queries_judged) // Queries already judged by the user
-                ->groupBy('queries.id')
-                ->havingRaw('docs > judgs') // When there are more documents then judgments
-                ->first();
+            foreach ($user->queries as $query) {
+                $documents_judged = $user->documentsJudgedByQuery($query->id);
+                if(count($query->documents) > count($documents_judged)){
+                    $incomplete_query = $query;
+                    break;
+                }
+            }
 
             // Get the first query with 1 annotator
-            if(!$query)
+            if(!$incomplete_query)
                 $query = Query::where('annotators', 1)
                     ->whereIn('id', $queries_with_documents)
                     ->whereNotIn('id', $queries_judged)->first();
-            else
-                $query = Query::find($query->id);
+            else{
+                $query = $incomplete_query;
+                $incomplete_query = 1;
+            }
 
             // Get the first query available
             if(!$query)
@@ -122,15 +117,27 @@ class JudgmentController extends Controller
                     ->whereIn('id', $queries_with_documents)
                     ->whereNotIn('id', $queries_judged)->first();
 
-            $document = Document::whereIn('id', $query->documents)->first();
+            // Get documents judged by the user for the query
+            $documents_judged = $user->documentsJudgedByQuery($query->id);
 
-            $progress = ["document" => 1, "bar" => 0];
+            $document = Document::whereIn('id', $query->documents->map->id)
+                ->whereNotIn('id', $documents_judged)->first();
 
             // Update the queries annotators and users current page
-            $query->increaseAnnotators();
+            if(!$incomplete_query){
+                $query->increaseAnnotators();
+                $user->queries()->attach($query);
+            }
             $user->setCurrentQuery($query->id);
-            $user->queries()->attach($query);
         }
+
+        if(count($documents_judged)>0)
+            $progress = [
+                "document" => count($documents_judged)+1,
+                "bar" => round(count($documents_judged)*100/count($query->documents), 1)
+            ];
+        else
+            $progress = ["document" => 1, "bar" => 0];
 
         // Update the text_file with the markers
         $document->text_file = highlightWords($document->text_file, removeStopWords($query->title));
@@ -138,7 +145,8 @@ class JudgmentController extends Controller
         return view('judgments.create', [
             'query' => $query,
             'document' => $document,
-            'progress' => (object)$progress
+            'progress' => (object)$progress,
+            'incomplete_query' => $incomplete_query
         ]);
     }
 
