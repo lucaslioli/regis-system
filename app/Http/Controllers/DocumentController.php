@@ -85,8 +85,7 @@ class DocumentController extends Controller
         $files = $request->file('xml_files');
 
         foreach($files as $file){
-            $xmlString = file_get_contents($file);
-            $xml = simplexml_load_string($xmlString);
+            $xml = simplexml_load_file($file);
 
             if ($xml === false)
                 return response()
@@ -131,8 +130,7 @@ class DocumentController extends Controller
         $files = glob($path.'*.{xml}', GLOB_BRACE);
 
         foreach($files as $file){
-            $xmlString = file_get_contents($file);
-            $xml = simplexml_load_string($xmlString);
+            $xml = simplexml_load_file($file);
 
             if ($xml === false)
                 return response()
