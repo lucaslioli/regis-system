@@ -276,7 +276,7 @@
                                         <tr id="tr-{{ $doc->id }}">
                                             <td> {{ $key+1 }} </td>
                                             <td> {{ $doc->doc_id }} </td>
-                                            <td> {{ Str::of($doc->file_name)->limit(100) }} </td>
+                                            <td> {{ Str::of($doc->file_name)->limit(75) }} </td>
                                             <td class="text-center"> {{ $doc->file_type }} </td>
                                             <td class="text-center">
                                                 <a href="{{ route('documents.show', $doc) }}" class="btn btn-sm btn-outline-primary" 
