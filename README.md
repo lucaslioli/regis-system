@@ -2,11 +2,25 @@
 
 Regis is a system to provide relevance judgments about multimodal documents for determined queries. This process will help to construct a new multimodal test collection in the Geoscience domain. Regis is being developed as part of a collaboration between the Institute of Informatics at UFRGS and Petrobras.
 
+## Functionalities
+
+* Interface to provide relevance judgments for documents retrieved in response to queries, describing the information need;
+* Adapted to multimodal documents, PDF, text, and images;
+* The system shows the source PDF document and the text extracted from it, with the query words highlighted;
+* Each query-document pair are judged by two annotators, in case of disagreement, it's set a tie to that pair;
+* Tiebreak management, where other annotators can solve it and the majority class is selected.
+* Admin controller to follow the annotation progress, users list, and CRUD operations over the documents and queries.
+* Download the ```qrels``` file with the result of all relevance judgments.
+
 ## Requirements
 
-Regis is being developed using the open-source PHP web framework, Laravel 8.0. The requirements are the same as the framework, found in the [documentation (version 8.x)](https://laravel.com/docs/8.x). Laravel has support to different databases, the chosen one was [MySQL](https://www.mysql.com/).
+Regis is being developed using the MVC open-source PHP web framework, Laravel 8.0. The requirements are the same as the framework, found in the [documentation (version 8.x)](https://laravel.com/docs/8.x). Laravel has support to different databases, the chosen one was [MySQL](https://www.mysql.com/).
 
 To run the project you will need to have installed [Composer](https://getcomposer.org/).
+
+### Database
+
+The database ER diagram, generated considering default Laravel tables, can be found in [documentation/db-model.png](documentation/db-model.png). The creation of all tables is made with Laravel migrations during the project initialization, except the own database that has to be created manually.
 
 ## How to run the project
 
