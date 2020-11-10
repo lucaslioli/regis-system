@@ -22,7 +22,7 @@
                 max-height: 600px;
                 overflow: auto;
             }
-            .content{
+            .content {
                 max-height: 300px;
                 overflow: auto;
                 overflow-x: scroll;
@@ -36,8 +36,11 @@
                 border: 1px solid gray;
                 border-radius: 5px;
             }
-            button:hover{
+            button:hover {
                 background: #dedede;
+            }
+            mark {
+                background-color: yellow !important;
             }
         </style>
         
@@ -102,6 +105,8 @@
                     element.filename = element.filename.replace(/ /g, '_');
                     element.filename = element.filename.replace(/%/g, '');
 
+                    element.text = highlightText(element.text);
+
                     html += "<div class='doc'>";
 
                     html += "<b>Doc ID</b>: "+element.docid;
@@ -120,6 +125,18 @@
 
                 document.getElementById("result").innerHTML = html;
                 document.getElementById("status").innerHTML = "";
+            }
+
+            function highlightText(text){
+                var words = document.getElementById('query').value.split(" ");
+
+                for (i = 0; i < words.length; i++){
+                    var re = new RegExp(words[i], 'ig');
+                    console.log(re);
+                    text = text.replace(re, '<mark>'+words[i]+'</mark>');
+                }
+
+                return text;
             }
 
             /** 
