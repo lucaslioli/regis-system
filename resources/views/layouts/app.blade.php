@@ -92,10 +92,6 @@
                                     <a class="nav-link" href="{{ route('users.index') }}">Users</a>
                                 </li>
 
-                                <li class="nav-item d-flex align-items-center ml-2 mr-2">
-                                    
-                                </li>
-
                                 <li class="nav-item nav-divisor"></li>
 
                                 <li class="nav-item dropdown">
