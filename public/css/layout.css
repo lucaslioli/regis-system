@@ -240,6 +240,10 @@ body {
     max-height: 40px;
 }
 
+.navbar a {
+    white-space: nowrap;
+}
+
 .nav-divisor {
     border-right: 1px solid #dee2e6;
     width: 1px;
@@ -247,6 +251,12 @@ body {
 
 .navbar-text {
     line-height: 1em;
+}
+
+@media (max-width: 1200px) {
+    .navbar-text {
+        font-size: 8pt;
+    }
 }
 
 /* GENERAL */

@@ -136,7 +136,7 @@
                         <div class="card-body">
 
                             <form method="POST" action="/queries/{{ $query->id ?? 'store' }}" 
-                                enctype="multipart/form-data" id="form-create-query">
+                                enctype="multipart/form-data" id="form-multiple-query">
                                 @csrf
 
                                 <div class="form-row mb-0">
@@ -194,7 +194,7 @@
                     <div id="collapse-correlate" class="collapse @error('correlation_file') show @enderror" data-parent="#accordion-queries">
                         <div class="card-body">
 
-                            <form method="POST" action="/queries/setDocuments" enctype="multipart/form-data" id="queries-documents">
+                            <form method="POST" action="/queries/attachDocumentById" enctype="multipart/form-data" id="queries-documents">
                                 @csrf
 
                                 <div class="form-row mb-0">
@@ -257,6 +257,42 @@
 
                     <div id="collapse-documents" class="collapse show" data-parent="#accordion-query-documents">
                         <div class="card-body">
+
+                            {{-- ATTACH NEW DOCUMENT --}}
+
+                            <form method="POST" action="/queries/{{ $query->id }}/attachDocumentById" id="form-attach-docid"
+                                class="mb-3">
+                                @csrf
+
+                                <div class="form-row">
+                                    <div class="col-12">
+                                        <label><strong>Attach new document(s)</strong></label>
+                                    </div>
+                                </div>
+
+                                <div class="form-row mb-0">
+
+                                    <div class="form-group col-8">
+                                        <input class="form-control @error('doc_ids') is-invalid @enderror" 
+                                            value="{{ old('doc_ids') }}" required
+                                            type="text" id="doc_ids" name="doc_ids" placeholder="Inform multiple doc IDs, separated by semicolon ( ; )">
+                            
+                                        @error('doc_ids')
+                                            <p class="text-danger">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div class="form-group col-4 mb-0">
+                                        <button type="submit" class="btn btn-dark btn-block" id="btn-doc_ids" onclick="start_loading(this)">
+                                            <i class="fas fa-cog"></i> Attach document(s)
+                                        </button>
+                                    </div>
+
+                                </div>
+                            
+                            </form>
+
+                            {{-- LIST TABLE --}}
 
                             <div id="response" role="alert"></div>
 
@@ -344,6 +380,7 @@
                 $("#btn-create").prop('disabled', true);
                 $("#btn-multiples").prop('disabled', true);
                 $("#btn-docs").prop('disabled', true);
+                $("#btn-doc_ids").prop('disabled', true);
             });
         });
 

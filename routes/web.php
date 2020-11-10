@@ -41,7 +41,7 @@ Route::get('/documents/search', 'DocumentController@search')->name('documents.se
 Route::get('/documents/{document}', 'DocumentController@show')->name('documents.show');
 Route::delete('/documents/{document}', 'DocumentController@destroy')->name('documents.destroy');
 Route::post('/documents/store', 'DocumentController@store');
-Route::post('/documents/store_from_path', 'DocumentController@store_from_path');
+Route::post('/documents/storeFromPath', 'DocumentController@storeFromPath');
 Route::post('/documents/upload', 'DocumentController@upload');
 
 // Queries
@@ -51,11 +51,12 @@ Route::get('/queries/search', 'QueryController@search')->name('queries.search');
 Route::get('/queries/qrels', 'QueryController@qrelsExport')->name('queries.qrels');
 Route::get('/queries/{query}/edit', 'QueryController@edit')->name('queries.edit');
 Route::delete('/queries/{query}', 'QueryController@destroy')->name('queries.destroy');
+Route::post('/queries/{query}/attachDocumentById', 'QueryController@attachDocumentById');
 Route::post('/queries/store', 'QueryController@store');
 Route::put('/queries/{query}', 'QueryController@update');
 
 // Document - Query
-Route::post('/queries/setDocuments', 'QueryController@attachDocuments');
+Route::post('/queries/attachDocuments', 'QueryController@attachDocuments');
 Route::delete('/queries/detachDocument/{query}/{document}', 'QueryController@detachDocument')->name('queries.detachDocument');
 
 // Tiebreak

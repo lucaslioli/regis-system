@@ -93,11 +93,27 @@
                                 </li>
 
                                 <li class="nav-item d-flex align-items-center ml-2 mr-2">
-                                    <a href="{{ route('queries.qrels') }}" 
-                                        class="btn btn-sm btn-outline-secondary" type="button">Download qrels</a>
+                                    
                                 </li>
 
                                 <li class="nav-item nav-divisor"></li>
+
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" 
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        Project
+                                    </a>
+    
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ route('queries.qrels') }}">
+                                            <i class="fas fa-download"></i> Download qrels
+                                        </a>
+
+                                        <a class="dropdown-item" href="{{ route('basic_seach') }}">
+                                            <i class="fas fa-search"></i> Basic Search
+                                        </a>
+                                    </div>
+                                </li>
 
                             @endcan
 

@@ -56,7 +56,7 @@
 
         {{-- PROCESS FILES FROM DIRECTORY --}}
 
-        <form method="POST" action="/documents/store_from_path" enctype="multipart/form-data" class="mb-5">
+        <form method="POST" action="/documents/storeFromPath" enctype="multipart/form-data" class="mb-5">
             @csrf
 
             <div class="form-row">
@@ -69,10 +69,10 @@
 
                 <div class="form-group col-8">
                     <input class="form-control @error('directory') is-invalid @enderror" 
-                        value="{{ old('Directory') }}" required
+                        value="{{ old('directory') }}" required
                         type="text" id="directory" name="directory" placeholder="Inform the full server directory">
         
-                    @error('title')
+                    @error('directory')
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
                 </div>

@@ -106,7 +106,7 @@ class DocumentController extends Controller
             ->view('documents.create', $data, 200);
     }
 
-    public function store_from_path(Request $request)	
+    public function storeFromPath(Request $request)	
     {
         $this->authorize('id-admin');
 

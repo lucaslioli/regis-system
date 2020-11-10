@@ -259,6 +259,61 @@ class QueryController extends Controller
             ->view('queries.create', $data, 200);
     }
 
+    /**	
+     * Attach a newly rellation between query and document.
+     *	
+     * @param  \Illuminate\Http\Query  $query
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response	
+     */	
+    public function attachDocumentById(Query $query, Request $request)
+    {
+        $this->authorize('id-admin');
+
+        $request->validate(['doc_ids' => 'required']);
+
+        $qBefore = DB::table('document_query')->count();
+        $qIgnored = "";
+        $dInvalid = "";
+
+        $doc_ids = explode(';', str_replace(" ", "", $request->get('doc_ids')));
+
+        foreach ($doc_ids as $doc_id) {
+            $document = Document::where('doc_id', $doc_id)->first();
+
+            // Test valid document
+            if(!$document){
+                $dInvalid .= $doc_id . ", ";
+                continue;
+            }
+
+            // Test duplicate correlation
+            $test_link = DB::table('document_query')
+                ->where('query_id', $query->id)
+                ->where('document_id', $document->id)
+                ->first();
+
+            if($test_link){
+                $qIgnored .= "$doc_id, ";
+                continue;
+            }
+
+            $query->documents()->attach($document);
+            $query->setStatus("Incomplete");
+        }
+
+        $data = array(
+            "query" => $query,
+            "response" => "Completed!",
+            "queries" => (DB::table('document_query')->count() - $qBefore),
+            "ignored" => substr($qIgnored, 0, -2),
+            "invalid" => substr($dInvalid, 0, -2)
+        );
+
+        return response()
+            ->view('queries.create', $data, 200);
+    }
+
     /**
      * Remove the specified correlation between query and document.
      *
