@@ -7,9 +7,10 @@ Regis is a system to provide relevance judgments about multimodal documents for 
 * Interface to provide relevance judgments for documents retrieved in response to queries, describing the information need;
 * Adapted to multimodal documents, PDF, text, and images;
 * The system shows the source PDF document and the text extracted from it, with the query words highlighted;
+* The user can skip a query if it demand extra domain knowledge;
 * Each query-document pair are judged by two annotators, in case of disagreement, it's set a tie to that pair;
 * Tiebreak management, where other annotators can solve it and the majority class is selected.
-* Admin controller to follow the annotation progress, users list, and CRUD operations over the documents and queries.
+* Admin controller to follow the annotation progress, manage users role, and CRUD operations over the documents and queries.
 * Download the ```qrels``` file with the result of all relevance judgments.
 
 ## Requirements
