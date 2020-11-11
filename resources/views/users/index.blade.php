@@ -38,7 +38,9 @@
                     <th scope="col">#</th>
                     <th scope="col">User name</th>
                     <th scope="col">E-mail</th>
+                    <th scope="col">Role</th>
                     <th scope="col" class="text-center">Annotations</th>
+                    <th scope="col" class="text-center">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -49,10 +51,30 @@
                     <td>{{ $user->id }}</td>
                     <td>{{ $user->name }}</td>
                     <td class="text-muted">{{ $user->email }}</td>
+                    <td class="text-muted">
+                        <span class="badge badge-pill @switch($user->role)
+                            @case("admin") {{ "badge-dark" }} @break
+                            @case("default") {{ "badge-seccondary" }} @break
+                        @endswitch">{{ $user->role }}</span>
+                    </td>
                     <td class="text-center">
                         <span class="badge badge-{{ $user->judgments->count() ? 'primary' : 'secondary' }} badge-pill">
                             {{ $user->judgments->count() ?? 0 }}
                         </span>
+                    </td>
+                    <td class="text-center">
+                        @if($user->role == 'default')
+                            <a href="{{ route('users.makeAdmin', $user) }}" class="btn btn-sm btn-outline-danger"
+                                title="Make user admin">
+                                <i class="fas fa-users-cog"></i> Make Admin
+                            </a>
+                        @elseif($user->id != 1)
+                            <a href="{{ route('users.revokeAdmin', $user) }}" class="btn btn-sm btn-outline-dark" 
+                                title="Revoke admin privileges">
+                                <i class="fas fa-user-lock"></i> Revoke Admin
+                            </a>
+                        @endif
+
                     </td>
                 </tr>
                 

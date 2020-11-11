@@ -51,6 +51,25 @@ class UserController extends Controller
             return view('users.index', compact('users'));
     }
 
+    public function makeAdmin(User $user)
+    {
+        $this->authorize('id-admin');
+
+        $user->update(['role' => 'admin']);
+
+        return redirect(route('users.index'));
+    }
+
+    public function revokeAdmin(User $user)
+    {
+        $this->authorize('id-admin');
+
+        if($user->id != 1)
+            $user->update(['role' => 'default']);
+
+        return redirect(route('users.index'));
+    }
+
     /**	
      * Skip query for logged user and delete al judgments related
      *	
