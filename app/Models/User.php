@@ -50,7 +50,17 @@ class User extends Authenticatable
 
     public function queries()
     {
-        return $this->belongsToMany(Query::class);
+        return $this->belongsToMany(Query::class)
+            ->withPivot(['skip'])
+            ->withTimestamps();
+    }
+
+    // Return if a query were skiped by the user
+    public function querySkipped($query_id)
+    {
+        foreach ($this->queries as $query)
+            if($query->id == $query_id)
+                return $query->pivot->skip;
     }
 
     public function isAdmin()
@@ -69,6 +79,7 @@ class User extends Authenticatable
         return Query::where('id', $this->current_query)->first();
     }
 
+    // Documents judged by the user for a query
     public function documentsJudgedByQuery($query_id = NULL)
     {
         if(!$query_id)

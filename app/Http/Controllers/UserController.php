@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+
 use Illuminate\Http\Request;
 
-use App\Models\Judgment;
 use App\Models\User;
+use App\Models\Query;
+use App\Models\Document;
+use App\Models\Judgment;
 
 class UserController extends Controller
 {
@@ -45,6 +49,45 @@ class UserController extends Controller
             ->paginate(15);
 
             return view('users.index', compact('users'));
+    }
+
+    /**	
+     * Skip query for logged user and delete al judgments related
+     *	
+     * @param  \Illuminate\Http\QUery  $query
+     * @return \Illuminate\Http\Response	
+     */	
+    public function skipQuery(Query $query)
+    {
+        $user = Auth::user();
+
+        $user->setCurrentQuery(NULL);
+
+        $query->decreaseAnnotators();
+
+        $user->queries()->updateExistingPivot(
+            $query->id, ['skip' => 1]);
+
+        // Documents judged by the user for the query
+        $documents_judged = $user->documentsJudgedByQuery($query->id);
+
+        $documents = Document::whereIn('id', $documents_judged)->get();
+
+        // Before delete judgments, update doc-query pairs pivot columns
+        foreach ($documents as $document) {
+            $pivot_judgments = $query->documentJudgments($document->id);
+            $query->documents()->updateExistingPivot(
+                $document->id, [
+                    'judgments' => $pivot_judgments-1, 
+                    'status' => 'review']);
+        }
+
+        // Delete judgments
+        Judgment::where('query_id', $query->id)
+            ->where('user_id', $user->id)
+            ->delete();
+
+        return redirect(route('judgments.create'));
     }
 
 }

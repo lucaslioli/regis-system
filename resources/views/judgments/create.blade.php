@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('include')
+    <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
+@endsection
+
 @section('content')
 
     @if(isset($query->exists) && isset($document->exists))
@@ -155,7 +159,7 @@
                         </div>
 
                         @if(!isset($judgment) || !$judgment->untie)
-                            <button type="submit" class="btn btn-block {{ isset($judgment) ? 'btn-primary' : 'btn-success' }}">
+                            <button type="submit" id="btn-submit" class="btn btn-block {{ isset($judgment) ? 'btn-primary' : 'btn-success' }}">
                                 <i class="fas fa-save"></i> {{ isset($judgment) ? 'Edit' : 'Submit' }}
                             </button>
                         @endif
@@ -173,6 +177,19 @@
                 </p>
             @endif
 
+            <div class="row">
+                <div class="col-12 pl-0">
+                    @if(isset($query) && !isset($judgment))
+                        <a href="{{ route('users.skipQuery', $query) }}" id="btn-skip" class="btn btn-sm btn-dark pl-3 pr-3">
+                            <i class="fas fa-angle-double-right"></i> Skip Query
+                        </a>
+                        <span class="text-muted">
+                            * In case the query requires extra domain knowledge, you can skip it. This action can't be undone.
+                        </span>
+                    @endif
+                </div>
+            </div>
+
         @else 
 
             <div class="d-flex flex-column align-items-center justify-content-center mt-5">
@@ -182,5 +199,29 @@
 
         @endif
     </div>
+
+@endsection
+
+@section('scripts')
+    
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#btn-skip").on("click", function(e){
+                e.preventDefault();
+                
+                if(!confirm("Do you really want to do this?"))
+                    return false;
+
+                $("#btn-skip").prop('disabled', true);
+                $("#btn-submit").prop('disabled', true);
+
+                $("#btn-skip").html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+
+                window.location = this.href;
+            });
+        });
+
+    </script>
 
 @endsection

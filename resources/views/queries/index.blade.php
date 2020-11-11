@@ -61,6 +61,7 @@
                     <th scope="col" class="text-center" title="Documents">Docs.</th>
                     <th scope="col" class="text-center" title="Annotators">Annots.</th>
                     <th scope="col" class="text-center" title="Judgments">Judgs.</th>
+                    <th scope="col" class="text-center" title="Times skipped">Skipeed</th>
                     <th scope="col" class="text-center">Actions</th>
                 </tr>
             </thead>
@@ -78,7 +79,7 @@
                     <td class="td-highlight">{{ $query->title }}</td>
 
                     <td class="text-muted">
-                        {{ Str::of($query->description)->limit(100) }}
+                        {{ Str::of($query->description)->limit(80) }}
                     </td>
 
                     {{-- <td class="text-muted">
@@ -99,6 +100,8 @@
                     <td class="text-center">{{ $query->annotators }}</td>
 
                     <td class="text-center">{{ $query->judgments->count() }}</td>
+
+                    <td class="text-center">{{ $query->countSkipped() }}</td>
 
                     <td class="text-center">
                         <a href="{{ route('queries.edit', $query) }}" class="btn btn-sm btn-outline-primary" title="Edit query">

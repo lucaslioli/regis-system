@@ -30,8 +30,6 @@ class TiebreakController extends Controller
      */
     public function index()
     {
-        // $this->authorize('id-admin');
-
         // Get all queries completed
         $completed_pairs = DB::table('document_query')
             ->where('judgments', 2)
@@ -45,6 +43,10 @@ class TiebreakController extends Controller
 
             $judge_2 = Judgment::where('query_id', $pair->query_id)
                 ->where('document_id', $pair->document_id)->skip(1)->first();
+
+            // Extra check for bug cases
+            if(!$judge_1 || !$judge_2)
+                continue;
 
             // Compare if the judgments are the same and update the status
             if($judge_1->judgment != $judge_2->judgment)

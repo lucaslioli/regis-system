@@ -24,6 +24,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 // Users routes
 Route::get('/users', 'UserController@index')->name('users.index');
 Route::get('/users/search', 'UserController@search')->name('users.search');
+Route::get('/users/skipQuery/{query}', 'UserController@skipQuery')->name('users.skipQuery');
 
 // Judgment
 route::get('/judgments/index', 'JudgmentController@index')->name('judgments.index');

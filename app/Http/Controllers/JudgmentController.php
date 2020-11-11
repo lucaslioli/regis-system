@@ -69,7 +69,7 @@ class JudgmentController extends Controller
 
         $incomplete_query = 0;
 
-        // Test the current page that the user is annotation and return
+        // Test if there a current query that the user is judging
         if($user->current_query != NULL){
             $query = Query::where('id', $user->current_query)->first();
             
@@ -89,11 +89,15 @@ class JudgmentController extends Controller
             if(!$queries_with_documents)
                 return view('judgments.create');
 
-            // Get queries attached to the user
+            // Get queries attached to the user, judged or skipped
             $queries_judged = $user->queries->map->id;
 
-            // Check if there are any query that get new documents attached after the user complete it
+            // Check if there are any query that get new documents attached
+            // after the user complete it and when not skipped
             foreach ($user->queries as $query) {
+                if($user->querySkipped($query->id))
+                    continue;
+
                 $documents_judged = $user->documentsJudgedByQuery($query->id);
                 if(count($query->documents) > count($documents_judged)){
                     $incomplete_query = $query;
@@ -116,6 +120,9 @@ class JudgmentController extends Controller
                 $query = Query::where('annotators', '<', 2)
                     ->whereIn('id', $queries_with_documents)
                     ->whereNotIn('id', $queries_judged)->first();
+            
+            if(!$query)
+                return view('judgments.create');
 
             // Get documents judged by the user for the query
             $documents_judged = $user->documentsJudgedByQuery($query->id);
