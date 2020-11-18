@@ -67,6 +67,9 @@ class JudgmentController extends Controller
     {
         $user = Auth::user();
 
+        if($user->id == 1)
+            return view('judgments.create');
+
         $incomplete_query = 0;
 
         // Test if there a current query that the user is judging

@@ -10,6 +10,8 @@ class Judgment extends Model
     use HasFactory;
 
     protected $fillable = ['judgment', 'observation', 'untie', 'user_id', 'query_id', 'document_id'];
+    
+    // Possible judgments: Very Relevant, Relevant, Marginally Relevant, Not Relevant
 
     public function user()
     {

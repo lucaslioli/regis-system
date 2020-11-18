@@ -190,7 +190,15 @@
                 </div>
             </div>
 
-        @else 
+        @elseif(Auth::user()->id == 1 && Auth::user()->role == 'admin')
+
+            <div class="d-flex flex-column align-items-center justify-content-center mt-5">
+                <h1 class="mt-5"><i class="fas fa-user-shield"></i></h1>
+                <h4>This is the main admin user account.</h4>
+                <h4>No query has to be annotated.</h4>
+            </div>
+
+        @else
 
             <div class="d-flex flex-column align-items-center justify-content-center mt-5">
                 <h1 class="mt-5"><i class="fas fa-sad-tear"></i></h1>
