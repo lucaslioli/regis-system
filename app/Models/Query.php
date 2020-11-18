@@ -11,6 +11,9 @@ class Query extends Model
 
     protected $fillable = ['qry_id', 'title', 'description', 'narrative', 'status', 'annotators'];
 
+    // Possible status: Incomplete, Semi Complete, Complete
+    // Possible document_query status: review, agreed, tiebreak, solved
+
     public function judgments()
     {
         return $this->hasMany(Judgment::class);
@@ -61,6 +64,22 @@ class Query extends Model
         $count = 0;
         foreach ($this->users as $user)
             $count += $user->pivot->skip;
+
+        return $count;
+    }
+
+    public function judgmentsByClass($class = NULL)
+    {
+        $count['Very Relevant'] = 0;
+        $count['Relevant'] = 0;
+        $count['Marginally Relevant'] = 0;
+        $count['Not Relevant'] = 0;
+
+        foreach ($this->judgments as $judgment)
+            $count[$judgment->judgment]++;
+
+        if($class)
+            return $count[$class];
 
         return $count;
     }

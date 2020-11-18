@@ -18,7 +18,19 @@
                 <div class="card-header" data-toggle="collapse"
                     data-target="#collapse-create" aria-expanded="true" aria-controls="collapse-create">
                     <h2 class="mb-0 head-accordion">
-                        <span>@isset($query->exists) Query id {{ $query->id }} @else New Query @endisset</span>
+                        @isset($query->exists) 
+                            <span>
+                                Query id {{ $query->id }} 
+                                <span class="badge badge-pill mb-2 @switch($query->status)
+                                    @case("Incomplete") {{ "badge-secondary" }} @break
+                                    @case("Semi Complete") {{ "badge-primary" }} @break
+                                    @case("Complete") {{ "badge-success" }} @break
+                                    @case("Tiebreak") {{ "badge-danger" }} @break
+                                @endswitch">{{ $query->status }}</span>
+                            </span>
+                        @else 
+                            New Query 
+                        @endisset
                         <i class="fas fa-chevron-down"></i>
                     </h2>
                 </div>
@@ -30,14 +42,38 @@
                         @isset($query->exists)
 
                             <div class="row">
-                                <div class="col-4">
-                                    <strong>Total of Documents related: </strong> {{ $query->documents->count() }}
+                                <div class="col-3">
+                                    <strong>Total Documents related: </strong> {{ $query->documents->count() }}
                                 </div>
-                                <div class="col-4">
-                                    <strong>Total of Judgments already made: </strong> {{ $query->judgments->count() }}
+                                <div class="col-3">
+                                    <strong>Total Judgments made: </strong> {{ $query->judgments->count() }}
                                 </div>
-                                <div class="col-4">
+                                <div class="col-3">
                                     <strong>Number of Annotators: </strong> {{ $query->annotators }}
+                                </div>
+                                <div class="col-3">
+                                    <strong>Times skiped: </strong> {{ $query->countSkipped() }}
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-3">
+                                    <span class="badge badge-pill badge-success text-success mb-1">.</span>
+                                    <strong>Very Relevant judgs.: </strong> {{ $query->judgmentsByClass("Very Relevant") }}
+                                </div>
+                                <div class="col-3">
+                                    <span class="badge badge-pill badge-primary text-primary mb-1">.</span>
+                                    <strong>Relevant judgs.: </strong> {{ $query->judgmentsByClass("Relevant") }}
+                                </div>
+                                <div class="col-3">
+                                    <span class="badge badge-pill badge-advise text-advise mb-1">.</span>
+                                    <strong>Marginally Relevant judgs.: </strong> {{ $query->judgmentsByClass("Marginally Relevant") }}
+                                </div>
+                                <div class="col-3">
+                                    <span class="badge badge-pill badge-danger text-danger mb-1">.</span>
+                                    <strong>Not Relevant judgs.: </strong> {{ $query->judgmentsByClass("Not Relevant") }}
                                 </div>
                             </div>
 
@@ -118,7 +154,7 @@
 
             </div>
 
-            {{-- MULTIPLE QUERIES --}}
+            {{-- UPLOAD MULTIPLE QUERIES --}}
             
             @if(!isset($query->exists))
             
@@ -177,8 +213,7 @@
 
             @endif
 
-            
-            {{-- CORRELATE QUERIES WITH DOCUMENTS --}}
+            {{-- UPLOAD QUERIES AND DOCUMENTS CORRELATION --}}
             
             @if(!isset($query->exists))
                 <div class="card">
@@ -258,7 +293,7 @@
                     <div id="collapse-documents" class="collapse show" data-parent="#accordion-query-documents">
                         <div class="card-body">
 
-                            {{-- ATTACH NEW DOCUMENT --}}
+                            {{-- ATTACH NEW DOCUMENT(S) --}}
 
                             <form method="POST" action="/queries/{{ $query->id }}/attachDocumentById" id="form-attach-docid"
                                 class="mb-3">
@@ -303,17 +338,23 @@
                                         <th scope="col">Doc ID</th>
                                         <th scope="col">File name</th>
                                         <th scope="col" class="text-center">File type</th>
+                                        <th scope="col">Judgements</th>
                                         <th scope="col" class="text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                     @forelse ($query->documents as $key => $doc)
                                         <tr id="tr-{{ $doc->id }}">
                                             <td> {{ $key+1 }} </td>
+
                                             <td> {{ $doc->doc_id }} </td>
-                                            <td> {{ Str::of($doc->file_name)->limit(75) }} </td>
+
+                                            <td> {{ Str::of($doc->file_name)->limit(55) }} </td>
+
                                             <td class="text-center"> {{ $doc->file_type }} </td>
+
+                                            <td> {!! $doc->judgmentsByQuery($query->id, true) !!} </td>
+
                                             <td class="text-center">
                                                 <a href="{{ route('documents.show', $doc) }}" class="btn btn-sm btn-outline-primary" 
                                                     id="viewDocument" data-id="{{ $doc->id }}" title="View document">
