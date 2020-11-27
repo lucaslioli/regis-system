@@ -50,12 +50,16 @@
                 self.xmlHttpReq.send(strData);
             }
 
-            function getstandardargs(query) {
+            function getstandardargs() {
                 var form = document.forms['f1'];
 
-                var query = escape(form.query.value);
+                var query = form.query.value;
                 var numdocs = (form.numdocs.value)?form.numdocs.value:5;
                 var filter = (form.filter.value)?form.filter.value:'*';
+
+                // Remove special characters
+                query = query.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+                query = escape(query);
 
                 if(form.proximity.checked)
                     query = '("'+query.replace(/"/g, '')+'"~10 '+query+')';
@@ -118,11 +122,23 @@
             }
 
             function highlightText(text){
-                var words = document.getElementById('query').value.split(" ");
+                var words = document.getElementById('query').value;
+                words = words.replace(/[(){}&|!*^"'~?/:\[\]\+\-]/g, '');
+                words = words.split(" ");
 
                 for (i = 0; i < words.length; i++){
+                    if(words[i] == "" || words[i] == " ")
+                        continue;
+                    
                     var re = new RegExp(words[i], 'ig');
                     text = text.replace(re, '<mark>'+words[i]+'</mark>');
+
+                    wordNorm = words[i].normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+
+                    if(words[i] != wordNorm){
+                        re = new RegExp(wordNorm, 'ig');
+                        text = text.replace(re, '<mark>'+wordNorm+'</mark>');
+                    }
                 }
 
                 return text;
@@ -183,7 +199,7 @@
                     
                     <div>
                         Query: 
-                        <input name="query" id="query" type="text" pattern="[a-zA-Z'\x22 +&|!]+" class="form-control" size="40">
+                        <input name="query" id="query" type="text" class="form-control" size="40">
                     </div>
 
                     <div class="ml-2">
@@ -216,6 +232,9 @@
                     <strong>&&</strong> to requires that both terms to be present,
                     <strong>||</strong> to requires that one of the terms to be present, 
                     <strong>!</strong> to require the term not be present.
+                    <br>You also can use <strong>?</strong> to match a single character, and
+                    <strong>*</strong> to match zero or more sequential.
+                    PS.: Query without accentuation may not be highlighted in text.
                 </div>
                 <div class="text-muted">
                     For more help in formulate the queries, take a look at the
@@ -237,3 +256,4 @@
         </div>
     </body>
 </html>
+
