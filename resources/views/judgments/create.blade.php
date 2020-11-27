@@ -2,6 +2,7 @@
 
 @section('include')
     <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ asset('js/scripts.js') }}"></script>
 @endsection
 
 @section('content')
@@ -83,7 +84,7 @@
                         </div>
 
                         <div class="card w-100">
-                            <div class="card-body document-text w-100">
+                            <div class="card-body document-text w-100" id="content-unique">
 
                                 @if($document->file_type == "IMG")
                                     <div class="card-body document-image d-flex justify-content-center">
@@ -95,6 +96,44 @@
 
                             </div>
                         </div>
+
+                        <div class='d-flex justify-content-between align-items-baseline w-100 mt-2'>
+
+                            {{-- SKIP --}}
+
+                            @if(isset($query) && !isset($judgment))
+                                <a href="{{ route('users.skipQuery', $query) }}" id="btn-skip" class="btn btn-sm btn-dark pl-3 pr-3"
+                                    data-toggle="tooltip" data-html="true" 
+                                    title="In case the query requires extra domain knowledge, you can skip it. This action <b>can't be undone</b>.">
+                                    <i class="fas fa-forward"></i> Skip Query
+                                </a>
+                            @endif
+
+                            {{-- NAVIGATION --}}
+                        
+                            @if($document->file_type == "PDF")
+                                <div>
+                                    <span class="text-muted">Navigate through the markers: </span>
+                                    <button class="btn btn-sm btn-light" onclick='findFirstLast("unique", 1)'>
+                                        <i class='fas fa-angle-double-left'></i> First
+                                    </button>
+                                    
+                                    <button class="btn btn-sm btn-light" onclick='findPrevMarker("unique")' id='btnPrev-unique'>
+                                        <i class='fas fa-angle-left'></i> Previous
+                                    </button>
+                                    
+                                    <button class="btn btn-sm btn-light" onclick='findNextMarker("unique")' id='btnNext-unique'>
+                                        Next <i class='fas fa-angle-right'></i>
+                                    </button>
+                                    
+                                    <button class="btn btn-sm btn-light" onclick='findFirstLast("unique", 0)'>
+                                        Last <i class='fas fa-angle-double-right'></i>
+                                    </button>
+                                </div>
+                            @endif
+
+                        </div>
+
                     </div>
 
 
@@ -177,19 +216,6 @@
                 </p>
             @endif
 
-            <div class="row">
-                <div class="col-12 pl-0">
-                    @if(isset($query) && !isset($judgment))
-                        <a href="{{ route('users.skipQuery', $query) }}" id="btn-skip" class="btn btn-sm btn-dark pl-3 pr-3">
-                            <i class="fas fa-angle-double-right"></i> Skip Query
-                        </a>
-                        <span class="text-muted">
-                            * In case the query requires extra domain knowledge, you can skip it. This action can't be undone.
-                        </span>
-                    @endif
-                </div>
-            </div>
-
         @elseif(Auth::user()->id == 1 && Auth::user()->role == 'admin')
 
             <div class="d-flex flex-column align-items-center justify-content-center mt-5">
@@ -215,6 +241,8 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+            $('#btn-skip').tooltip('enable');
+
             $("#btn-skip").on("click", function(e){
                 e.preventDefault();
                 
