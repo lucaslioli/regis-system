@@ -14,40 +14,17 @@
 
         <link rel="shortcut icon" href="https://geodigitalregis.inf.ufrgs.br/images/regis-favicon.png" />
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-            integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/layout.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/basicSearch.css') }}" rel="stylesheet">
 
-        <style>
-            #raw {
-                max-height: 600px;
-                overflow: auto;
-            }
-            .content {
-                max-height: 300px;
-                overflow: auto;
-                overflow-x: scroll;
-            }
-            .content pre {
-                overflow: initial;
-            }
-            button {
-                background: #FFF;
-                font-size: 9pt;
-                border: 1px solid gray;
-                border-radius: 5px;
-            }
-            button:hover {
-                background: #dedede;
-            }
-            mark {
-                background-color: yellow !important;
-            }
-        </style>
+        <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
+        <script src="{{ asset('js/scripts.js') }}"></script>
         
         <script language="Javascript">
             // derived from http://www.degraeve.com/reference/simple-ajax-example.php
             function xmlhttpPost() {
-                document.getElementById("status").innerHTML = "&nbsp;Searching...";
+                document.getElementById("status").innerHTML = "&nbsp;Searching <i class='fas fa-spinner fa-spin'></i>";
 
                 // var strURL = "http://localhost:8080/solr/boletins/select";
                 var strURL = "https://geodigitalregis.inf.ufrgs.br/solr/regis-collection/select";
@@ -80,8 +57,13 @@
                 var numdocs = (form.numdocs.value)?form.numdocs.value:5;
                 var filter = (form.filter.value)?form.filter.value:'*';
 
+                if(form.proximity.checked)
+                    query = '("'+query.replace(/"/g, '')+'"~10 '+query+')';
+                else
+                    query = query;
+
                 var params = [
-                    'q=("'+query+'"~10 '+query+')',
+                    'q='+query,
                     'fq=docid:'+filter,
                     'wt=json',
                     'indent=on',
@@ -95,7 +77,8 @@
 
             // this function does all the work of parsing the solr response and updating the page.
             function updatepage(str){
-                document.getElementById("raw").innerHTML = str;
+                responseHeader = str.substr(0, str.indexOf('"numFound"'))+" ... } \n}";
+                document.getElementById("raw").innerHTML = responseHeader;
 
                 var rsp = eval("("+str+")"); // use eval to parse Solr's JSON response
                 var html = "<hr><b>Documents found:</b> " + rsp.response.numFound + "<hr>";
@@ -106,19 +89,26 @@
                     element.filename = element.filename.replace(/%/g, '');
 
                     element.text = highlightText(element.text);
+                    docNum = element.docid.toString().substr(6);
 
                     html += "<div class='doc'>";
 
                     html += "<b>Doc ID</b>: "+element.docid;
-                    html += "<button class='ml-3' onclick=\"copyToClipboard('"+element.docid+"')\">Copy ID</button>";
+                    html += "<button class='ml-3' onclick=\"copyToClipboard('"+element.docid+"')\">Copy ID <i class='far fa-copy'></i></button>";
                     html += "<br><b>File name</b>: "+
                         "<a href='https://geodigitalregis.inf.ufrgs.br/documents/"+element.filename+"' target='blank'>"+
-                            element.filename+"</a>";
+                            element.filename+" <i class='fas fa-external-link-alt'></i></a>";
                     html += "<br><b>File type</b>: "+element.filetype;
-                    html += "<br><b>Content</b>: <div class='card'>"+
-                        "<div class='card-body content'><pre>"+
-                            element.text+
-                        "</pre></div></div><br>";
+                    html += "<br><b>Content</b>: <div class='float-right'>"+
+                        "<button onclick='findFirstLast(\""+docNum+"\", 1)'><i class='fas fa-angle-double-left'></i> First</button>&nbsp;"+
+                        "<button onclick='findPrevMarker(\""+docNum+"\")' id='btnPrev-"+docNum+"'><i class='fas fa-angle-left'></i> Previous</button>&nbsp;"+
+                        "<button onclick='findNextMarker(\""+docNum+"\")' id='btnNext-"+docNum+"'>Next <i class='fas fa-angle-right'></i></button>&nbsp;"+
+                        "<button onclick='findFirstLast(\""+docNum+"\", 0)'>Last <i class='fas fa-angle-double-right'></i></button>"+
+                        "</div><div class='card'>"+
+                            "<div class='card-body document-text' id='content-"+docNum+"'><pre>"+
+                                element.text+
+                            "</pre></div>"+
+                        "</div><br>";
 
                     html += "</div>";
                 });
@@ -132,7 +122,6 @@
 
                 for (i = 0; i < words.length; i++){
                     var re = new RegExp(words[i], 'ig');
-                    console.log(re);
                     text = text.replace(re, '<mark>'+words[i]+'</mark>');
                 }
 
@@ -176,7 +165,8 @@
         <div class="container mt-5">
             <pre class="d-flex justify-content-between">
                 <div><b>Searching into REGIS Collection</b><br>Total of 21656 PDF documents<br><br>{{--
-                --}}<a href="{{ url()->previous()!=route('basic_seach') ? url()->previous() : route('welcome') }}">Return to system</a>
+                --}}<a href="{{ url()->previous()!=route('basic_seach') ? url()->previous() : route('welcome') }}">{{--
+                    --}}<i class='fas fa-arrow-left'></i> Return to system</a>
                 </div>
 
                 <div>                    <b>Apache Solr 8.6.3 Config</b>
@@ -189,19 +179,48 @@
             </pre>
 
             <form name="f1" onsubmit='xmlhttpPost(); return false;'>
-                <div class="d-flex align-items-baseline">
-                    <div>Query: <input name="query" id="query" type="text"></div>
-                    <div class="ml-3">Documents: <input name="numdocs" id="numdocs" type="number" value=10 min=1 max=100></div>
-                    <div class="ml-3">Filter: 
-                        <select name="filter" id="filter" title="Filter returned documents">
+                <div class="d-flex align-items-end">
+                    
+                    <div>
+                        Query: 
+                        <input name="query" id="query" type="text" pattern="[a-zA-Z'\x22 +&|!]+" class="form-control" size="40">
+                    </div>
+
+                    <div class="ml-2">
+                        Documents: 
+                        <input name="numdocs" id="numdocs" type="number" value=10 min=1 max=100 class="form-control">
+                    </div>
+
+                    <div class="ml-2">
+                        Filter: 
+                        <select name="filter" id="filter" title="Filter returned documents" class="form-control">
                             <option value="*">Select...</option>
                             <option value="BG||BP||BT">BR-B - Boletins Petrobras</option>
                             <option value="TU">BR-T - Teses e Dissertações</option>
                         </select>
                     </div>
 
-                    <input value="Go" type="submit" class="ml-3">
+                    <div class="custom-control custom-checkbox ml-2">
+                        <input type="checkbox" id="proximity" class="custom-control-input mt-2">
+                        <label class="custom-control-label mb-1" for="proximity">Proximity Search</label>
+                    </div>
+
+                    <button type="submit" value="Search" class="btn btn-primary ml-2 pl-4 pr-4">
+                        <i class='fas fa-search'></i> Search
+                    </button>
                     <span id="status" class="ml-3"></span>
+                </div>
+
+                <div class="text-muted mt-3">
+                    You can use 
+                    <strong>&&</strong> to requires that both terms to be present,
+                    <strong>||</strong> to requires that one of the terms to be present, 
+                    <strong>!</strong> to require the term not be present.
+                </div>
+                <div class="text-muted">
+                    For more help in formulate the queries, take a look at the
+                    <a href="https://lucene.apache.org/solr/guide/8_6/the-standard-query-parser.html#boolean-operators-supported-by-the-standard-query-parser"
+                        target="blank">documentation</a>.
                 </div>
             </form>
 
@@ -209,7 +228,7 @@
 
             <hr>
 
-            <pre><b>Raw JSON String: </b>
+            <pre><b>Raw JSON response header: </b>
                 <div class="card">
                     <div id="raw" class="card-body"></div>
                 </div>

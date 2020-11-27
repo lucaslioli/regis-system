@@ -1,0 +1,21 @@
+body {
+    background: #FFF;
+    font-size: 1rem;
+}
+#raw {
+    max-height: 600px;
+    overflow: auto;
+}
+.document-text pre {
+    overflow: initial;
+    white-space: pre-wrap;
+}
+button {
+    background: #FFF;
+    font-size: 9pt;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+button:hover {
+    background: #dedede;
+}
