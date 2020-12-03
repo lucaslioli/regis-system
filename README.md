@@ -70,7 +70,7 @@ If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Lar
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 
-### Team:
+## Team:
 
 Developer: Lucas L Oliveira (lloliveira@inf.ufrgs.br) <br>
 Coordination: Viviane P Moreira (viviane@inf.ufrgs.br)
