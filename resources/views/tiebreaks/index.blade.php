@@ -8,7 +8,7 @@
             <h1>Tiebreaks</h1>
             <div class="d-flex align-items-baseline">
                 <h5 class="text-secondary mr-3">
-                    {{ $tiebreaks->count() }} tiebreaks found
+                    {{ $tiebreaks->total() }} tiebreaks found
                 </h5>
             </div>
         </div>
