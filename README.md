@@ -7,13 +7,15 @@ Regis is a system to provide relevance judgments about multimodal documents for 
 * Interface to provide relevance judgments for documents retrieved in response to queries, describing the information need;
 * Adapted to multimodal documents, PDF, text, and images;
 * The system shows the source PDF document and the text extracted from it, with the query words highlighted;
+* Navigation buttons to go through all highlighted words that match with the query;
 * The user can skip a query if it demand extra domain knowledge;
 * Each query-document pair are judged by two annotators, in case of disagreement, it's set a tie to that pair;
 * Tiebreak management, where other annotators can solve it and the majority class is selected.
 * Admin controller to follow the annotation progress, manage users role, and CRUD operations over the documents and queries.
 * Download the ```qrels``` file with the result of all relevance judgments.
+* Basic search interface that performs queries over all collection using Solr system.
 
-## Requirements
+## Requirements and tools
 
 Regis is being developed using the MVC open-source PHP web framework, Laravel 8.0. The requirements are the same as the framework, found in the [documentation (version 8.x)](https://laravel.com/docs/8.x). Laravel has support to different databases, the chosen one was [MySQL](https://www.mysql.com/).
 
@@ -41,7 +43,15 @@ The last command will generate a locally URL to access the system into the brows
 
 If you have some doubts or problems to run, maybe this [link](https://gist.github.com/hootlex/da59b91c628a6688ceb1) can help.
 
-------
+## User information
+
+The usability was thought to make the annotation as easier as possible. The user could judge a document with only two clicks. Extra functionalities were added to facilitate the judgment, such as the navigation buttons to go through all highlighted words that match with the query, a link to the original document, and a progress bar over the query annotations. In case the query requires extra domain knowledge, the user can skip it.
+
+The admin user (except for the main one, that can't judge) has the same functionalities as the default user but also has control, with CRUD operations, over the documents and queries, it also can list, search and manage admin privileges of the users. There are some screenshots with test data available in ```documentation/``` folder, where the menu links 'Documents', 'Queries', 'Users' and 'Project' are restrict admin areas.
+
+Under the menu Project, it's available the ```qrels``` file download link and the Basic Search over all the collection.
+
+## Extra information
 
 ## About Laravel
 
@@ -58,3 +68,9 @@ If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Lar
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+## Team:
+
+Developer: Lucas L Oliveira (lloliveira@inf.ufrgs.br) <br>
+Coordination: Viviane P Moreira (viviane@inf.ufrgs.br)
