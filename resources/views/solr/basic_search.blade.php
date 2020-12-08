@@ -122,7 +122,11 @@
             }
 
             function highlightText(text){
-                var stopwords = ['de', 'a', 'o', 'que', 'e', 'do', 'da', 'em', 'um', 'para', 'é', 'com', 'não', 'uma', 'os', 'no', 'se', 'na', 'por', 'mais', 'as', 'dos', 'como', 'mas', 'foi', 'ao', 'ele', 'das', 'tem', 'à', 'ou', 'ser', 'quando', 'muito', 'há', 'nos', 'já', 'está', 'também', 'só', 'pelo', 'pela', 'até', 'isso', 'ela', 'entre', 'era', 'depois', 'sem', 'mesmo', 'aos', 'ter', 'seus', 'nas', 'esse', 'estão', 'você', 'tinha', 'foram', 'essa', 'num', 'nem', 'às', 'têm', 'numa', 'pelos', 'havia', 'seja', 'qual', 'será', 'tenho', 'essas', 'esses', 'pelas', 'este', 'fosse', 'esta', 'aquele',];
+                var stopwords = ['de', 'a', 'o', 'que', 'e', 'do', 'da', 'em', 'um', 'para', 'é', 'com', 'não', 'uma', 'os', 'no', 'se',
+                    'na', 'por', 'mais', 'as', 'dos', 'como', 'mas', 'foi', 'ao', 'ele', 'das', 'tem', 'à', 'ou', 'ser', 'quando', 'muito', 
+                    'há', 'nos', 'já', 'está', 'também', 'só', 'pelo', 'pela', 'até', 'isso', 'ela', 'entre', 'era', 'depois', 'sem', 'mesmo', 
+                    'aos', 'ter', 'seus', 'nas', 'esse', 'estão', 'você', 'tinha', 'foram', 'essa', 'num', 'nem', 'às', 'têm', 'numa', 'pelos',
+                    'havia', 'seja', 'qual', 'será', 'tenho', 'essas', 'esses', 'pelas', 'este', 'fosse', 'esta', 'aquele',];
                 var words = document.getElementById('query').value;
                 words = words.replace(/[(){}&|!*^"'~?/:\[\]\+\-]/g, '');
                 words = words.split(" ");
@@ -230,15 +234,13 @@
 
                 <div class="text-muted mt-3">
                     You can use 
-                    <strong>&&</strong> to requires that both terms to be present,
-                    <strong>||</strong> to requires that one of the terms to be present, 
-                    <strong>!</strong> to require the term not be present.
+                    <strong>&&</strong> to require both terms to be present,
+                    <strong>||</strong> to require one of the terms to be present, 
+                    <strong>!</strong> to require the term not to be present.
                     <br>You also can use <strong>?</strong> to match a single character, and
-                    <strong>*</strong> to match zero or more sequential.
-                    PS.: Query without accentuation may not be highlighted in text.
-                </div>
-                <div class="text-muted">
-                    For more help in formulate the queries, take a look at the
+                    <strong>*</strong> to match zero or more characters in sequence.
+                    PS.: Use accents in query terms to have them highlighted in the text.
+                    For more help in formulating queries, please refer to the 
                     <a href="https://lucene.apache.org/solr/guide/8_6/the-standard-query-parser.html#boolean-operators-supported-by-the-standard-query-parser"
                         target="blank">documentation</a>.
                 </div>
