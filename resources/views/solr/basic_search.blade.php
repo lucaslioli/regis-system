@@ -122,12 +122,13 @@
             }
 
             function highlightText(text){
+                var stopwords = ['de', 'a', 'o', 'que', 'e', 'do', 'da', 'em', 'um', 'para', 'é', 'com', 'não', 'uma', 'os', 'no', 'se', 'na', 'por', 'mais', 'as', 'dos', 'como', 'mas', 'foi', 'ao', 'ele', 'das', 'tem', 'à', 'ou', 'ser', 'quando', 'muito', 'há', 'nos', 'já', 'está', 'também', 'só', 'pelo', 'pela', 'até', 'isso', 'ela', 'entre', 'era', 'depois', 'sem', 'mesmo', 'aos', 'ter', 'seus', 'nas', 'esse', 'estão', 'você', 'tinha', 'foram', 'essa', 'num', 'nem', 'às', 'têm', 'numa', 'pelos', 'havia', 'seja', 'qual', 'será', 'tenho', 'essas', 'esses', 'pelas', 'este', 'fosse', 'esta', 'aquele',];
                 var words = document.getElementById('query').value;
                 words = words.replace(/[(){}&|!*^"'~?/:\[\]\+\-]/g, '');
                 words = words.split(" ");
 
                 for (i = 0; i < words.length; i++){
-                    if(words[i] == "" || words[i] == " ")
+                    if(words[i] == "" || words[i] == " " || stopwords.includes(words[i]))
                         continue;
                     
                     var re = new RegExp(words[i], 'ig');
