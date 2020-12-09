@@ -117,7 +117,7 @@
 
             @empty
                 <tr>
-                    <td colspan="6" class="text-center">
+                    <td colspan="10" class="text-center">
                         <i class="fas fa-ban"></i> No queries found.
                     </td>
                 </tr>

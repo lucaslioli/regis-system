@@ -112,7 +112,8 @@ class JudgmentController extends Controller
             if(!$incomplete_query)
                 $query = Query::where('annotators', 1)
                     ->whereIn('id', $queries_with_documents)
-                    ->whereNotIn('id', $queries_judged)->first();
+                    ->whereNotIn('id', $queries_judged)
+                    ->orderByDesc('description')->first();
             else{
                 $query = $incomplete_query;
                 $incomplete_query = 1;
@@ -122,7 +123,8 @@ class JudgmentController extends Controller
             if(!$query)
                 $query = Query::where('annotators', '<', 2)
                     ->whereIn('id', $queries_with_documents)
-                    ->whereNotIn('id', $queries_judged)->first();
+                    ->whereNotIn('id', $queries_judged)
+                    ->orderByDesc('description')->first();
             
             if(!$query)
                 return view('judgments.create');
