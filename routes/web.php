@@ -54,6 +54,7 @@ Route::get('/queries/search', 'QueryController@search')->name('queries.search');
 Route::get('/queries/qrels', 'QueryController@qrelsExport')->name('queries.qrels');
 Route::get('/queries/{query}/edit', 'QueryController@edit')->name('queries.edit');
 Route::delete('/queries/{query}', 'QueryController@destroy')->name('queries.destroy');
+Route::post('/queries/attachDocuments', 'QueryController@attachDocuments');
 Route::post('/queries/{query}/attachDocumentById', 'QueryController@attachDocumentById');
 Route::post('/queries/store', 'QueryController@store');
 Route::put('/queries/{query}', 'QueryController@update');

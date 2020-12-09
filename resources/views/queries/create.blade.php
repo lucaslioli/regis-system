@@ -229,7 +229,7 @@
                     <div id="collapse-correlate" class="collapse @error('correlation_file') show @enderror" data-parent="#accordion-queries">
                         <div class="card-body">
 
-                            <form method="POST" action="/queries/attachDocumentById" enctype="multipart/form-data" id="queries-documents">
+                            <form method="POST" action="/queries/attachDocuments" enctype="multipart/form-data" id="queries-documents">
                                 @csrf
 
                                 <div class="form-row mb-0">
