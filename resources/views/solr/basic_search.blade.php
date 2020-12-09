@@ -136,6 +136,9 @@
                 words = words.replace(/[(){}&|!*^"'~?/:\[\]\+]/g, '');
                 words = words.split(" ");
 
+                // To avoid break the HTML
+                text = text.replace(/</g, "< ");
+
                 for (i = 0; i < words.length; i++){
                     if(words[i] == "" || words[i] == " " || stopwords.includes(words[i]) || words[i].length == 1)
                         continue;
