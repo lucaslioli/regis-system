@@ -111,9 +111,12 @@
 
                             {{-- NAVIGATION --}}
                         
-                            @if($document->file_type == "PDF")
+                            @if($document->file_type == "PDF" && isset($markers))
                                 <div>
                                     <span class="text-muted">Navigate through the markers: </span>
+
+                                    <span id='current-mark-unique' class='ml-2'>0</span><span>/{{ $markers }}</span>
+
                                     <button class="btn btn-sm btn-light" onclick='findFirstLast("unique", 1)'>
                                         <i class='fas fa-angle-double-left'></i> First
                                     </button>

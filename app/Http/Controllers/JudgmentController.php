@@ -150,11 +150,13 @@ class JudgmentController extends Controller
             $progress = ["document" => 1, "bar" => 0];
 
         // Update the text_file with the markers
-        $document->text_file = highlightWords($document->text_file, removeStopWords($query->title));
+        $document->text_file = highlightWords($document->text_file, $query->title);
+        $markers = substr_count($document->text_file, '<mark>');
 
         return view('judgments.create', [
             'query' => $query,
             'document' => $document,
+            'markers' => $markers,
             'progress' => (object)$progress,
             'incomplete_query' => $incomplete_query
         ]);
@@ -222,13 +224,15 @@ class JudgmentController extends Controller
 
         // Update the text_file with the markers
         $judgment->document->text_file = highlightWords(
-            $judgment->document->text_file, 
-            removeStopWords($judgment->queryy->title));
+            $judgment->document->text_file, $judgment->queryy->title);
+
+        $markers = substr_count($judgment->document->text_file, '<mark>');
 
         // Uses the same view as create
         return view('judgments.create', [
             'query' => $judgment->queryy,
             'document' => $judgment->document,
+            'markers' => $markers,
             'progress' => (object)$progress,
             'judgment' => $judgment
         ]);

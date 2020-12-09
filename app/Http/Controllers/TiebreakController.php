@@ -85,12 +85,15 @@ class TiebreakController extends Controller
             ->all();
 
         // Update the text_file with the markers
-        $document->text_file = highlightWords($document->text_file, removeStopWords($query->title));
+        $document->text_file = highlightWords($document->text_file, $query->title);
+
+        $markers = substr_count($document->text_file, '<mark>');
 
         // Uses the same view as create
         return view('judgments.create', [
             'query' => $query,
             'document' => $document,
+            'markers' => $markers,
             'tiebreak' => $tiebreak
         ]);
     }

@@ -32,10 +32,13 @@ function findFirstLast(docNum, first = 1){
 
     markers.removeClass('focus');
 
-    if(first)
+    if(first){
         mark = $("#content-"+docNum+" mark").first();
-    else
+        $("#current-mark-"+docNum).html(1);
+    }else{
         mark = $("#content-"+docNum+" mark").last();
+        $("#current-mark-"+docNum).html(markers.length);
+    }
 
     mark.addClass('focus');
 
@@ -68,6 +71,9 @@ function findNextMarker(docNum, i=0){
     posT = mark.position().top;
     $("#content-"+docNum).scrollTop(posT-50);
 
+    curr = parseInt($("#current-mark-"+docNum).html());
+    $("#current-mark-"+docNum).html((curr + 1));
+
     $("#btnPrev-"+docNum).attr("onclick","findPrevMarker(\""+docNum+"\", "+(i)+")");
     $("#btnNext-"+docNum).attr("onclick","findNextMarker(\""+docNum+"\", "+(i+1)+")");
 }
@@ -86,6 +92,9 @@ function findPrevMarker(docNum, i=0){
     $("#content-"+docNum).scrollTop(0);
     posT = mark.position().top;
     $("#content-"+docNum).scrollTop(posT-50);
+
+    curr = parseInt($("#current-mark-"+docNum).html());
+    $("#current-mark-"+docNum).html((curr - 1));
 
     $("#btnPrev-"+docNum).attr("onclick","findPrevMarker(\""+docNum+"\", "+(i-1)+")");
     $("#btnNext-"+docNum).attr("onclick","findNextMarker(\""+docNum+"\", "+(i)+")");

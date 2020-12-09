@@ -47,8 +47,15 @@ if(!function_exists('highlightWords'))
         // To avoid break the HTML
         $text = textToHtml($text);
 
-        foreach (explode(" ", $words) as $word)
+        $words = removeStopWords($words);
+        $words = str_replace("(){}[]&|!*^~?:+", '', $words);
+        
+        foreach (explode(" ", $words) as $word){
+            if($word == "" || $word == " " || strlen($word) == 1)
+                continue;
+
             $text = str_ireplace($word, "<mark>".$word."</mark>", $text);
+        }
 
         return $text;
     }

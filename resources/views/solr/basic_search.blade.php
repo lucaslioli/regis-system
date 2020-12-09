@@ -95,6 +95,9 @@
                     element.text = highlightText(element.text);
                     docNum = element.docid.toString().substr(6);
 
+                    // Count occurences of markers
+                    markers = (element.text.match(/<mark>/g) || []).length;
+
                     html += "<div class='doc'>";
 
                     html += "<b>Doc ID</b>: "+element.docid;
@@ -103,7 +106,8 @@
                         "<a href='https://geodigitalregis.inf.ufrgs.br/documents/"+element.filename+"' target='blank'>"+
                             element.filename+" <i class='fas fa-external-link-alt'></i></a>";
                     html += "<br><b>File type</b>: "+element.filetype;
-                    html += "<br><b>Content</b>: <div class='float-right'>"+
+                    html += "<br><b>Content</b>: <div class='float-right'><span class='text-muted'>Navigate through the markers: </span>"+
+                        "<span id='current-mark-"+docNum+"' class='ml-2'>0</span><span class='mr-2'>/"+markers+"</span>"+
                         "<button onclick='findFirstLast(\""+docNum+"\", 1)'><i class='fas fa-angle-double-left'></i> First</button>&nbsp;"+
                         "<button onclick='findPrevMarker(\""+docNum+"\")' id='btnPrev-"+docNum+"'><i class='fas fa-angle-left'></i> Previous</button>&nbsp;"+
                         "<button onclick='findNextMarker(\""+docNum+"\")' id='btnNext-"+docNum+"'>Next <i class='fas fa-angle-right'></i></button>&nbsp;"+
@@ -127,12 +131,13 @@
                     'há', 'nos', 'já', 'está', 'também', 'só', 'pelo', 'pela', 'até', 'isso', 'ela', 'entre', 'era', 'depois', 'sem', 'mesmo', 
                     'aos', 'ter', 'seus', 'nas', 'esse', 'estão', 'você', 'tinha', 'foram', 'essa', 'num', 'nem', 'às', 'têm', 'numa', 'pelos',
                     'havia', 'seja', 'qual', 'será', 'tenho', 'essas', 'esses', 'pelas', 'este', 'fosse', 'esta', 'aquele',];
+
                 var words = document.getElementById('query').value;
-                words = words.replace(/[(){}&|!*^"'~?/:\[\]\+\-]/g, '');
+                words = words.replace(/[(){}&|!*^"'~?/:\[\]\+]/g, '');
                 words = words.split(" ");
 
                 for (i = 0; i < words.length; i++){
-                    if(words[i] == "" || words[i] == " " || stopwords.includes(words[i]))
+                    if(words[i] == "" || words[i] == " " || stopwords.includes(words[i]) || words[i].length == 1)
                         continue;
                     
                     var re = new RegExp(words[i], 'ig');
