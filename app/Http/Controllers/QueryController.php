@@ -32,7 +32,7 @@ class QueryController extends Controller
     {
         $this->authorize('id-admin');
 
-        $queries = Query::paginate(15);
+        $queries = Query::paginate(10);
 
         return view('queries.index', compact('queries'));
     }
@@ -180,7 +180,7 @@ class QueryController extends Controller
         $queries = Query::where('id', $qry)
             ->orWhere('title', 'LIKE', "%$qry%")
             ->orWhere('description', 'LIKE', "%$qry%")
-            ->paginate(15);
+            ->paginate(10);
 
         return view('queries.index', compact('queries'));
     }
