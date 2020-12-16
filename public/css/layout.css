@@ -163,6 +163,10 @@ a {
     line-height: 1.1;
 }
 
+.table th, .table td {
+    padding: 0.6rem;
+}
+
 /* SCROLLBAR */
 
 ::-webkit-scrollbar {
