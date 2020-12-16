@@ -124,8 +124,7 @@ class QueryController extends Controller
     {
         $this->authorize('id-admin');
 
-        // Uses the same view as create
-        return view('queries.create', ['query' => $query]);
+        return view('queries.show', ['query' => $query]);
     }
 
     /**
@@ -212,7 +211,7 @@ class QueryController extends Controller
         // Test valid XML
         if ($xml === false)
             return response()
-                ->view('queries.create', ['response' => "ERROR: Failed loading XML from ".$file->getClientOriginalName()], 400);
+                ->view('queries.show', ['response' => "ERROR: Failed loading XML from ".$file->getClientOriginalName()], 400);
 
         foreach($xml->top as $top){
             $query = Query::where('qry_id', $top->num)->first();
@@ -256,7 +255,7 @@ class QueryController extends Controller
         );
 
         return response()
-            ->view('queries.create', $data, 200);
+            ->view('queries.show', $data, 200);
     }
 
     /**	
@@ -311,7 +310,7 @@ class QueryController extends Controller
         );
 
         return response()
-            ->view('queries.create', $data, 200);
+            ->view('queries.show', $data, 200);
     }
 
     /**

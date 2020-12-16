@@ -11,27 +11,15 @@
 
         <div class="accordion" id="accordion-queries">
 
-            {{-- CREATE AND EDIT --}}
+            {{-- CREATE --}}
 
             <div class="card">
 
                 <div class="card-header" data-toggle="collapse"
                     data-target="#collapse-create" aria-expanded="true" aria-controls="collapse-create">
                     <h2 class="mb-0 head-accordion">
-                        @isset($query->exists) 
-                            <span>
-                                Query id {{ $query->id }} 
-                                <span class="badge badge-pill mb-2 @switch($query->status)
-                                    @case("Incomplete") {{ "badge-secondary" }} @break
-                                    @case("Semi Complete") {{ "badge-primary" }} @break
-                                    @case("Complete") {{ "badge-success" }} @break
-                                    @case("Tiebreak") {{ "badge-danger" }} @break
-                                @endswitch">{{ $query->status }}</span>
-                            </span>
-                        @else 
                             New Query 
-                        @endisset
-                        <i class="fas fa-chevron-down"></i>
+                            <i class="fas fa-chevron-down"></i>
                     </h2>
                 </div>
 
@@ -39,53 +27,8 @@
                     id="collapse-create" data-parent="#accordion-queries">
                     <div class="card-body">
 
-                        @isset($query->exists)
-
-                            <div class="row">
-                                <div class="col-3">
-                                    <strong>Total Documents related: </strong> {{ $query->documents->count() }}
-                                </div>
-                                <div class="col-3">
-                                    <strong>Total Judgments made: </strong> {{ $query->judgments->count() }}
-                                </div>
-                                <div class="col-3">
-                                    <strong>Number of Annotators: </strong> {{ $query->annotators }}
-                                </div>
-                                <div class="col-3">
-                                    <strong>Times skiped: </strong> {{ $query->countSkipped() }}
-                                </div>
-                            </div>
-
-                            <hr>
-
-                            <div class="row">
-                                <div class="col-3">
-                                    <span class="badge badge-pill badge-success text-success mb-1">.</span>
-                                    <strong>Very Relevant judgs.: </strong> {{ $query->judgmentsByClass("Very Relevant") }}
-                                </div>
-                                <div class="col-3">
-                                    <span class="badge badge-pill badge-primary text-primary mb-1">.</span>
-                                    <strong>Relevant judgs.: </strong> {{ $query->judgmentsByClass("Relevant") }}
-                                </div>
-                                <div class="col-3">
-                                    <span class="badge badge-pill badge-advise text-advise mb-1">.</span>
-                                    <strong>Marginally Relevant judgs.: </strong> {{ $query->judgmentsByClass("Marginally Relevant") }}
-                                </div>
-                                <div class="col-3">
-                                    <span class="badge badge-pill badge-danger text-danger mb-1">.</span>
-                                    <strong>Not Relevant judgs.: </strong> {{ $query->judgmentsByClass("Not Relevant") }}
-                                </div>
-                            </div>
-
-                            <hr>
-
-                        @endisset
-
                         <form method="POST" action="/queries/{{ $query->id ?? 'store' }}" id="form-create-query">
                             @csrf
-                            @isset($query->exists)
-                                @method('PUT')
-                            @endisset
 
                             <div class="row">
                                 {{-- title --}}
@@ -141,7 +84,7 @@
 
                             <div class="form-row d-flex justify-content-end">
                                 <div class="col-md-4">
-                                    <button type="submit" class="btn btn-block btn-success" id="btn-create">
+                                    <button type="submit" class="btn btn-block btn-success" id="btn-submit">
                                         <i class="fas fa-save"></i> Submit
                                     </button>
                                 </div>
@@ -156,244 +99,117 @@
 
             {{-- UPLOAD MULTIPLE QUERIES --}}
             
-            @if(!isset($query->exists))
-            
-                <div class="card">
+            <div class="card">
 
-                    <div class="card-header" data-toggle="collapse"
-                        data-target="#collapse-upload" aria-expanded="true" aria-controls="collapse-upload">
-                        <h2 class="mb-0 head-accordion">
-                            <span>Upload multiple queries using a XML file</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </h2>
-                    </div>
-
-                    <div id="collapse-upload" class="collapse @error('multiple_queries_file') show @enderror" data-parent="#accordion-queries">
-                        <div class="card-body">
-
-                            <form method="POST" action="/queries/{{ $query->id ?? 'store' }}" 
-                                enctype="multipart/form-data" id="form-multiple-query">
-                                @csrf
-
-                                <div class="form-row mb-0">
-
-                                    <div class="custom-file col-md-8 mb-0">
-                                        <input class="custom-file-input @error('multiple_queries_file') is-invalid @enderror" 
-                                            accept="text/xml" type="file" id="multiple_queries_file" name="multiple_queries_file"
-                                            value="{{ old('multiple_queries_file') }}">
-                                        <label class="custom-file-label" for="multiple_queries_file">Select a XML file (recomended size of 2M)</label>
-
-                                        @error('multiple_queries_file')
-                                            <p class="text-danger mt-4">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-
-                                    <div class="form-group col-md-4 mb-0">
-                                        <button type="submit" class="btn btn-block btn-primary" id="btn-multiple" onclick="start_loading(this)">
-                                            <i class="fas fa-cogs"></i> Submit
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="form-row">
-                                    <div class="col-md-12 d-flex">
-                                        <a href="{{ asset('examples/queries_example.xml') }}" target="blank">
-                                            <i class="fas fa-link"></i> XML example file
-                                        </a>
-                                        <p class="text-muted ml-3">* Repeated queries will be ignored</p>
-                                    </div>
-                                </div>
-
-                            </form>
-
-                        </div>
-                    </div>
-
+                <div class="card-header" data-toggle="collapse"
+                    data-target="#collapse-upload" aria-expanded="true" aria-controls="collapse-upload">
+                    <h2 class="mb-0 head-accordion">
+                        <span>Upload multiple queries using a XML file</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </h2>
                 </div>
 
-            @endif
+                <div id="collapse-upload" class="collapse @error('multiple_queries_file') show @enderror" data-parent="#accordion-queries">
+                    <div class="card-body">
+
+                        <form method="POST" action="/queries/{{ $query->id ?? 'store' }}" 
+                            enctype="multipart/form-data" id="form-multiple-query">
+                            @csrf
+
+                            <div class="form-row mb-0">
+
+                                <div class="custom-file col-md-8 mb-0">
+                                    <input class="custom-file-input @error('multiple_queries_file') is-invalid @enderror" 
+                                        accept="text/xml" type="file" id="multiple_queries_file" name="multiple_queries_file"
+                                        value="{{ old('multiple_queries_file') }}">
+                                    <label class="custom-file-label" for="multiple_queries_file">Select a XML file (recomended size of 2M)</label>
+
+                                    @error('multiple_queries_file')
+                                        <p class="text-danger mt-4">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group col-md-4 mb-0">
+                                    <button type="submit" class="btn btn-block btn-primary" id="btn-multiple" onclick="start_loading(this)">
+                                        <i class="fas fa-cogs"></i> Submit
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-12 d-flex">
+                                    <a href="{{ asset('examples/queries_example.xml') }}" target="blank">
+                                        <i class="fas fa-link"></i> XML example file
+                                    </a>
+                                    <p class="text-muted ml-3">* Repeated queries will be ignored</p>
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
 
             {{-- UPLOAD QUERIES AND DOCUMENTS CORRELATION --}}
             
-            @if(!isset($query->exists))
-                <div class="card">
+            <div class="card">
 
-                    <div class="card-header" data-toggle="collapse" 
-                        data-target="#collapse-correlate" aria-expanded="true" aria-controls="collapse-correlate">
-                        <h2 class="mb-0 head-accordion">
-                            <span>Correlate queries with documents using XML file</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </h2>
-                    </div>
-
-                    <div id="collapse-correlate" class="collapse @error('correlation_file') show @enderror" data-parent="#accordion-queries">
-                        <div class="card-body">
-
-                            <form method="POST" action="/queries/attachDocuments" enctype="multipart/form-data" id="queries-documents">
-                                @csrf
-
-                                <div class="form-row mb-0">
-
-                                    <div class="form-group col-md-8 mb-0">
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input @error('correlation_file') is-invalid @enderror" 
-                                                id="correlation_file" name="correlation_file"
-                                                accept="text/xml" required>
-                                            <label class="custom-file-label" for="correlation_file">Select XML file</label>
-                                        </div>
-
-                                        @if($errors->has('correlation_file.*'))
-                                            <p class="text-danger mt-4">{{ $errors->first('correlation_file') }}</p>
-                                        @endif
-                                    </div>
-
-                                    <div class="form-group col-md-4 mb-0">
-                                        <button type="submit" class="btn btn-dark btn-block" id="btn-correlate" onclick="start_loading(this)">
-                                            <i class="fas fa-cog"></i> Process file
-                                        </button>
-                                    </div>
-
-                                </div>
-
-                                <div class="form-row">
-                                    <div class="col-md-12 d-flex">
-                                        <a href="{{ asset('examples/queries_documents_example.xml') }}" target="blank">
-                                            <i class="fas fa-link"></i> XML example file
-                                        </a>
-                                        <p class="text-muted ml-3">* Repeated correlations will be ignored</p>
-                                    </div>
-                                </div>
-
-                            </form>
-
-                        </div>
-                    </div>
-
+                <div class="card-header" data-toggle="collapse" 
+                    data-target="#collapse-correlate" aria-expanded="true" aria-controls="collapse-correlate">
+                    <h2 class="mb-0 head-accordion">
+                        <span>Correlate queries with documents using XML file</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </h2>
                 </div>
 
-            @endif
+                <div id="collapse-correlate" class="collapse @error('correlation_file') show @enderror" data-parent="#accordion-queries">
+                    <div class="card-body">
 
-        </div>
+                        <form method="POST" action="/queries/attachDocuments" enctype="multipart/form-data" id="queries-documents">
+                            @csrf
 
-        {{-- DOCUMENTS CORRELATION --}}
+                            <div class="form-row mb-0">
 
-        @if(isset($query->exists))
-
-            <div class="accordion" id="accordion-query-documents">
-                <div class="card">
-
-                    <div class="card-header" data-toggle="collapse"
-                        data-target="#collapse-documents" aria-expanded="true" aria-controls="collapse-documents">
-                        <h2 class="mb-0 head-accordion">
-                            <span>Documents related to the Query</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </h2>
-                    </div>
-
-                    <div id="collapse-documents" class="collapse show" data-parent="#accordion-query-documents">
-                        <div class="card-body">
-
-                            {{-- ATTACH NEW DOCUMENT(S) --}}
-
-                            <form method="POST" action="/queries/{{ $query->id }}/attachDocumentById" id="form-attach-docid"
-                                class="mb-3">
-                                @csrf
-
-                                <div class="form-row">
-                                    <div class="col-12">
-                                        <label><strong>Attach new document(s)</strong></label>
+                                <div class="form-group col-md-8 mb-0">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input @error('correlation_file') is-invalid @enderror" 
+                                            id="correlation_file" name="correlation_file"
+                                            accept="text/xml" required>
+                                        <label class="custom-file-label" for="correlation_file">Select XML file</label>
                                     </div>
+
+                                    @if($errors->has('correlation_file.*'))
+                                        <p class="text-danger mt-4">{{ $errors->first('correlation_file') }}</p>
+                                    @endif
                                 </div>
 
-                                <div class="form-row mb-0">
-
-                                    <div class="form-group col-8">
-                                        <input class="form-control @error('doc_ids') is-invalid @enderror" 
-                                            value="{{ old('doc_ids') }}" required
-                                            type="text" id="doc_ids" name="doc_ids" placeholder="Inform multiple doc IDs, separated by semicolon ( ; )">
-                            
-                                        @error('doc_ids')
-                                            <p class="text-danger">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-
-                                    <div class="form-group col-4 mb-0">
-                                        <button type="submit" class="btn btn-dark btn-block" id="btn-doc_ids" onclick="start_loading(this)">
-                                            <i class="fas fa-cog"></i> Attach document(s)
-                                        </button>
-                                    </div>
-
+                                <div class="form-group col-md-4 mb-0">
+                                    <button type="submit" class="btn btn-dark btn-block" id="btn-correlate" onclick="start_loading(this)">
+                                        <i class="fas fa-cog"></i> Process file
+                                    </button>
                                 </div>
-                            
-                            </form>
 
-                            {{-- LIST TABLE --}}
+                            </div>
 
-                            <div id="response" role="alert"></div>
+                            <div class="form-row">
+                                <div class="col-md-12 d-flex">
+                                    <a href="{{ asset('examples/queries_documents_example.xml') }}" target="blank">
+                                        <i class="fas fa-link"></i> XML example file
+                                    </a>
+                                    <p class="text-muted ml-3">* Repeated correlations will be ignored</p>
+                                </div>
+                            </div>
 
-                            <table class="table table-hover table-sm table-actions" id="table-query-documents">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Doc ID</th>
-                                        <th scope="col">File name</th>
-                                        <th scope="col" class="text-center">File type</th>
-                                        <th scope="col">Judgements</th>
-                                        <th scope="col" class="text-center">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse ($query->documents as $key => $doc)
-                                        <tr id="tr-{{ $doc->id }}">
-                                            <td> {{ $key+1 }} </td>
+                        </form>
 
-                                            <td> {{ $doc->doc_id }} </td>
-
-                                            <td> {{ Str::of($doc->file_name)->limit(55) }} </td>
-
-                                            <td class="text-center"> {{ $doc->file_type }} </td>
-
-                                            <td> {!! $doc->judgmentsByQuery($query->id, true) !!} </td>
-
-                                            <td class="text-center">
-                                                <a href="{{ route('documents.show', $doc) }}" class="btn btn-sm btn-outline-primary" 
-                                                    id="viewDocument" data-id="{{ $doc->id }}" title="View document">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-
-                                                <a href="{{ route('queries.detachDocument', [$query, $doc]) }}" 
-                                                    class="btn btn-sm btn-outline-danger {{ ($query->documentJudgments($doc->id)>0)?"disabled":"" }}"
-                                                    id="deleteDocument" data-id="{{ $doc->id }}" title="Detach document">
-                                                    <i class="fas fa-unlink"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="6" class="text-center">
-                                                <i class="fas fa-ban"></i> No documents related.
-                                            </td>
-                                        </tr>
-                                    @endforelse
-
-                                </tbody>
-                            </table>
-
-                            {{-- DETACH ALL --}}
-                            @if(count($query->judgments) == 0 && $query->documents)
-                                <a href="{{ route('queries.detachAll', $query) }}" id="btn-detachAll" class="btn btn-sm btn-danger pl-3 pr-3"
-                                    data-toggle="tooltip" data-html="true">
-                                    <i class="fas fa-exclamation-triangle"></i> Detach all documents
-                                </a>
-                            @endif
-                        
-                        </div>
                     </div>
-
                 </div>
+
             </div>
 
-        @endif
+        </div>
 
         {{-- DISPLAY RESPONSE --}}
 
@@ -422,12 +238,12 @@
 @section('scripts')
 
     <script>
-        // SUBMIT CREATE AND EDIT
+        // SUBMIT CREATE
         $(function(){
             $('form').on('submit', function(event){
                 event.stopPropagation();
 
-                $("#btn-create").prop('disabled', true);
+                $("#btn-submit").prop('disabled', true);
                 $("#btn-multiples").prop('disabled', true);
                 $("#btn-docs").prop('disabled', true);
                 $("#btn-doc_ids").prop('disabled', true);
@@ -461,25 +277,6 @@
             $("#response-text").html('<div class="text-danger" role="alert">Processing data...</div>');
         };
 
-        // DETACH DOCUMENT
-        if($("#deleteDocument").length > 0){
-            $(document).ready(function () {
-                $("body").on("click", "#deleteDocument", function(e){
-                    e.preventDefault();
-                    delete_resource(this);
-                });
-            });
-        }
-
-        // DETACH ALL
-        if($("#btn-detachAll").length > 0){
-            $(document).ready(function () {
-                $("body").on("click", "#btn-detachAll", function(e){
-                    e.preventDefault();
-                    delete_resource(this, "table-query-documents");
-                });
-            });
-        }
     </script>
 
 @endsection
