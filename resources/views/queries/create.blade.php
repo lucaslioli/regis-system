@@ -331,7 +331,7 @@
 
                             <div id="response" role="alert"></div>
 
-                            <table class="table table-hover table-sm table-actions table-query-documents">
+                            <table class="table table-hover table-sm table-actions" id="table-query-documents">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
@@ -361,7 +361,8 @@
                                                     <i class="fas fa-eye"></i>
                                                 </a>
 
-                                                <a href="{{ route('queries.detachDocument', [$query, $doc]) }}" class="btn btn-sm btn-outline-danger" 
+                                                <a href="{{ route('queries.detachDocument', [$query, $doc]) }}" 
+                                                    class="btn btn-sm btn-outline-danger {{ ($query->documentJudgments($doc->id)>0)?"disabled":"" }}"
                                                     id="deleteDocument" data-id="{{ $doc->id }}" title="Detach document">
                                                     <i class="fas fa-unlink"></i>
                                                 </a>
@@ -377,6 +378,14 @@
 
                                 </tbody>
                             </table>
+
+                            {{-- DETACH ALL --}}
+                            @if(count($query->judgments) == 0 && $query->documents)
+                                <a href="{{ route('queries.detachAll', $query) }}" id="btn-detachAll" class="btn btn-sm btn-danger pl-3 pr-3"
+                                    data-toggle="tooltip" data-html="true">
+                                    <i class="fas fa-exclamation-triangle"></i> Detach all documents
+                                </a>
+                            @endif
                         
                         </div>
                     </div>
@@ -458,6 +467,16 @@
                 $("body").on("click", "#deleteDocument", function(e){
                     e.preventDefault();
                     delete_resource(this);
+                });
+            });
+        }
+
+        // DETACH ALL
+        if($("#btn-detachAll").length > 0){
+            $(document).ready(function () {
+                $("body").on("click", "#btn-detachAll", function(e){
+                    e.preventDefault();
+                    delete_resource(this, "table-query-documents");
                 });
             });
         }

@@ -1,5 +1,5 @@
 
-function delete_resource(OBJ){
+function delete_resource(OBJ, deleteAllFromTable = ""){
 
     if(!confirm("Do you really want to do this?")) {
         return false;
@@ -19,7 +19,17 @@ function delete_resource(OBJ){
             $("#response").removeClass("alert alert-danger");
             $("#response").addClass("alert alert-success");
             $("#response").html(response);
-            $("#tr-"+id).remove();
+
+            if(deleteAllFromTable != ""){
+                removedMessage = "<tr><td colspan='100%' class='text-center'><i class='fas fa-ban'></i> All deleted</td></tr>";
+                $("#"+deleteAllFromTable+" tbody").html(removedMessage);
+            } else
+                $("#tr-"+id).remove();
+        },
+        error: function(error){
+            $("#response").removeClass("alert alert-success");
+            $("#response").addClass("alert alert-danger");
+            $("#response").html(error.responseText);
         }
     });
     return false;

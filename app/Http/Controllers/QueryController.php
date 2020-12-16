@@ -186,7 +186,7 @@ class QueryController extends Controller
     }
 
     /**	
-     * Attach a newly rellation between query and document.
+     * Attach a newly rellation between query and document, from XML file.
      *	
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response	
@@ -326,10 +326,34 @@ class QueryController extends Controller
         $this->authorize('id-admin');
 
         $id = $query->id;
+
+        if($query->documentJudgments($document->id) > 0)
+            return response("ERROR: The pair already has judgments", 400);
         
         $query->documents()->detach($document);
 
         return response("Correlation with document ".$id." deleted successfully!", 200);
+    }
+
+    /**
+     * Remove the all document correlation with the query.
+     *
+     * @param  \App\Query  $query
+     * @return \Illuminate\Http\Response
+     */
+    public function detachAll(Query $query)
+    {
+        $this->authorize('id-admin');
+
+        if((count($query->judgments) > 0))
+            return response("ERROR: The query already has judgments", 400);
+
+        $id = $query->id;
+        
+        foreach($query->documents as $document)
+            $query->documents()->detach($document);
+
+        return response("All correlations were deleted successfully!", 200);
     }
 
     public function qrelsExport()
