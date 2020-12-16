@@ -141,7 +141,7 @@ class QueryController extends Controller
         // $this->authorize('update', $query);
         $query->update($this->validateQuery());
 
-        return redirect(route("queries.index"));
+        return view('queries.show', ['query' => $query]);
     }
 
     public function validateQuery()
