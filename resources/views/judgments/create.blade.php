@@ -198,7 +198,7 @@
                             <label for="observation">Comments and suggestions (optional):</label>
                             <textarea class="form-control" id="observation" name="observation" 
                                 rows="4" placeholder="Enter here your comments and suggestions (optional)...">{{
-                                    $judgment->observation
+                                    (isset($judgment)) ? $judgment->observation : ''
                                 }}</textarea>
                         </div>
 

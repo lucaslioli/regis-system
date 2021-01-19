@@ -20,7 +20,11 @@
                     <a class="btn btn-primary col-3 m-1" href="{{ route('register') }}">{{ __('Register') }}</a>
                 </div>
             @else
-                <a class="btn btn-primary col-3" href="{{ route('judgments.create') }}">Start annotation</a>
+                @if(Auth::user()->judgments)
+                    <a class="btn btn-primary col-3" href="{{ route('judgments.create') }}">Continue annotating</a>
+                @else
+                    <a class="btn btn-primary col-3" href="{{ route('judgments.create') }}">Start annotation</a>
+                @endif
             @endguest
         </div>
     </div>

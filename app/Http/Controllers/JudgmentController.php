@@ -75,6 +75,22 @@ class JudgmentController extends Controller
         // Test if there a current query that the user is judging
         if($user->current_query != NULL){
             $query = Query::where('id', $user->current_query)->first();
+
+            // Cases when the query has been deleted
+            if(!$query){
+                $user->queries()->detach($query);
+                $user->setCurrentQuery(NULL);
+                return redirect(route('judgments.create'));
+            }
+
+            // Cases when the documents have been detached
+            if(!count($query->documents)){
+                $query->decreaseAnnotators();
+                $user->queries()->detach($query);
+                $user->setCurrentQuery(NULL);
+
+                return redirect(route('judgments.create'));
+            }
             
             // Get documents judged by the user for the query
             $documents_judged = $user->documentsJudgedByQuery($query->id);
