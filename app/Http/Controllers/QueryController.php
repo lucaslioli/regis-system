@@ -360,6 +360,7 @@ class QueryController extends Controller
         // Get all queries completed
         $completed_pairs = DB::table('document_query')
             ->whereIn('status', ['agreed', 'solved'])
+            ->orderBy('query_id')
             ->get();
 
         $response = array();
@@ -372,7 +373,7 @@ class QueryController extends Controller
                 $judgment = Judgment::where('query_id', $pair->query_id)
                     ->where('document_id', $pair->document_id)->first();
 
-                $relevance = $judgment->judgement;
+                $relevance = $judgment->judgment;
 
             }else{
                 $judgments = Judgment::where('query_id', $pair->query_id)
