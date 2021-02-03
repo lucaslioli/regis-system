@@ -72,10 +72,6 @@ class JudgmentController extends Controller
 
         $incomplete_query = 0;
 
-        // To avoid 
-        if($user->current_query == NULL && (count($user->queries) > 0) && !request('next'))
-            return view('judgments.create', ['next_query' => true]);
-
         // Test if there is a query that the user is already judging
         if($user->current_query != NULL){
             $query = Query::where('id', $user->current_query)->first();
@@ -116,7 +112,7 @@ class JudgmentController extends Controller
             $queries_judged = $user->queries->map->id;
 
             // Check if there are any query that get new documents attached
-            // after the user complete it and when not skipped
+            // after the user complete it and not skipped
             foreach ($user->queries as $query) {
                 if($user->querySkipped($query->id))
                     continue;
@@ -128,12 +124,17 @@ class JudgmentController extends Controller
                 }
             }
 
+            // To avoid pick a query to a user that will not annotate, wait to click next
+            if(!$incomplete_query && count($user->queries) > 0 && !request('next'))
+                return view('judgments.create', ['next_query' => true]);
+
             // Get the first query with 1 annotator
             if(!$incomplete_query)
                 $query = Query::where('annotators', 1)
                     ->whereIn('id', $queries_with_documents)
                     ->whereNotIn('id', $queries_judged)
                     ->orderByDesc('description')->first();
+            
             else{
                 $query = $incomplete_query;
                 $incomplete_query = 1;
@@ -216,8 +217,6 @@ class JudgmentController extends Controller
                     $query->setStatus("Semi Complete");
 
                 $user->setCurrentQuery(NULL);
-
-                return view('judgments.create', ['next_query' => true]);
             }
         }else{
             $judgment->queryy->documents()->updateExistingPivot(

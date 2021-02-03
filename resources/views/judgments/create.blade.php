@@ -33,7 +33,8 @@
             @if(isset($incomplete_query) && $incomplete_query)
             
                 <div class="row mb-3 text-primary">
-                    <span>New documents were added to this query, please, complete it before get a fresh one.</span>
+                    <span><i class="fas fa-asterisk"></i> New documents were added to this query, 
+                        please, complete it before go to the next one!</span>
                 </div>
 
             @endif
