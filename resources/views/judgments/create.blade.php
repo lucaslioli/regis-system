@@ -233,11 +233,11 @@
 
             <div class="d-flex flex-column align-items-center justify-content-center mt-5">
                 <h1 class="mt-5"><i class="fas fa-smile-wink"></i></h1>
-                <h4>Thanks for completing your last query!</h4>
-                <h4>Keep annotating and go to the next one !</h4>
+                <h4>Thanks for complete your last query!</h4>
+                <h4>Keep annotating and go to the next one!</h4>
 
                 <a href="{{ route('judgments.create', ['next' => true]) }}" class="btn btn-primary mt-5">
-                    Annotate Next query <i class="fas fa-arrow-right"></i>
+                    Annotate next query <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
 
@@ -245,7 +245,7 @@
 
             <div class="d-flex flex-column align-items-center justify-content-center mt-5">
                 <h1 class="mt-5"><i class="fas fa-sad-tear"></i></h1>
-                <h4>Sorry, there is no document available to be annotated!</h4>
+                <h4>Sorry, there is no query available to be annotated!</h4>
                 <p>Thanks for participate! If new queries are added, we will let you know!</p>
             </div>
 

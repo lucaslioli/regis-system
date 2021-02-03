@@ -55,7 +55,7 @@ class QueryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response	
      */	
-    public function store(Request $request)	
+    public function store(Request $request)
     {
         $this->authorize('id-admin');
 
@@ -255,7 +255,7 @@ class QueryController extends Controller
         );
 
         return response()
-            ->view('queries.show', $data, 200);
+            ->view('queries.create', $data, 200);
     }
 
     /**	
