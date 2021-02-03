@@ -233,8 +233,8 @@
 
             <div class="d-flex flex-column align-items-center justify-content-center mt-5">
                 <h1 class="mt-5"><i class="fas fa-smile-wink"></i></h1>
-                <h4>Thanks for complete your last query!</h4>
-                <h4>Keep annotating and go to the next one!</h4>
+                <h4>Thanks for completing the annotations for the last query!</h4>
+                <h4>You can now move on to the next one!</h4>
 
                 <a href="{{ route('judgments.create', ['next' => true]) }}" class="btn btn-primary mt-5">
                     Annotate next query <i class="fas fa-arrow-right"></i>
@@ -245,8 +245,8 @@
 
             <div class="d-flex flex-column align-items-center justify-content-center mt-5">
                 <h1 class="mt-5"><i class="fas fa-sad-tear"></i></h1>
-                <h4>Sorry, there is no query available to be annotated!</h4>
-                <p>Thanks for participate! If new queries are added, we will let you know!</p>
+                <h4>Sorry, there is no query available for annotation!</h4>
+                <p>Thanks for participating! If new queries are added, we will let you know!</p>
             </div>
 
         @endif
