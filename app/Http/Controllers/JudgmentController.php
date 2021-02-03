@@ -72,7 +72,11 @@ class JudgmentController extends Controller
 
         $incomplete_query = 0;
 
-        // Test if there a current query that the user is judging
+        // To avoid 
+        if($user->current_query == NULL && (count($user->queries) > 0) && !request('next'))
+            return view('judgments.create', ['next_query' => true]);
+
+        // Test if there is a query that the user is already judging
         if($user->current_query != NULL){
             $query = Query::where('id', $user->current_query)->first();
 
@@ -135,7 +139,7 @@ class JudgmentController extends Controller
                 $incomplete_query = 1;
             }
 
-            // Get the first query available
+            // Get the first query available, prioritizing queries with descriptions
             if(!$query)
                 $query = Query::where('annotators', '<', 2)
                     ->whereIn('id', $queries_with_documents)
@@ -212,6 +216,8 @@ class JudgmentController extends Controller
                     $query->setStatus("Semi Complete");
 
                 $user->setCurrentQuery(NULL);
+
+                return view('judgments.create', ['next_query' => true]);
             }
         }else{
             $judgment->queryy->documents()->updateExistingPivot(
