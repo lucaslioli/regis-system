@@ -43,4 +43,12 @@ class Document extends Model
 
         return substr($judgs, 0, -2);
     }
+
+    // Status of the document-query pair
+    public function statusByQueryPair($query_id)
+    {
+        foreach ($this->queries as $query)
+            if($query->id == $query_id)
+                return ucfirst($query->pivot->status);
+    }
 }

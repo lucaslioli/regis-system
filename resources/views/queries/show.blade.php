@@ -208,6 +208,7 @@
                                     <th scope="col">File name</th>
                                     <th scope="col" class="text-center">File type</th>
                                     <th scope="col">Judgements</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col" class="text-center">Actions</th>
                                 </tr>
                             </thead>
@@ -218,11 +219,13 @@
 
                                         <td> {{ $doc->doc_id }} </td>
 
-                                        <td> {{ Str::of($doc->file_name)->limit(55) }} </td>
+                                        <td> {{ Str::of($doc->file_name)->limit(45) }} </td>
 
                                         <td class="text-center"> {{ $doc->file_type }} </td>
 
                                         <td> {!! $doc->judgmentsByQuery($query->id, true) !!} </td>
+
+                                        <td> {{ $doc->statusByQueryPair($query->id) }} </td>
 
                                         <td class="text-center">
                                             <a href="{{ route('documents.show', $doc) }}" class="btn btn-sm btn-outline-primary" 
