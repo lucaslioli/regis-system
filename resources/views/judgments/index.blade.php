@@ -48,7 +48,7 @@
                     <th scope="col">ID</th>
                     <th scope="col">Query</th>
                     <th scope="col">Document</th>
-                    <th scope="col" class="td-highlight">Judgment</th>
+                    <th scope="col" class="td-highlight text-center">Judgment</th>
                     <th scope="col">Observation</th>
                     <th scope="col" class="text-center">Actions</th>
                 </tr>
@@ -62,28 +62,30 @@
 
                     <td>{{ $judgment->queryy->qry_id }}</td>
 
-                    <td> 
+                    <td title="{{ $judgment->queryy->title }}"> 
                         {{ Str::of($judgment->queryy->title)->limit(50) }}
                     </td>
 
-                    <td>
-                        {{ Str::of($judgment->document->file_name)->limit(40) }}
+                    <td title="{{ $judgment->document->file_name }}">
+                        {{ Str::of($judgment->document->file_name)->limit(36) }}
                     </td>
 
-                    <td class="td-highlight @switch($judgment->judgment)
-                            @case("Very Relevant") {{ "text-success" }} @break
-                            @case("Relevant") {{ "text-primary" }} @break
-                            @case("Marginally Relevant") {{ "text-advise" }} @break
-                            @case("Not Relevant") {{ "text-danger" }} @break
-                        @endswitch">
-                        {{ $judgment->judgment }}
+                    <td class="td-highlight text-center">
+                    
+                        @switch($judgment->judgment)
+                            @case("Very Relevant") <span class="badge badge-pill badge-success">Very Relevant</span> @break
+                            @case("Relevant") <span class="badge badge-pill badge-primary">Relevant</span> @break
+                            @case("Marginally Relevant") <span class="badge badge-pill badge-advise">Marginally Relevant</span> @break
+                            @case("Not Relevant") <span class="badge badge-pill badge-danger">Not Relevant</span> @break
+                        @endswitch
+
                     </td>
 
-                    <td class="">
+                    <td title="{{ $judgment->observation }}">
                         @if($judgment->untie)
                             <span class="badge badge-pill badge-danger mr-1">Tiebreak</span>
                         @endif
-                        {{ Str::of($judgment->observation)->limit(40) }}
+                        {{ Str::of($judgment->observation)->limit(36) }}
                     </td>
 
                     <td class="text-center">

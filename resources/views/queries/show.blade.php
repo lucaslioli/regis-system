@@ -219,7 +219,9 @@
 
                                         <td> {{ $doc->doc_id }} </td>
 
-                                        <td> {{ Str::of($doc->file_name)->limit(36) }} </td>
+                                        <td title="{{ $doc->file_name }}">
+                                            {{ Str::of($doc->file_name)->limit(36) }}
+                                        </td>
 
                                         <td class="text-center"> {{ $doc->file_type }} </td>
 
