@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+@section('include')
+    <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ asset('js/scripts.js') }}"></script>
+@endsection
+
 @section('content')
 
     <div class="container">
@@ -32,6 +37,8 @@
 
         <br>
 
+        <div id="response" role="alert"></div>
+
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -40,6 +47,7 @@
                     <th scope="col">E-mail</th>
                     <th scope="col">Role</th>
                     <th scope="col" class="text-center">Annotations</th>
+                    <th scope="col" class="text-center" title="Current Query">Curr. Query</th>
                     <th scope="col" class="text-center">Action</th>
                 </tr>
             </thead>
@@ -49,19 +57,36 @@
 
                 <tr>
                     <td>{{ $user->id }}</td>
+
                     <td>{{ $user->name }}</td>
+
                     <td class="text-muted">{{ $user->email }}</td>
+
                     <td class="text-muted">
                         <span class="badge badge-pill @switch($user->role)
                             @case("admin") {{ "badge-dark" }} @break
                             @case("default") {{ "badge-seccondary" }} @break
                         @endswitch">{{ $user->role }}</span>
                     </td>
+
                     <td class="text-center">
                         <span class="badge badge-{{ $user->judgments->count() ? 'primary' : 'secondary' }} badge-pill">
                             {{ $user->judgments->count() ?? 0 }}
                         </span>
                     </td>
+
+                    <td class="text-center">
+                        @if($user->current_query)
+                            {{ $user->current_query }}
+                            <a href="{{ route('users.detachQuery', [$user, $user->current_query]) }}"
+                                class="btn btn-sm btn-link text-danger" id="detachUserQuery" title="Detach user from query">
+                                <i class="fas fa-unlink"></i>
+                            </a>
+                        @else
+                            None
+                        @endif
+                    </td>
+
                     <td class="text-center">
                         @if($user->role == 'default')
                             <a href="{{ route('users.makeAdmin', $user) }}" class="btn btn-sm btn-outline-danger"
@@ -95,5 +120,23 @@
         </div>
 
     </div>
+
+@endsection
+
+@section('scripts')
+
+    <script>
+
+        // DETACH DOCUMENT
+        if($("#detachUserQuery").length > 0){
+            $(document).ready(function () {
+                $("body").on("click", "#detachUserQuery", function(e){
+                    e.preventDefault();
+                    delete_resource(this);
+                });
+            });
+        }
+
+    </script>
 
 @endsection

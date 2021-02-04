@@ -109,4 +109,28 @@ class UserController extends Controller
         return redirect(route('judgments.create'));
     }
 
+    /**
+     * Remove the specified correlation between user and query.
+     *
+     * @param  \App\User   $User
+     * @param  \App\Query  $query
+     * @return \Illuminate\Http\Response
+     */
+    public function detachQuery(User $user, Query $query)
+    {
+        $this->authorize('id-admin');
+
+        $id = $query->id;
+
+        if(count($user->documentsJudgedByQuery($query->id)) > 0)
+            return response("ERROR: The pair already has judgments", 400);
+
+        $query->decreaseAnnotators();
+        
+        $user->queries()->detach($query);
+        $user->setCurrentQuery(NULL);
+
+        return response("Correlation with query ".$id." deleted successfully!", 200);
+    }
+
 }
