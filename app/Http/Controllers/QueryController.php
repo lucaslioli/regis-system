@@ -178,6 +178,7 @@ class QueryController extends Controller
             ->orWhere('qry_id', 'LIKE', "%$qry%")
             ->orWhere('title', 'LIKE', "%$qry%")
             ->orWhere('description', 'LIKE', "%$qry%")
+            ->orWhere('status', "$qry")
             ->paginate(10);
 
         return view('queries.index', compact('queries'));
