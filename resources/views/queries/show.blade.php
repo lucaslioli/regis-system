@@ -37,23 +37,6 @@
 
                         <div class="row">
                             <div class="col-3">
-                                <strong>Total Documents related: </strong> {{ $query->documents->count() }}
-                            </div>
-                            <div class="col-3">
-                                <strong>Total Judgments made: </strong> {{ $query->judgments->count() }}
-                            </div>
-                            <div class="col-3">
-                                <strong>Number of Annotators: </strong> {{ $query->annotators }}
-                            </div>
-                            <div class="col-3">
-                                <strong>Times skiped: </strong> {{ $query->countSkipped() }}
-                            </div>
-                        </div>
-
-                        <hr>
-
-                        <div class="row">
-                            <div class="col-3">
                                 <span class="badge badge-pill badge-success text-success mb-1">.</span>
                                 <strong>Very Relevant judgs.: </strong> {{ $query->judgmentsByClass("Very Relevant") }}
                             </div>
@@ -68,6 +51,26 @@
                             <div class="col-3">
                                 <span class="badge badge-pill badge-danger text-danger mb-1">.</span>
                                 <strong>Not Relevant judgs.: </strong> {{ $query->judgmentsByClass("Not Relevant") }}
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-3">
+                                <strong>Total Documents related: </strong> {{ $query->documents->count() }}
+                            </div>
+                            <div class="col-3">
+                                <strong>Total Judgments made: </strong> {{ $query->judgments->count() }}
+                            </div>
+                            <div class="col-3">
+                                <strong>Times skiped: </strong> {{ $query->countSkipped() }}
+                            </div>
+                            <div class="col-3">
+                                <strong>Annotators ({{ $query->annotators }}): </strong> 
+                                @foreach($query->users as $user) 
+                                    {{ $user->name }}{{ (!$loop->last) ? ',' : '' }}
+                                @endforeach
                             </div>
                         </div>
 
