@@ -81,8 +81,10 @@ class TiebreakController extends Controller
         // Set up tiebreak variables
         $tiebreak = Judgment::where('query_id', $query->id)
             ->where('document_id', $document->id)
-            ->pluck('judgment')
-            ->all();
+            ->get();
+
+        $observations = $tiebreak->pluck('observation')->all();
+        $tiebreak = $tiebreak->pluck('judgment')->all();
 
         // Update the text_file with the markers
         $document->text_file = highlightWords($document->text_file, $query->title);
@@ -94,7 +96,8 @@ class TiebreakController extends Controller
             'query' => $query,
             'document' => $document,
             'markers' => $markers,
-            'tiebreak' => $tiebreak
+            'tiebreak' => $tiebreak,
+            'observations' => $observations
         ]);
     }
 

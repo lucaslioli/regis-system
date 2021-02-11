@@ -24,12 +24,13 @@
                 <label for="query_description"><strong>Description and Narrative:</strong></label>
                 <div class="card w-100">
                     <div class="card-body"> 
-                        <span><strong>Desc.:</strong> {{ $query->description }}</span><br>
-                        <span class="mt-2"><strong>Narr.:</strong> {{ $query->narrative }}</span>
+                        <p class="mb-2"><strong>Description:</strong> {{ $query->description }}</p>
+                        <p class="mb-0"><strong>Narrative:</strong> {{ $query->narrative }}</p>
                     </div>
                 </div>
             </div>
 
+            {{-- New documents notifications --}}
             @if(isset($incomplete_query) && $incomplete_query)
             
                 <div class="row mb-3 text-primary">
@@ -39,6 +40,7 @@
 
             @endif
 
+            {{-- Progress bar and tiebreak identification --}}
             @if(isset($tiebreak) || (isset($judgment) && $judgment->untie))
 
                 <div class="row progress mt-4 mb-5">
@@ -57,12 +59,14 @@
 
             @endif
 
-            <div class="row">
+            {{-- Anotation space --}}
 
-                {{-- DOCUMENT SPACE --}}
+            <div class="row">
 
                 <div class="form-group col-9">
                     <div class="form-group row">
+
+                        {{-- Document header --}}
 
                         <div class="document-title d-flex justify-content-between">
                             <label><strong>Original document:</strong> {{ $document->doc_id }} - 
@@ -84,6 +88,8 @@
                             </label>
                         </div>
 
+                        {{-- Document text --}}
+
                         <div class="card w-100">
                             <div class="card-body document-text w-100" id="content-unique">
 
@@ -100,9 +106,9 @@
 
                         <div class='d-flex justify-content-between align-items-baseline w-100 mt-2'>
 
-                            {{-- SKIP --}}
+                            {{-- Skip option --}}
 
-                            @if(isset($query) && !isset($judgment))
+                            @if(isset($query) && !isset($judgment) && !isset($tiebreak))
                                 <a href="{{ route('users.skipQuery', $query) }}" id="btn-skip" class="btn btn-sm btn-dark pl-3 pr-3"
                                     data-toggle="tooltip" data-html="true" 
                                     title="In case the query requires extra domain knowledge, you can skip it. This action <b>can't be undone</b>.">
@@ -110,7 +116,7 @@
                                 </a>
                             @endif
 
-                            {{-- NAVIGATION --}}
+                            {{-- Navigation through markers --}}
                         
                             @if($document->file_type == "PDF" && isset($markers))
                                 <div>
@@ -140,10 +146,9 @@
 
                     </div>
 
-
                 </div>
 
-                {{-- JUDGMENT SPACE --}}
+                {{-- Judgment space --}}
         
                 <div class="form-group col-3">
                     <label>
@@ -153,6 +158,7 @@
                         </a>
                     </label>
 
+                    {{-- Judgment form --}}
                     <form method="POST" action="/judgments/{{ $judgment->id ?? 'store' }}" id="form-judgment">
                         @csrf
                         @isset($judgment->exists)
@@ -164,7 +170,6 @@
                         <input type="hidden" name="untie" value="{{ isset($tiebreak) ? 1 : 0 }}">
 
                         <div class="judgment">
-
 
                             <div class="custom-control custom-switch">
                                 {{-- 1.0 --}}
@@ -200,6 +205,8 @@
 
                         </div>
 
+                        {{-- Observation --}}
+
                         <div class="form-group">
                             <label for="observation">Comments and suggestions (optional):</label>
                             <textarea class="form-control" id="observation" name="observation" 
@@ -208,6 +215,8 @@
                                 }}</textarea>
                         </div>
 
+                        {{-- Submit button --}}
+
                         @if(!isset($judgment) || !$judgment->untie)
                             <button type="submit" id="btn-submit" class="btn btn-block {{ isset($judgment) ? 'btn-primary' : 'btn-success' }}">
                                 <i class="fas fa-save"></i> {{ isset($judgment) ? 'Edit' : 'Submit' }}
@@ -215,7 +224,7 @@
                         @endif
                     </form>
 
-                    <!-- Modal -->
+                    <!-- Modal with relevance guide -->
                     <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-lg">
                         <div class="modal-content">
@@ -245,6 +254,27 @@
 
             </div>
 
+            {{-- Tiebreak observations --}}
+
+            @if(isset($tiebreak) && isset($observations))
+
+                <div class="form-group row">
+                    <label for="query_description"><strong>Annotators observations:</strong></label>
+                    <div class="card w-100">
+                        <div class="card-body"> 
+                            @foreach ($observations as $key => $obs)
+                                @if($obs != "")
+                                    <strong>{{ $tiebreak[$key] }}:</strong> {{ $obs }}<br>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+            @endif
+
+            {{-- Error message space --}}
+
             @if($errors->count())
                 <p class="text-danger">
                     @foreach ($errors->all() as $error)
@@ -253,6 +283,8 @@
                 </p>
             @endif
 
+        {{-- Main admin message --}}
+
         @elseif(Auth::user()->id == 1 && Auth::user()->role == 'admin')
 
             <div class="d-flex flex-column align-items-center justify-content-center mt-5">
@@ -260,6 +292,8 @@
                 <h4>This is the main admin user account.</h4>
                 <h4>No query has to be annotated.</h4>
             </div>
+
+        {{-- Next query message --}}
 
         @elseif(isset($next_query))
 
@@ -272,6 +306,8 @@
                     Annotate next query <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
+
+        {{-- No annotations available message --}}
 
         @else
 
