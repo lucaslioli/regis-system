@@ -19,7 +19,7 @@
                     <i class="fas fa-tools"></i> Manage Queries
                 </a>
 
-                <a href="{{ route('queries.qrels') }}"  class="btn btn-outline-secondary" type="button">
+                <a href="{{ route('project.qrels') }}"  class="btn btn-outline-secondary" type="button">
                     <i class="fas fa-download"></i> Download qrels
                 </a>
             </div>

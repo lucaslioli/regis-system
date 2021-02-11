@@ -351,3 +351,42 @@ mark.focus {
 h2 .badge {
     font-size: 11pt;
 }
+
+/* STATISTICS */
+
+.table-stats tbody {
+    display: block;
+    max-height: 380px;
+    overflow-y: auto;
+}
+.table-stats thead, .table-stats tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.table-stats thead {
+    width: calc( 100% - 1em );
+}
+
+.table-ranking tr>th:nth-child(2),
+.table-ranking tr>td:nth-child(2) {
+    max-width: 10px;
+    padding-right: 0;
+    text-align: center;
+}
+
+.gold-trophy {
+    color: #FFD700;
+    font-size: 1.3rem;
+}
+
+.silver-trophy {
+    color: #C0C0C0;
+    font-size: 1.1rem;
+}
+
+.bronze-trophy {
+    color: #CD7F32;
+    font-size: 0.9rem;
+}

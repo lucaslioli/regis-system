@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use DB;
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -64,6 +66,15 @@ class User extends Authenticatable
                 return $query->pivot->skip;
     }
 
+    // Return the number of queries completed
+    public function queriesCompleted()
+    {
+        if($this->current_query != NULL)
+            return $this->queries->count()-1;
+
+        return $this->queries->count();
+    }
+
     public function isAdmin()
     {
         return $this->role === self::ADMIN_ROLE;
@@ -89,5 +100,27 @@ class User extends Authenticatable
         return Judgment::where('user_id', $this->id)
             ->where('query_id', $query_id)
             ->pluck('document_id')->all();
+    }
+
+    public static function userStatsData()
+    {
+        $users = User::all();
+  
+        $results = [];
+        foreach ($users as $key => $user) {
+            $judgments = $user->judgments()->count();
+            $queries = ($user->current_query)?$user->queries()->count()-1:$user->queries()->count();
+
+            if($judgments == 0)
+                continue;
+
+            $results[++$key] = ['name' => $user->name, 'judgments' => $judgments, 'queries' => $queries];
+        }
+
+        usort($results, function ($item1, $item2) {
+            return $item2['judgments'] <=> $item1['judgments'];
+        });
+
+        return $results;
     }
 }

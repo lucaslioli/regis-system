@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use DB;
+
 class Query extends Model
 {
     use HasFactory;
@@ -82,5 +84,42 @@ class Query extends Model
             return $count[$class];
 
         return $count;
+    }
+
+    public static function statusChartData()
+    {
+        $queries = Query::select(
+                DB::raw("status, count(*) as total")) 
+            ->groupBy("status")
+            ->orderBy('status')
+            ->get();
+  
+        $results[] = ['Status','Total'];
+        foreach ($queries as $key => $value) {
+            $results[++$key] = [$value->status, (int)$value->total];
+        }
+
+        return $results;
+    }
+
+    public static function completedQuriesStatsData()
+    {
+        $queries = Query::where('status', 'Complete')
+            ->get();
+  
+        $results = [];
+        foreach ($queries as $key => $query) {
+            $results[++$key] = ['id' => $query->id, 'qry_id' => $query->qry_id, 'title' => $query->title,
+                'very' => $query->judgmentsByClass("Very Relevant"),
+                'relevant' => $query->judgmentsByClass("Relevant"), 
+                'marginally' => $query->judgmentsByClass("Marginally Relevant"), 
+                'not' => $query->judgmentsByClass("Not Relevant")];
+        }
+
+        usort($results, function ($item1, $item2) {
+            return $item2['very'] <=> $item1['very'];
+        });
+
+        return $results;
     }
 }

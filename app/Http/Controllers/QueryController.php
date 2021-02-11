@@ -5,11 +5,9 @@ namespace App\Http\Controllers;
 use DB;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 use App\Models\Query;
 use App\Models\Document;
-use App\Models\Judgment;
 
 class QueryController extends Controller
 {
@@ -177,6 +175,7 @@ class QueryController extends Controller
         $qry = $request->get('qry');
         
         $queries = Query::where('id', $qry)
+            ->orWhere('qry_id', 'LIKE', "%$qry%")
             ->orWhere('title', 'LIKE', "%$qry%")
             ->orWhere('description', 'LIKE', "%$qry%")
             ->paginate(10);
@@ -355,44 +354,4 @@ class QueryController extends Controller
         return response("All correlations were deleted successfully!", 200);
     }
 
-    public function qrelsExport()
-    {
-        // Get all queries completed
-        $completed_pairs = DB::table('document_query')
-            ->whereIn('status', ['agreed', 'solved'])
-            ->orderBy('query_id')
-            ->get();
-
-        $response = array();
-        
-        foreach ($completed_pairs as $pair) {
-            $query = Query::find($pair->query_id);
-            $document = Document::find($pair->document_id);
-
-            if($pair->status == "agreed"){
-                $judgment = Judgment::where('query_id', $pair->query_id)
-                    ->where('document_id', $pair->document_id)->first();
-
-                $relevance = $judgment->judgment;
-
-            }else{
-                $judgments = Judgment::where('query_id', $pair->query_id)
-                    ->where('document_id', $pair->document_id)->pluck('judgment')->all();
-
-                // Group and count judgments to get the one with 2 votes
-                $relevance = array_search(2, array_count_values($judgments));
-            }
-
-            $relevance = mapJudgment($relevance);
-
-            
-            // Format: Q1 0 BR-BG.00001 1.0
-            array_push($response, $query->qry_id." 0 ".$document->doc_id." ".$relevance);
-        }
-
-        Storage::disk('local')->put('qrels.txt', implode(PHP_EOL, $response));
-        return Storage::download('qrels.txt');
-
-        return back();
-    }
 }

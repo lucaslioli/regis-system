@@ -76,9 +76,9 @@
                                 <a class="nav-link" href="{{ route('tiebreaks.index') }}">Tiebreaks</a>
                             </li>
 
-                            <li class="nav-item nav-divisor"></li>
-
                             @can('id-admin')
+
+                                <li class="nav-item nav-divisor"></li>
 
                                 <li class="nav-item {{ Request::is('documents/*') ? 'active' : '' }}">
                                     <a class="nav-link" href="{{ route('documents.index') }}">Documents</a>
@@ -101,15 +101,31 @@
                                     </a>
     
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{{ route('queries.qrels') }}">
+                                        <a class="dropdown-item" href="{{ route('project.qrels') }}">
                                             <i class="fas fa-download"></i> Download qrels
                                         </a>
 
                                         <a class="dropdown-item" href="{{ route('basic_seach') }}">
                                             <i class="fas fa-search"></i> Basic Search
                                         </a>
+
+                                        <a class="dropdown-item" href="{{ route('project.statistics') }}">
+                                            <i class="fas fa-chart-pie"></i> Statistics
+                                        </a>
+
+                                        <a class="dropdown-item" href="{{ route('project.ranking') }}">
+                                            <i class="fas fa-user"></i> Annotation Ranking
+                                        </a>
                                     </div>
                                 </li>
+
+                            @else
+
+                                <li class="nav-item {{ Request::is('project.ranking') ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('project.ranking') }}">Ranking</a>
+                                </li>
+
+                                <li class="nav-item nav-divisor"></li>
 
                             @endcan
 

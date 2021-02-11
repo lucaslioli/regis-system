@@ -46,7 +46,8 @@
                     <th scope="col">User name</th>
                     <th scope="col">E-mail</th>
                     <th scope="col">Role</th>
-                    <th scope="col" class="text-center">Annotations</th>
+                    <th scope="col" class="text-center" title="Annotations completed">Annotations</th>
+                    <th scope="col" class="text-center" title="Queries completed">Queries</th>
                     <th scope="col" class="text-center" title="Current Query">Curr. Query</th>
                     <th scope="col" class="text-center">Action</th>
                 </tr>
@@ -72,6 +73,12 @@
                     <td class="text-center">
                         <span class="badge badge-{{ $user->judgments->count() ? 'primary' : 'secondary' }} badge-pill">
                             {{ $user->judgments->count() ?? 0 }}
+                        </span>
+                    </td>
+
+                    <td class="text-center">
+                        <span class="badge badge-{{ $user->queriesCompleted() ? 'primary' : 'secondary' }} badge-pill">
+                            {{ $user->queriesCompleted() ?? 0 }}
                         </span>
                     </td>
 
@@ -105,7 +112,7 @@
                 
             @empty
                 <tr>
-                    <td colspan="4" class="text-center">
+                    <td colspan="8" class="text-center">
                         <i class="fas fa-ban"></i> No users found.
                     </td>
                 </tr>

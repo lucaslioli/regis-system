@@ -52,7 +52,6 @@ Route::post('/documents/upload', 'DocumentController@upload');
 Route::get('/queries/index', 'QueryController@index')->name('queries.index');
 Route::get('/queries/create', 'QueryController@create')->name('queries.create');
 Route::get('/queries/search', 'QueryController@search')->name('queries.search');
-Route::get('/queries/qrels', 'QueryController@qrelsExport')->name('queries.qrels');
 Route::get('/queries/{query}/edit', 'QueryController@edit')->name('queries.edit');
 Route::delete('/queries/{query}/detachAll', 'QueryController@detachAll')->name('queries.detachAll');
 Route::delete('/queries/{query}', 'QueryController@destroy')->name('queries.destroy');
@@ -69,6 +68,11 @@ Route::delete('/queries/detachDocument/{query}/{document}', 'QueryController@det
 Route::get('/tiebreaks/index', 'TiebreakController@index')->name('tiebreaks.index');
 Route::get('/tiebreaks/search', 'TiebreakController@search')->name('tiebreaks.search');
 Route::get('/tiebreaks/{query}/{document}/edit', 'TiebreakController@edit')->name('tiebreaks.edit');
+
+// Project
+Route::get('/project/qrels', 'ProjectController@qrelsExport')->name('project.qrels');
+Route::get('/project/statistics', 'ProjectController@statistics')->name('project.statistics');
+Route::get('/project/ranking', 'ProjectController@userRanking')->name('project.ranking');
 
 // Solr
 Route::get('/basicSearch', function () {
