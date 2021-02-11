@@ -58,7 +58,7 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
-    // Return if a query were skiped by the user
+    // Return if a query were skipped by the user
     public function querySkipped($query_id)
     {
         foreach ($this->queries as $query)
@@ -66,13 +66,30 @@ class User extends Authenticatable
                 return $query->pivot->skip;
     }
 
-    // Return the number of queries completed
-    public function queriesCompleted()
+    // Return queries skipped by the user
+    public function queriesSkipped($counter=True)
     {
-        if($this->current_query != NULL)
-            return $this->queries->count()-1;
+        $queries = [];
+        foreach ($this->queries as $query)
+            if($query->pivot->skip)
+                array_push($queries, $query->id);
 
-        return $this->queries->count();
+        if($counter)
+            return count($queries);
+        return $queries;
+    }
+
+    // Return queries completed by the user
+    public function queriesCompleted($counter=True)
+    {
+        $queries = Query::whereIn('id', $this->queries->map->id)
+            ->whereNotIn('id', $this->queriesSkipped(False))
+            ->where('id', '!=', $this->current_query)
+            ->get();
+
+        if($counter)
+            return count($queries);
+        return $queries->map->id;
     }
 
     public function isAdmin()
@@ -102,16 +119,16 @@ class User extends Authenticatable
             ->pluck('document_id')->all();
     }
 
-    public static function userStatsData()
+    public static function userStatsData($onlyJudges = True)
     {
         $users = User::all();
   
         $results = [];
         foreach ($users as $key => $user) {
             $judgments = $user->judgments()->count();
-            $queries = ($user->current_query)?$user->queries()->count()-1:$user->queries()->count();
+            $queries = $user->queriesCompleted();
 
-            if($judgments == 0)
+            if($onlyJudges && $judgments == 0)
                 continue;
 
             $results[++$key] = ['name' => $user->name, 'judgments' => $judgments, 'queries' => $queries];

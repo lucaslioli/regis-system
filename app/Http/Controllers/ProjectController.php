@@ -72,7 +72,7 @@ class ProjectController extends Controller
 
     public function userRanking()
     {
-        $users = User::userStatsData(); 
+        $users = User::userStatsData(False); 
 
         return view('project.ranking', compact('users'));
     }

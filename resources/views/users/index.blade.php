@@ -48,7 +48,8 @@
                     <th scope="col">Role</th>
                     <th scope="col" class="text-center" title="Annotations completed">Annotations</th>
                     <th scope="col" class="text-center" title="Queries completed">Queries</th>
-                    <th scope="col" class="text-center" title="Current Query">Curr. Query</th>
+                    <th scope="col" class="text-center" title="Queries skipped">Skip</th>
+                    <th scope="col" class="text-center" title="Current Query Id">Curr. Query</th>
                     <th scope="col" class="text-center">Action</th>
                 </tr>
             </thead>
@@ -80,6 +81,10 @@
                         <span class="badge badge-{{ $user->queriesCompleted() ? 'primary' : 'secondary' }} badge-pill">
                             {{ $user->queriesCompleted() ?? 0 }}
                         </span>
+                    </td>
+
+                    <td class="text-center">
+                        {{ $user->queriesSkipped() ?? 0 }}
                     </td>
 
                     <td class="text-center">

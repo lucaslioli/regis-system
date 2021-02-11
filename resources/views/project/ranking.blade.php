@@ -42,14 +42,15 @@
                             @case(2)
                                 <i class="fas fa-trophy bronze-trophy"></i>
                                 @break
-                                
                         @endswitch
                     </td>
                     
                     <td>{{ $user['name'] }}</td>
                     
                     <td class="text-center">
-                        <span class="badge badge-pill badge-primary">{{ $user['judgments'] }}</span>
+                        <span class="badge badge-pill badge-{{ ($user['judgments']) ? 'primary' : 'secondary' }}">
+                            {{ $user['judgments'] ?? 0 }}
+                        </span>
                     </td>
                     
                     <td class="text-center">{{ $user['queries'] }}</td>
