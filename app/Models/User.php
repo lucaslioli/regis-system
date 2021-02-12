@@ -128,7 +128,7 @@ class User extends Authenticatable
             $judgments = $user->judgments()->count();
             $queries = $user->queriesCompleted();
 
-            if($onlyJudges && $judgments == 0)
+            if($onlyJudges && $judgments == 0 || $user->name == 'admin')
                 continue;
 
             $results[++$key] = ['name' => $user->name, 'judgments' => $judgments, 'queries' => $queries];

@@ -43,6 +43,10 @@
                                 <i class="fas fa-trophy bronze-trophy"></i>
                                 @break
                         @endswitch
+
+                        @if($user['judgments'] > 0 && $key > 2)
+                            <i class="fas fa-medal silver-medal"></i>
+                        @endif
                     </td>
                     
                     <td>{{ $user['name'] }}</td>
