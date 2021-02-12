@@ -54,7 +54,7 @@ if(!function_exists('highlightWords'))
             if($word == "" || $word == " " || strlen($word) == 1)
                 continue;
 
-            $text = str_ireplace($word, "<mark>".$word."</mark>", $text);
+            $text = str_ireplace(" ".$word." ", " <mark>".$word."</mark> ", $text);
         }
 
         return $text;
