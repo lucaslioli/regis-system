@@ -69,7 +69,9 @@
                             <div class="col-3">
                                 <strong>Annotators ({{ $query->annotators }}): </strong> 
                                 @foreach($query->users as $user) 
-                                    {{ $user->name }}{{ (!$loop->last) ? ',' : '' }}
+                                    @if(!$user->pivot->skip)
+                                        {{ $user->name }}{{ (!$loop->last) ? ',' : '' }}
+                                    @endif
                                 @endforeach
                             </div>
                         </div>
