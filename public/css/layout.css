@@ -369,9 +369,14 @@ h2 .badge {
     width: calc( 100% - 1em );
 }
 
+.table-stats tr>th:first-child,
+.table-stats tr>td:first-child {
+    max-width: 25px;
+}
+
 .table-ranking tr>th:nth-child(2),
 .table-ranking tr>td:nth-child(2) {
-    max-width: 10px;
+    max-width: 15px;
     padding-right: 0;
     text-align: center;
 }
