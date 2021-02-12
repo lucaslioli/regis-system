@@ -359,6 +359,7 @@ h2 .badge {
     max-height: 380px;
     overflow-y: auto;
 }
+
 .table-stats thead, .table-stats tbody tr {
     display: table;
     width: 100%;
@@ -369,9 +370,14 @@ h2 .badge {
     width: calc( 100% - 1em );
 }
 
-.table-stats tr>th:first-child,
-.table-stats tr>td:first-child {
-    max-width: 25px;
+.table-stats-user tr>th:first-child,
+.table-stats-user tr>td:first-child {
+    width: 10% !important;
+}
+
+.table-stats-user tr>th:nth-child(2),
+.table-stats-user tr>td:nth-child(2) {
+    width: 55% !important;
 }
 
 .table-ranking tr>th:nth-child(2),

@@ -70,7 +70,7 @@
             </div>
             <div class="w-50 mt-5 pl-4">
                 <h4>Annotators ranking</h4>
-                <table class="table table-hover table-sm table-stats">
+                <table class="table table-hover table-sm table-stats table-stats-user">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
