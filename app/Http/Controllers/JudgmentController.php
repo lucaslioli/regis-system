@@ -251,14 +251,31 @@ class JudgmentController extends Controller
 
         $markers = substr_count($judgment->document->text_file, '<mark>');
 
-        // Uses the same view as create
-        return view('judgments.create', [
+        // Response data
+        $data = array(
             'query' => $judgment->queryy,
             'document' => $judgment->document,
             'markers' => $markers,
             'progress' => (object)$progress,
             'judgment' => $judgment
-        ]);
+        );
+
+        // In the case of a tiebreaker judgment
+        if($judgment->untie){
+            // Set up tiebreak variables
+            $tiebreak = Judgment::where('query_id', $judgment->queryy->id)
+                ->where('document_id', $judgment->document->id)
+                ->get();
+
+            $observations = $tiebreak->pluck('observation')->all();
+            $tiebreak = $tiebreak->pluck('judgment')->all();
+
+            $data['observations'] = $observations;
+            $data['tiebreak'] = $tiebreak;
+        }
+
+        // Uses the same view as create
+        return view('judgments.create', $data);
     }
 
     /**

@@ -17,7 +17,7 @@ class CreateJudgmentsTable extends Migration
             $table->id();
             $table->string('judgment'); // Very Relevant, Relevant, Marginally Relevant, Not Relevant
             $table->text('observation')->nullable();
-            $table->boolean('untie')->default(false);
+            $table->boolean('untie')->default(false); // Identify a tiebreaker judgment
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('query_id')->constrained()->onDelete('cascade');
             $table->foreignId('document_id')->constrained()->onDelete('cascade');
