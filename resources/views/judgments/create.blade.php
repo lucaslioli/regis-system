@@ -16,7 +16,7 @@
             <div class="row d-flex flex-column">
                 <label for="query_title"><strong>Query title:</strong></label>
                 <div class="card mb-3">
-                    <div class="card-body"> {{ $query->title }} </div>
+                    <div class="card-body"> {{ $query->qry_id }} - {{ $query->title }} </div>
                 </div>
             </div>
 
