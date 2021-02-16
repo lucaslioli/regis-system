@@ -63,7 +63,8 @@ class TiebreakController extends Controller
             ->join('documents', 'documents.id', '=', 'document_query.document_id')
             ->select('document_query.*', 'queries.title', 'documents.file_name')
             ->where('document_query.status', 'tiebreak')
-            ->whereNotIn('query_id', Auth::user()->queries->map->id)
+            ->where('query_id', '!=', Auth::user()->current_query)
+            ->whereNotIn('query_id', Auth::user()->queriesCompleted(False))
             ->paginate(15);
 
         return view('tiebreaks.index', compact('tiebreaks'));
