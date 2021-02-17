@@ -48,7 +48,7 @@
                     <th scope="col">Role</th>
                     <th scope="col" class="text-center" title="Annotations completed">Annotations</th>
                     <th scope="col" class="text-center" title="Queries completed">Queries</th>
-                    <th scope="col" class="text-center" title="Queries skipped">Skip</th>
+                    <th scope="col" class="text-center" title="Queries skipped">Skipped</th>
                     <th scope="col" class="text-center" title="Current Query Id">Curr. Query</th>
                     <th scope="col" class="text-center">Action</th>
                 </tr>
@@ -84,7 +84,15 @@
                     </td>
 
                     <td class="text-center">
-                        {{ $user->queriesSkipped() ?? 0 }}
+                        @if($user->queriesSkipped())
+                            {{ $user->queriesSkipped() }}
+                            <a href="{{ route('users.resetSkipped', $user) }}"
+                                class="btn btn-sm btn-link text-danger" id="resetSkippedQueries" title="Reset skipped queries">
+                                <i class="fas fa-eraser"></i>
+                            </a>
+                        @else
+                            None
+                        @endif
                     </td>
 
                     <td class="text-center">
@@ -137,9 +145,19 @@
 
 @section('scripts')
 
-    <script>
+    <script type="text/javascript">
 
-        // DETACH DOCUMENT
+        // RESET SKIPPED QUERIES
+        if($("#resetSkippedQueries").length > 0){
+            $(document).ready(function () {
+                $("body").on("click", "#resetSkippedQueries", function(e){
+                    e.preventDefault();
+                    delete_resource(this);
+                });
+            });
+        }
+
+        // DETACH QUERY
         if($("#detachUserQuery").length > 0){
             $(document).ready(function () {
                 $("body").on("click", "#detachUserQuery", function(e){

@@ -69,14 +69,14 @@ class User extends Authenticatable
     // Return queries skipped by the user
     public function queriesSkipped($counter=True)
     {
-        $queries = [];
+        $skipped = [];
         foreach ($this->queries as $query)
             if($query->pivot->skip)
-                array_push($queries, $query->id);
+                array_push($skipped, $query->id);
 
         if($counter)
-            return count($queries);
-        return $queries;
+            return count($skipped);
+        return $skipped;
     }
 
     // Return queries completed by the user

@@ -7,7 +7,7 @@
         <div class="d-flex justify-content-between align-items-center">
             <h1>Tiebreaks</h1>
             <div class="d-flex align-items-baseline">
-                <h5 class="text-secondary mr-3">
+                <h5 class="text-secondary">
                     {{ $tiebreaks->total() }} tiebreaks found
                 </h5>
             </div>

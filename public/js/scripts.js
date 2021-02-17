@@ -1,9 +1,8 @@
 
 function delete_resource(OBJ, deleteAllFromTable = ""){
 
-    if(!confirm("Do you really want to do this?")) {
+    if(!confirm("Do you really want to do this?"))
         return false;
-    }
 
     var id = $(OBJ).data("id");
     var token = $("meta[name='csrf-token']").attr("content");

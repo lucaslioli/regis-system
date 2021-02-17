@@ -110,9 +110,29 @@ class UserController extends Controller
     }
 
     /**
+     * Reset all skipped queries by a user
+     * 
+     * @param  \App\User   $user
+     * @return \Illuminate\Http\Response
+     */
+    public function resetSkippedQueries(User $user)
+    {
+        $this->authorize('id-admin');
+
+        foreach ($user->queriesSkipped(False) as $query_id){
+            $query = Query::find($query_id);
+
+            if($query->status != "Complete")
+                $user->queries()->detach($query);
+        }
+
+        return response("Skipped queries (and not completed yet) were reseted!", 200);
+    }
+
+    /**
      * Remove the specified correlation between user and query.
      *
-     * @param  \App\User   $User
+     * @param  \App\User   $user
      * @param  \App\Query  $query
      * @return \Illuminate\Http\Response
      */

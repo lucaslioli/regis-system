@@ -12,9 +12,21 @@
         <div class="d-flex justify-content-between align-items-center">
             <h1>My Annotations</h1>
             <div class="d-flex align-items-baseline">
-                <h5 class="text-secondary mr-3">
+                <h5 class="text-secondary">
                     {{ $judgments->total() }} annotations found
                 </h5>
+
+                {{-- @if(Auth::user()->queriesSkipped())
+                    <h5 class="text-secondary mr-1">
+                        <span class="ml-3 mr-2">/</span>
+                        {{ Auth::user()->queriesSkipped() }} queries skipped
+                    </h5>
+                    <a href="{{ route('users.resetSkipped', Auth::user()) }}"
+                        class="btn btn-link text-danger" id="resetSkippedQueries" title="Reset all skipped queries">
+                        <i class="fas fa-eraser"></i> Reset skipped
+                    </a>
+                @endif --}}
+                </a>
             </div>
         </div>
 
@@ -136,12 +148,27 @@
     
     {{-- <script type="text/javascript">
 
+        // DELETE JUDGMENT
         $(document).ready(function () {
             $("body").on("click", "#deleteJudgment", function(e){
                 e.preventDefault();
                 delete_resource(this);
             });
         });
+
+    </script> --}}
+
+    {{-- <script type="text/javascript">
+
+        // RESET SKIPPED QUERIES
+        if($("#resetSkippedQueries").length > 0){
+            $(document).ready(function () {
+                $("body").on("click", "#resetSkippedQueries", function(e){
+                    e.preventDefault();
+                    delete_resource(this);
+                });
+            });
+        }
 
     </script> --}}
 
