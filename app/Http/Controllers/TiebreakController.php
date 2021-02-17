@@ -61,7 +61,8 @@ class TiebreakController extends Controller
         $tiebreaks = DB::table('document_query')
             ->join('queries', 'queries.id', '=', 'document_query.query_id')
             ->join('documents', 'documents.id', '=', 'document_query.document_id')
-            ->select('document_query.*', 'queries.title', 'documents.file_name')
+            ->select('document_query.*', 'queries.title', 'queries.qry_id', 
+                'documents.file_name', 'documents.doc_id')
             ->where('document_query.status', 'tiebreak')
             ->where('query_id', '!=', Auth::user()->current_query)
             ->whereNotIn('query_id', Auth::user()->queriesCompleted(False))
@@ -109,11 +110,14 @@ class TiebreakController extends Controller
         $tiebreaks = DB::table('document_query')
             ->join('queries', 'queries.id', '=', 'document_query.query_id')
             ->join('documents', 'documents.id', '=', 'document_query.document_id')
-            ->select('document_query.*, queries.title, documents.file_name')
+            ->select('document_query.*', 'queries.title', 'queries.qry_id', 
+                'documents.file_name', 'documents.doc_id')
             ->where('document_query.id', $qry)
             ->orWhere('queries.title', 'LIKE', "%$qry%")
+            ->orWhere('queries.qry_id', "$qry")
+            ->orWhere('documents.doc_id', "$qry")
             ->orWhere('documents.file_name', 'LIKE', "%$qry%")
-            ->get();
+            ->paginate(15);
 
         return view('tiebreaks.index', compact('tiebreaks'));
     }

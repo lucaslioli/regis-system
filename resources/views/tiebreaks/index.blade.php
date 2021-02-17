@@ -41,7 +41,9 @@
                 <tr>
                     <th scope="col">#</th>
                     {{-- <th scope="col">ID</th> --}}
+                    <th scope="col">Q.ID</th>
                     <th scope="col">Query</th>
+                    <th scope="col">D.ID</th>
                     <th scope="col">Document</th>
                     <th scope="col" class="text-center">Actions</th>
                 </tr>
@@ -56,11 +58,19 @@
                     {{-- <td>{{ $tiebreak->id }}</td> --}}
 
                     <td> 
-                        {{ Str::of($tiebreak->title)->limit(64) }}
+                        {{ $tiebreak->qry_id }}
+                    </td>
+
+                    <td> 
+                        {{ Str::of($tiebreak->title)->limit(36) }}
+                    </td>
+
+                    <td> 
+                        {{ $tiebreak->doc_id }}
                     </td>
 
                     <td>
-                        {{ Str::of($tiebreak->file_name)->limit(64) }}
+                        {{ Str::of($tiebreak->file_name)->limit(36) }}
                     </td>
 
                     <td class="text-center">

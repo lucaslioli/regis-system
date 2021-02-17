@@ -48,6 +48,8 @@ class JudgmentController extends Controller
             ->where('judgment', 'LIKE', "%$qry%")
             ->orWhere('observation', 'LIKE', "%$qry%")
             ->orWhere('queries.title', 'LIKE', "%$qry%")
+            ->orWhere('queries.qry_id', "$qry")
+            ->orWhere('documents.doc_id', "$qry")
             ->orWhere('documents.file_name', 'LIKE', "%$qry%")
             ->get();
 

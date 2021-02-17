@@ -45,8 +45,9 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">ID</th>
+                    <th scope="col">Q.ID</th>
                     <th scope="col">Query</th>
+                    <th scope="col">D.ID</th>
                     <th scope="col">Document</th>
                     <th scope="col" class="td-highlight text-center">Judgment</th>
                     <th scope="col">Observation</th>
@@ -66,8 +67,12 @@
                         {{ Str::of($judgment->queryy->title)->limit(50) }}
                     </td>
 
+                    <td>
+                        {{ $judgment->document->doc_id }}
+                    </td>
+
                     <td title="{{ $judgment->document->file_name }}">
-                        {{ Str::of($judgment->document->file_name)->limit(36) }}
+                        {{ Str::of($judgment->document->file_name)->limit(28) }}
                     </td>
 
                     <td class="td-highlight text-center">
