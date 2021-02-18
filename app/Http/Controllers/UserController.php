@@ -101,7 +101,12 @@ class UserController extends Controller
                     'status' => 'review']);
         }
 
-        // Delete judgments
+        // Delete tiebreaker judgments for the query
+        Judgment::where('query_id', $query->id)
+            ->where('untie', True)
+            ->delete();
+
+        // Delete user judgments for the query
         Judgment::where('query_id', $query->id)
             ->where('user_id', $user->id)
             ->delete();
