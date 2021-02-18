@@ -140,4 +140,37 @@ class User extends Authenticatable
 
         return $results;
     }
+
+    /**
+     * Delete user judgments for a specific query
+     *
+     * @param  \App\Query  $query
+     * @return \Illuminate\Http\Response
+     */
+    public function eraseJudgments(Query $query)
+    {
+        // Documents judged by the user for the query
+        $documents_judged = $this->documentsJudgedByQuery($query->id);
+
+        $documents = Document::whereIn('id', $documents_judged)->get();
+
+        // Before delete judgments, update doc-query pairs pivot columns
+        foreach ($documents as $document) {
+            $pivot_judgments = $query->documentJudgments($document->id);
+            $query->documents()->updateExistingPivot(
+                $document->id, [
+                    'judgments' => $pivot_judgments-1, 
+                    'status' => 'review']);
+        }
+
+        // Delete tiebreaker judgments for the query
+        Judgment::where('query_id', $query->id)
+            ->where('untie', True)
+            ->delete();
+
+        // Delete user judgments for the query
+        Judgment::where('query_id', $query->id)
+            ->where('user_id', $this->id)
+            ->delete();
+    }
 }

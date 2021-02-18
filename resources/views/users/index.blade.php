@@ -46,11 +46,11 @@
                     <th scope="col">User name</th>
                     <th scope="col">E-mail</th>
                     <th scope="col">Role</th>
-                    <th scope="col" class="text-center" title="Annotations completed">Annotations</th>
+                    <th scope="col" class="text-center" title="Annotations completed">Annots.</th>
                     <th scope="col" class="text-center" title="Queries completed">Queries</th>
                     <th scope="col" class="text-center" title="Queries skipped">Skipped</th>
                     <th scope="col" class="text-center" title="Current Query Id">Curr. Query</th>
-                    <th scope="col" class="text-center">Action</th>
+                    <th scope="col" class="text-center" colspan="5">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -60,9 +60,13 @@
                 <tr>
                     <td>{{ $user->id }}</td>
 
-                    <td>{{ $user->name }}</td>
+                    <td title="{{ $user->name }}">
+                        {{ Str::of($user->name)->limit(25) }}
+                    </td>
 
-                    <td class="text-muted">{{ $user->email }}</td>
+                    <td class="text-muted" title="{{ $user->email }}">
+                        {{ Str::of($user->email)->limit(30) }}
+                    </td>
 
                     <td class="text-muted">
                         <span class="badge badge-pill @switch($user->role)
@@ -86,10 +90,6 @@
                     <td class="text-center">
                         @if($user->queriesSkipped())
                             {{ $user->queriesSkipped() }}
-                            <a href="{{ route('users.resetSkipped', $user) }}"
-                                class="btn btn-sm btn-link text-danger" id="resetSkippedQueries" title="Reset skipped queries">
-                                <i class="fas fa-eraser"></i>
-                            </a>
                         @else
                             None
                         @endif
@@ -98,35 +98,71 @@
                     <td class="text-center">
                         @if($user->current_query)
                             {{ $user->current_query }}
-                            <a href="{{ route('users.detachQuery', [$user, $user->current_query]) }}"
-                                class="btn btn-sm btn-link text-danger" id="detachUserQuery" title="Detach user from query">
-                                <i class="fas fa-unlink"></i>
-                            </a>
                         @else
                             None
                         @endif
                     </td>
 
-                    <td class="text-center">
+                    <td class="subcol-action">
+                        {{-- ERASE JUDGMENTS --}}
+                        @if($user->current_query && $user->judgments->count() > 0)
+                            <a href="{{ route('users.eraseJudgments', $user) }}" class="btn btn-sm btn-outline-danger"
+                                id="eraseCurrentJudgments" title="Erase current judgments">
+                                <i class="fas fa-eraser"></i>
+                            </a>
+                        @endif
+                    </td>
+
+                    <td class="subcol-action">
+                        {{-- DETACH QUERY --}}
+                        @if($user->current_query)
+                            <a href="{{ route('users.detachQuery', [$user, $user->current_query]) }}"
+                                class="btn btn-sm btn-outline-danger" id="detachUserQuery" title="Detach user from query">
+                                <i class="fas fa-unlink"></i>
+                            </a>
+                        @endif
+                    </td>
+
+                    <td class="subcol-action">
+                        {{-- RESET SKIPPED --}}
+                        @if($user->queriesSkipped())
+                            <a href="{{ route('users.resetSkipped', $user) }}" class="btn btn-sm btn-outline-danger"
+                                id="resetSkippedQueries" title="Reset skipped queries">
+                                <i class="fas fa-undo-alt"></i>
+                            </a>
+                        @endif
+                    </td>
+
+                    <td class="subcol-action">
+                        {{-- RESET PASSWORD --}}
+                        @if($user->name != 'admin')
+                            <a href="{{ route('users.recoverPassword', $user) }}" class="btn btn-sm btn-outline-dark"
+                                id="recoverPassword" title="Recover password">
+                                <i class="fas fa-key"></i>
+                            </a>
+                        @endif
+                    </td>
+
+                    <td class="subcol-action">
+                        {{-- ADMIN PRIVILEGES --}}
                         @if($user->role == 'default')
                             <a href="{{ route('users.makeAdmin', $user) }}" class="btn btn-sm btn-outline-danger"
                                 title="Make user admin">
-                                <i class="fas fa-users-cog"></i> Make Admin
+                                <i class="fas fa-users-cog"></i>
                             </a>
                         @elseif($user->id != 1)
                             <a href="{{ route('users.revokeAdmin', $user) }}" class="btn btn-sm btn-outline-dark" 
                                 title="Revoke admin privileges">
-                                <i class="fas fa-user-lock"></i> Revoke Admin
+                                <i class="fas fa-user-lock"></i>
                             </a>
                         @endif
-
                     </td>
                 </tr>
                 
             @empty
 
                 <tr>
-                    <td colspan="9" class="text-center">
+                    <td colspan="13" class="text-center">
                         <i class="fas fa-ban"></i> No users found.
                     </td>
                 </tr>
@@ -147,6 +183,16 @@
 @section('scripts')
 
     <script type="text/javascript">
+
+        // RESET SKIPPED QUERIES
+        if($("#eraseCurrentJudgments").length > 0){
+            $(document).ready(function () {
+                $("body").on("click", "#eraseCurrentJudgments", function(e){
+                    e.preventDefault();
+                    delete_resource(this);
+                });
+            });
+        }
 
         // RESET SKIPPED QUERIES
         if($("#resetSkippedQueries").length > 0){
