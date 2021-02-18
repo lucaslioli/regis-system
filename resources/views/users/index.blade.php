@@ -124,8 +124,9 @@
                 </tr>
                 
             @empty
+
                 <tr>
-                    <td colspan="8" class="text-center">
+                    <td colspan="9" class="text-center">
                         <i class="fas fa-ban"></i> No users found.
                     </td>
                 </tr>

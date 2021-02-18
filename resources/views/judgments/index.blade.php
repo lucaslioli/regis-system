@@ -76,7 +76,7 @@
                     <td>{{ $judgment->queryy->qry_id }}</td>
 
                     <td title="{{ $judgment->queryy->title }}"> 
-                        {{ Str::of($judgment->queryy->title)->limit(50) }}
+                        {{ Str::of($judgment->queryy->title)->limit(28) }}
                     </td>
 
                     <td>
@@ -102,7 +102,7 @@
                         @if($judgment->untie)
                             <span class="badge badge-pill badge-danger mr-1">Tiebreak</span>
                         @endif
-                        {{ Str::of($judgment->observation)->limit(36) }}
+                        {{ Str::of($judgment->observation)->limit(28) }}
                     </td>
 
                     <td class="text-center">
@@ -126,7 +126,7 @@
 
             @empty
                 <tr>
-                    <td colspan="7" class="text-center">
+                    <td colspan="8" class="text-center">
                         <i class="fas fa-ban"></i> No annotations found.
                     </td>
                 </tr>

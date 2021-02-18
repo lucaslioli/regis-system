@@ -83,7 +83,7 @@
 
             @empty
                 <tr>
-                    <td colspan="7" class="text-center">
+                    <td colspan="6" class="text-center">
                         <i class="fas fa-ban"></i> No tiebreaks found for you to solve.
                     </td>
                 </tr>

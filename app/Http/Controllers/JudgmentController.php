@@ -41,20 +41,19 @@ class JudgmentController extends Controller
     {
         $qry = $request->get('qry');
 
-        $search = DB::table('judgments')
+        $judgments = DB::table('judgments')
             ->join('queries', 'queries.id', '=', 'judgments.query_id')
             ->join('documents', 'documents.id', '=', 'judgments.document_id')
             ->select('judgments.*')
-            ->where('judgment', 'LIKE', "%$qry%")
-            ->orWhere('observation', 'LIKE', "%$qry%")
-            ->orWhere('queries.title', 'LIKE', "%$qry%")
-            ->orWhere('queries.qry_id', "$qry")
-            ->orWhere('documents.doc_id', "$qry")
-            ->orWhere('documents.file_name', 'LIKE', "%$qry%")
-            ->get();
-
-        $judgments = Judgment::where('user_id', Auth::user()->id)
-            ->whereIn('id', $search->map->id)
+            ->where('user_id', Auth::user()->id)
+            ->where(function ($query) use ($qry) {
+                return $query->where('judgment', 'LIKE', "%$qry%")
+                ->orWhere('observation', 'LIKE', "%$qry%")
+                ->orWhere('queries.title', 'LIKE', "%$qry%")
+                ->orWhere('queries.qry_id', "$qry")
+                ->orWhere('documents.doc_id', "$qry")
+                ->orWhere('documents.file_name', 'LIKE', "%$qry%");
+            })
             ->paginate(15);
 
         return view('judgments.index', compact('judgments'));
