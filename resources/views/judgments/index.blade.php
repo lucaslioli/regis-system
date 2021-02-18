@@ -76,7 +76,7 @@
                     <td>{{ $judgment->queryy->qry_id }}</td>
 
                     <td title="{{ $judgment->queryy->title }}"> 
-                        {{ Str::of($judgment->queryy->title)->limit(28) }}
+                        {{ Str::of($judgment->queryy->title)->limit(24) }}
                     </td>
 
                     <td>
@@ -84,7 +84,7 @@
                     </td>
 
                     <td title="{{ $judgment->document->file_name }}">
-                        {{ Str::of($judgment->document->file_name)->limit(28) }}
+                        {{ Str::of($judgment->document->file_name)->limit(24) }}
                     </td>
 
                     <td class="td-highlight text-center">
@@ -102,7 +102,7 @@
                         @if($judgment->untie)
                             <span class="badge badge-pill badge-danger mr-1">Tiebreak</span>
                         @endif
-                        {{ Str::of($judgment->observation)->limit(28) }}
+                        {{ Str::of($judgment->observation)->limit(24) }}
                     </td>
 
                     <td class="text-center">

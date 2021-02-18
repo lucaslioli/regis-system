@@ -41,7 +41,7 @@ class JudgmentController extends Controller
     {
         $qry = $request->get('qry');
 
-        $judgments = DB::table('judgments')
+        $search = DB::table('judgments')
             ->join('queries', 'queries.id', '=', 'judgments.query_id')
             ->join('documents', 'documents.id', '=', 'judgments.document_id')
             ->select('judgments.*')
@@ -53,7 +53,10 @@ class JudgmentController extends Controller
                 ->orWhere('queries.qry_id', "$qry")
                 ->orWhere('documents.doc_id', "$qry")
                 ->orWhere('documents.file_name', 'LIKE', "%$qry%");
-            })
+            })->get();
+
+        // Used to get Judgment objects
+        $judgments = Judgment::whereIn('id', $search->map->id)
             ->paginate(15);
 
         return view('judgments.index', compact('judgments'));
