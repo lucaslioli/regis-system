@@ -91,7 +91,7 @@
                     
                         @switch($judgment->judgment)
                             @case("Very Relevant") <span class="badge badge-pill badge-success">Very Relevant</span> @break
-                            @case("Relevant") <span class="badge badge-pill badge-primary">Relevant</span> @break
+                            @case("Relevant") <span class="badge badge-pill badge-primary">Fairly Relevant</span> @break
                             @case("Marginally Relevant") <span class="badge badge-pill badge-advise">Marginally Relevant</span> @break
                             @case("Not Relevant") <span class="badge badge-pill badge-danger">Not Relevant</span> @break
                         @endswitch

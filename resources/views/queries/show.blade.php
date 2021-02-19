@@ -42,7 +42,7 @@
                             </div>
                             <div class="col-3">
                                 <span class="badge badge-pill badge-primary text-primary mb-1">.</span>
-                                <strong>Relevant judgs.: </strong> {{ $query->judgmentsByClass("Relevant") }}
+                                <strong>Fairly Relevant judgs.: </strong> {{ $query->judgmentsByClass("Relevant") }}
                             </div>
                             <div class="col-3">
                                 <span class="badge badge-pill badge-advise text-advise mb-1">.</span>

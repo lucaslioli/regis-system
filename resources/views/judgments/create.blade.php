@@ -184,7 +184,7 @@
                                 <input type="radio" class="custom-control-input" id="relevant" name="judgment" value="Relevant"
                                     {{ isset($judgment) && $judgment->judgment == "Relevant" ? 'checked' : '' }}
                                     {{ isset($tiebreak) && !in_array('Relevant', $tiebreak) ? 'disabled' : '' }}>
-                                <label class="custom-control-label" for="relevant">Relevant</label>
+                                <label class="custom-control-label" for="relevant">Fairly Relevant</label>
                             </div>
 
                             <div class="custom-control custom-switch">
@@ -238,7 +238,7 @@
                             <p>To help you judge the query-document pairs, here we provide some relevance indicators:</p>
                             <ul>
                                 <li>Very Relevant: Documents directly correlated with the query that answer it completely;</li>
-                                <li>Relevant: Documents correlated with the query but do not answer it completely;</li>
+                                <li>Fairly Relevant: Documents correlated with the query but do not answer it completely;</li>
                                 <li>Marginally Relevant: Documents not correlated with the query but with associated information;</li>
                                 <li>Not Relevant: Documents that do not present any correlation with the query.</li>
                             </ul>
