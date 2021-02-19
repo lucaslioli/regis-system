@@ -26,7 +26,7 @@ class Document extends Model
             ->withTimestamps();
     }
 
-    public function judgmentsByQuery($query_id, $badges = FALSE)
+    public function judgmentsByQuery($query_id, $badges = False)
     {
         $judgs = '';
 
@@ -38,7 +38,7 @@ class Document extends Model
             $judgs = str_replace('Very Relevant', '<span class="badge badge-pill badge-success">Very Relevant</span>', $judgs);
             $judgs = str_replace('Marginally Relevant', '<span class="badge badge-pill badge-advise">Marginally Relevant</span>', $judgs);
             $judgs = str_replace('Not Relevant', '<span class="badge badge-pill badge-danger">Not Relevant</span>', $judgs);
-            $judgs = str_replace('Relevant,', '<span class="badge badge-pill badge-primary">Relevant</span>,', $judgs);
+            $judgs = str_replace('Relevant,', '<span class="badge badge-pill badge-primary">Fairly Relevant</span>,', $judgs);
         }
 
         return substr($judgs, 0, -2);

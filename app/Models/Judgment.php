@@ -40,7 +40,10 @@ class Judgment extends Model
   
         $results[] = ['Judgment','Total'];
         foreach ($judgments as $key => $value) {
-            $results[++$key] = [$value->judgment, (int)$value->total];
+            $results[++$key] = [
+                ($value->judgment == "Relevant")?"Fairly Relevant":$value->judgment, 
+                (int)$value->total
+            ];
         }
 
         return $results;

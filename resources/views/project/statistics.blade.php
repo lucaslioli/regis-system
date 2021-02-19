@@ -34,7 +34,7 @@
                             <th scope="col">#</th>
                             <th scope="col">Query</th>
                             <th scope="col" class="text-center">Very R.</th>
-                            <th scope="col" class="text-center">Relevant</th>
+                            <th scope="col" class="text-center">Fairly R.</th>
                             <th scope="col" class="text-center">Marginally</th>
                             <th scope="col" class="text-center">Not R.</th>
                         </tr>
