@@ -50,7 +50,12 @@
                     <th scope="col" class="text-center" title="Queries completed">Queries</th>
                     <th scope="col" class="text-center" title="Queries skipped">Skipped</th>
                     <th scope="col" class="text-center" title="Current Query Id">Curr. Query</th>
-                    <th scope="col" class="text-center" colspan="5">Action</th>
+                    <th scope="col" class="text-center" colspan="5">
+                        Action
+                        <a href="" class="btn-link" data-toggle="modal" data-target="#helpModal" title="Actions guide">
+                            <i class="fas fa-question"></i>
+                        </a>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -117,7 +122,7 @@
                         {{-- DETACH QUERY --}}
                         @if($user->current_query)
                             <a href="{{ route('users.detachQuery', [$user, $user->current_query]) }}"
-                                class="btn btn-sm btn-outline-danger" id="detachUserQuery" title="Detach user from query">
+                                class="btn btn-sm btn-outline-danger" id="detachUserQuery" title="Detach user from the query">
                                 <i class="fas fa-unlink"></i>
                             </a>
                         @endif
@@ -174,6 +179,37 @@
 
         <div class="d-flex justify-content-end">
             {{ $users->links() }}
+        </div>
+
+        <!-- Modal with actions guide -->
+        <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="helpModalLabel"><i class="fas fa-question"></i> Actions guide</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li><i class="fas fa-eraser mr-2"></i> <b>Erase current judgments</b>, 
+                            will delete all user's judgments for the current query;</li>
+                        <li><i class="fas fa-unlink mr-2"></i> <b>Detach user from the query</b>, 
+                            will make the query available to other users again;</li>
+                        <li><i class="fas fa-undo-alt mr-2"></i> <b>Reset skipped queries</b>, 
+                            will make skipped queries available to the user again;</li>
+                        <li><i class="fas fa-users-cog mr-2"></i> <b>Make user admin</b>, 
+                            will give admin privileges to a user;</li>
+                        <li><i class="fas fa-user-lock mr-2"></i> <b>Revoke admin privileges</b>, 
+                            will give default privileges to a user.</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
         </div>
 
     </div>

@@ -226,28 +226,28 @@
 
                     <!-- Modal with relevance guide -->
                     <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-lg">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="helpModalLabel"><i class="fas fa-question"></i> Relevance guide</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="helpModalLabel"><i class="fas fa-question"></i> Relevance guide</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>To help you judge the query-document pairs, here we provide some relevance indicators:</p>
+                                <ul>
+                                    <li>Very Relevant: Documents directly correlated with the query that answer it completely;</li>
+                                    <li>Relevant: Documents correlated with the query but do not answer it completely;</li>
+                                    <li>Marginally Relevant: Documents not correlated with the query but with associated information;</li>
+                                    <li>Not Relevant: Documents that do not present any correlation with the query.</li>
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                            </div>
                         </div>
-                        <div class="modal-body">
-                            <p>To help you judge the query-document pairs, here we provide some relevance indicators:</p>
-                            <ul>
-                                <li>Very Relevant: Documents directly correlated with the query that answer it completely;</li>
-                                <li>Relevant: Documents correlated with the query but do not answer it completely;</li>
-                                <li>Marginally Relevant: Documents not correlated with the query but with associated information;</li>
-                                <li>Not Relevant: Documents that do not present any correlation with the query.</li>
-                            </ul>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                        </div>
-                    </div>
                     </div>
 
                 </div>
