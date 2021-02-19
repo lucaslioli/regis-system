@@ -118,7 +118,7 @@
                 backgroundColor: 'transparent',
                 fontSize: '14',
                 slices: {
-                    0: {color: '#28a745', offset: 0.2}, 
+                    0: {color: '#28a745', offset: 0.1}, 
                     1: {color: '#6c757d'},
                     2: {color: '#007bff'}
                 }

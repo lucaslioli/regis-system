@@ -199,6 +199,8 @@
                             will make the query available to other users again;</li>
                         <li><i class="fas fa-undo-alt mr-2"></i> <b>Reset skipped queries</b>, 
                             will make skipped queries available to the user again;</li>
+                        <li><i class="fas fa-key mr-2"></i> <b>Recover password</b>, 
+                            will generate a link to the user update its password;</li>
                         <li><i class="fas fa-users-cog mr-2"></i> <b>Make user admin</b>, 
                             will give admin privileges to a user;</li>
                         <li><i class="fas fa-user-lock mr-2"></i> <b>Revoke admin privileges</b>, 
