@@ -405,3 +405,24 @@ h2 .badge {
 .silver-medal {
     color: #DCDCDC;
 }
+
+.btn-expand span {
+    max-width: 0;
+    -webkit-transition: max-width 1s;
+    transition: max-width 1s;
+    display: inline-block;
+    vertical-align: top;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.btn-expand:hover span {
+    max-width: 7rem;
+    margin-left: 3px;
+}
+
+.subcol-action {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+    text-align: center;
+}

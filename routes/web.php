@@ -27,7 +27,9 @@ Route::get('/users/search', 'UserController@search')->name('users.search');
 Route::get('/users/skipQuery/{query}', 'UserController@skipQuery')->name('users.skipQuery');
 Route::get('/users/{user}/makeAdmin', 'UserController@makeAdmin')->name('users.makeAdmin');
 Route::get('/users/{user}/revokeAdmin', 'UserController@revokeAdmin')->name('users.revokeAdmin');
+Route::get('/users/{user}/recoverPassword', 'UserController@recoverPassword')->name('users.recoverPassword');
 Route::delete('/user/{user}/resetSkipped', 'UserController@resetSkippedQueries')->name('users.resetSkipped');
+Route::delete('/user/{user}/eraseJudgments', 'UserController@eraseCurrentJudgments')->name('users.eraseJudgments');
 Route::delete('/user/detachQuery/{user}/{query}', 'UserController@detachQuery')->name('users.detachQuery');
 
 // Judgment

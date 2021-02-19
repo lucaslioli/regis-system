@@ -8,8 +8,6 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 use App\Models\Query;
-use App\Models\Document;
-use App\Models\Judgment;
 
 class UserController extends Controller
 {
@@ -73,7 +71,7 @@ class UserController extends Controller
     /**	
      * Skip query for logged user and delete al judgments related
      *	
-     * @param  \Illuminate\Http\QUery  $query
+     * @param  \App\Query  $query
      * @return \Illuminate\Http\Response	
      */	
     public function skipQuery(Query $query)
@@ -87,31 +85,26 @@ class UserController extends Controller
         $user->queries()->updateExistingPivot(
             $query->id, ['skip' => 1]);
 
-        // Documents judged by the user for the query
-        $documents_judged = $user->documentsJudgedByQuery($query->id);
-
-        $documents = Document::whereIn('id', $documents_judged)->get();
-
-        // Before delete judgments, update doc-query pairs pivot columns
-        foreach ($documents as $document) {
-            $pivot_judgments = $query->documentJudgments($document->id);
-            $query->documents()->updateExistingPivot(
-                $document->id, [
-                    'judgments' => $pivot_judgments-1, 
-                    'status' => 'review']);
-        }
-
-        // Delete tiebreaker judgments for the query
-        Judgment::where('query_id', $query->id)
-            ->where('untie', True)
-            ->delete();
-
-        // Delete user judgments for the query
-        Judgment::where('query_id', $query->id)
-            ->where('user_id', $user->id)
-            ->delete();
+        $user->eraseJudgments($query);
 
         return redirect(route('judgments.create'));
+    }
+
+    /**
+     * Delete user judgments for a specific query
+     *
+     * @param  \App\User   $user
+     * @return \Illuminate\Http\Response
+     */
+    public function eraseCurrentJudgments(User $user)
+    {
+        $this->authorize('id-admin');
+
+        $query = Query::find($user->current_query);
+
+        $user->eraseJudgments($query);
+
+        return response("User judgments for current query were deleted successfully!", 200);
     }
 
     /**
@@ -145,8 +138,6 @@ class UserController extends Controller
     {
         $this->authorize('id-admin');
 
-        $id = $query->id;
-
         if(count($user->documentsJudgedByQuery($query->id)) > 0)
             return response("ERROR: The pair already has judgments", 400);
 
@@ -155,7 +146,25 @@ class UserController extends Controller
         $user->queries()->detach($query);
         $user->setCurrentQuery(NULL);
 
-        return response("Correlation with query ".$id." deleted successfully!", 200);
+        return response("Correlation with query ".$query->id." deleted successfully!", 200);
+    }
+
+    /**
+     * Generate link to recover user password
+     * 
+     * @param  \App\User   $user
+     * @return \Illuminate\Http\Response
+     */
+    public function recoverPassword(User $user)
+    {
+        $this->authorize('id-admin');
+
+        //Create Password Reset Token
+        $token = app('auth.password.broker')->createToken($user);
+
+        $link = url(route('password.reset', ['token' => $token], false));
+
+        return response("Password recover link for user <b>".$user->name."</b>: <i>".$link."</i>", 200);
     }
 
 }
