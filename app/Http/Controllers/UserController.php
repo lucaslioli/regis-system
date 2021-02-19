@@ -8,8 +8,6 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 use App\Models\Query;
-use App\Models\Document;
-use App\Models\Judgment;
 
 class UserController extends Controller
 {
@@ -149,6 +147,24 @@ class UserController extends Controller
         $user->setCurrentQuery(NULL);
 
         return response("Correlation with query ".$query->id." deleted successfully!", 200);
+    }
+
+    /**
+     * Generate link to recover user password
+     * 
+     * @param  \App\User   $user
+     * @return \Illuminate\Http\Response
+     */
+    public function recoverPassword(User $user)
+    {
+        $this->authorize('id-admin');
+
+        //Create Password Reset Token
+        $token = app('auth.password.broker')->createToken($user);
+
+        $link = url(route('password.reset', ['token' => $token], false));
+
+        return response("Password recover link for user <b>".$user->name."</b>: <i>".$link."</i>", 200);
     }
 
 }

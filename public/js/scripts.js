@@ -34,6 +34,33 @@ function delete_resource(OBJ, deleteAllFromTable = ""){
     return false;
 }
 
+function simpleAjaxGetData(OBJ){
+
+    if(!confirm("Do you really want to do this?"))
+        return false;
+
+    var id = $(OBJ).data("id");
+
+    $.ajax({
+        url: OBJ.href,
+        type: 'GET',
+        data: {
+            id: id
+        },
+        success: function (response){
+            $("#response").removeClass("alert alert-danger");
+            $("#response").addClass("alert alert-success");
+            $("#response").html(response);
+        },
+        error: function(error){
+            $("#response").removeClass("alert alert-success");
+            $("#response").addClass("alert alert-danger");
+            $("#response").html(error.responseText);
+        }
+    });
+    return false;
+}
+
 function findFirstLast(docNum, first = 1){
     markers = $("#content-"+docNum+" mark");
     if(markers.length == 0)

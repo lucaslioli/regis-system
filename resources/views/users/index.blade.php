@@ -214,6 +214,16 @@
             });
         }
 
+        // RECOVER PASSWORD
+        if($("#recoverPassword").length > 0){
+            $(document).ready(function () {
+                $("body").on("click", "#recoverPassword", function(e){
+                    e.preventDefault();
+                    simpleAjaxGetData(this);
+                });
+            });
+        }
+
     </script>
 
 @endsection
