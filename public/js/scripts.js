@@ -36,7 +36,8 @@ function delete_resource(OBJ, deleteAllFromTable = ""){
 
 function simpleAjaxGetData(OBJ){
 
-    if(!confirm("Do you really want to do this?"))
+    msg = (OBJ.title)?"\n"+OBJ.title:"";
+    if(!confirm("Do you really want to do this?"+msg))
         return false;
 
     var id = $(OBJ).data("id");

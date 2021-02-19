@@ -185,31 +185,31 @@
         <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="helpModalLabel"><i class="fas fa-question"></i> Actions guide</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <ul>
-                        <li><i class="fas fa-eraser mr-2"></i> <b>Erase current judgments</b>, 
-                            will delete all user's judgments for the current query;</li>
-                        <li><i class="fas fa-unlink mr-2"></i> <b>Detach user from the query</b>, 
-                            will make the query available to other users again;</li>
-                        <li><i class="fas fa-undo-alt mr-2"></i> <b>Reset skipped queries</b>, 
-                            will make skipped queries available to the user again;</li>
-                        <li><i class="fas fa-key mr-2"></i> <b>Recover password</b>, 
-                            will generate a link to the user update its password;</li>
-                        <li><i class="fas fa-users-cog mr-2"></i> <b>Make user admin</b>, 
-                            will give admin privileges to a user;</li>
-                        <li><i class="fas fa-user-lock mr-2"></i> <b>Revoke admin privileges</b>, 
-                            will give default privileges to a user.</li>
-                    </ul>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="helpModalLabel"><i class="fas fa-question"></i> Actions guide</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <ul>
+                            <li><i class="fas fa-eraser mr-2"></i> <b>Erase current judgments</b>, 
+                                will delete all user's judgments for the current query;</li>
+                            <li><i class="fas fa-unlink mr-2"></i> <b>Detach user from the query</b>, 
+                                will make the query available to other users again;</li>
+                            <li><i class="fas fa-undo-alt mr-2"></i> <b>Reset skipped queries</b>, 
+                                will make skipped queries available to the user again;</li>
+                            <li><i class="fas fa-key mr-2"></i> <b>Recover password</b>, 
+                                will generate a link to the user update its password;</li>
+                            <li><i class="fas fa-users-cog mr-2"></i> <b>Make user admin</b>, 
+                                will give admin privileges to a user;</li>
+                            <li><i class="fas fa-user-lock mr-2"></i> <b>Revoke admin privileges</b>, 
+                                will give default privileges to a user.</li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
