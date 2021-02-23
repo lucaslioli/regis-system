@@ -75,7 +75,7 @@ class ProjectController extends Controller
             ->join('queries', 'queries.id', '=', 'document_query.query_id')
             ->select('document_query.*')
             ->where('queries.status', '!=', 'Incomplete')
-            ->orderBy('queries.qry_id')
+            ->orderBy('document_query.query_id')
             ->get();
 
         $response = array();
