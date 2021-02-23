@@ -67,16 +67,16 @@ if(!function_exists('mapjudgment'))
     {
         switch ($judgment) {
             case 'Very Relevant':
-                return 1.0;
+                return 3;
 
             case 'Relevant':
-                return 0.7;
+                return 2;
 
             case 'Marginally Relevant':
-                return 0.3;
+                return 1;
     
             default:
-                return 0.0;
+                return 0;
         }
     }
 }
