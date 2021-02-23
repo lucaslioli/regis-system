@@ -112,7 +112,11 @@
                             </a>
                         @else
                             <a href="{{ route('judgments.edit', $judgment) }}" class="btn btn-sm btn-outline-primary" title="Edit judgment">
-                                <i class="fas fa-edit"></i>
+                                @if($judgment->queryy->status == 'Complete')
+                                    <i class="fas fa-eye"></i>
+                                @else
+                                    <i class="fas fa-edit"></i>
+                                @endif
                             </a>
                         @endif
 

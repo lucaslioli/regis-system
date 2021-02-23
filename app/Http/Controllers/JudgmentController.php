@@ -246,7 +246,7 @@ class JudgmentController extends Controller
         // Set up the progress for the query
         $progress = [
             "document" => count($documents_judged),
-            "bar" => count($documents_judged)*100/count($judgment->queryy->documents)
+            "bar" => round(count($documents_judged)*100/count($judgment->queryy->documents), 1)
         ];
 
         // Update the text_file with the markers

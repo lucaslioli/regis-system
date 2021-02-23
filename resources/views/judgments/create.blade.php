@@ -217,10 +217,20 @@
 
                         {{-- Submit button --}}
 
-                        @if(!isset($judgment) || !$judgment->untie)
+                        @if(isset($judgment) && $judgment->untie)
+
+                            <span class="text-muted">Tiebreak solved!</span>
+
+                        @elseif(isset($judgment) && $judgment->queryy->status == "Complete")
+
+                            <span class="text-muted">Query completed!</span>
+
+                        @else
+
                             <button type="submit" id="btn-submit" class="btn btn-block {{ isset($judgment) ? 'btn-primary' : 'btn-success' }}">
                                 <i class="fas fa-save"></i> {{ isset($judgment) ? 'Edit' : 'Submit' }}
                             </button>
+
                         @endif
                     </form>
 
