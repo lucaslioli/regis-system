@@ -12,15 +12,18 @@
         <div class="d-flex justify-content-between align-items-center">
             <h1>Queries</h1>
             <div class="d-flex align-items-baseline">
-                <h5 class="text-secondary mr-3">
+                <h5 class="text-secondary mr-2">
                     {{ $queries->total() }} queries found
                 </h5>
-                <a href="{{ route('queries.create') }}" class="btn btn-success mr-3" title="Create and attach Documents">
-                    <i class="fas fa-tools"></i> Manage Queries
-                </a>
 
-                <a href="{{ route('project.qrels') }}"  class="btn btn-outline-secondary" type="button">
-                    <i class="fas fa-download"></i> Download qrels
+                <a href="{{ route('project.qrelsPreliminary') }}"  class="btn btn-link mr-2" type="button"
+                    data-toggle="tooltip" data-placement="bottom"
+                    title="Export preliminary qrels considering all Completed and Semi Completed queries">
+                    <i class="fas fa-download"></i> Download preliminary qrels
+                </a>
+                
+                <a href="{{ route('queries.create') }}" class="btn btn-success" title="Create and attach Documents">
+                    <i class="fas fa-tools"></i> Manage Queries
                 </a>
             </div>
         </div>

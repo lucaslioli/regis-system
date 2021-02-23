@@ -26,10 +26,13 @@ class ProjectController extends Controller
 
     public function qrelsExport()
     {
-        // Get all queries completed
+        // Get all pairs from completed queries
         $completed_pairs = DB::table('document_query')
-            ->whereIn('status', ['agreed', 'solved'])
-            ->orderBy('query_id')
+            ->join('queries', 'queries.id', '=', 'document_query.query_id')
+            ->select('document_query.*')
+            ->whereIn('document_query.status', ['agreed', 'solved'])
+            ->where('queries.status', 'Complete')
+            ->orderBy('document_query.query_id')
             ->get();
 
         $response = array();
@@ -61,6 +64,50 @@ class ProjectController extends Controller
 
         Storage::disk('local')->put('qrels.txt', implode(PHP_EOL, $response));
         return Storage::download('qrels.txt');
+
+        return back();
+    }
+
+    public function qrelsExportPreliminary()
+    {
+        // Get all pairs from completed and semi competed queries
+        $preliminary_pairs = DB::table('document_query')
+            ->join('queries', 'queries.id', '=', 'document_query.query_id')
+            ->select('document_query.*')
+            ->where('document_query.status', '!=', 'tiebreak')
+            ->where('queries.status', '!=', 'Incomplete')
+            ->orderBy('document_query.query_id')
+            ->get();
+
+        $response = array();
+        
+        foreach ($preliminary_pairs as $pair) {
+            $query = Query::find($pair->query_id);
+            $document = Document::find($pair->document_id);
+
+            if($pair->status == "solved"){
+                $judgments = Judgment::where('query_id', $pair->query_id)
+                    ->where('document_id', $pair->document_id)->pluck('judgment')->all();
+
+                // Group and count judgments to get the one with 2 votes
+                $relevance = array_search(2, array_count_values($judgments));
+
+            // For agreed or under review pairs, gets (the) one judgment
+            }else{
+                $judgment = Judgment::where('query_id', $pair->query_id)
+                    ->where('document_id', $pair->document_id)->first();
+
+                $relevance = $judgment->judgment;
+            }
+
+            $relevance = mapJudgment($relevance);
+            
+            // Format: Q1 0 BR-BG.00001 1.0
+            array_push($response, $query->qry_id." 0 ".$document->doc_id." ".$relevance);
+        }
+
+        Storage::disk('local')->put('preliminary_qrels.txt', implode(PHP_EOL, $response));
+        return Storage::download('preliminary_qrels.txt');
 
         return back();
     }
