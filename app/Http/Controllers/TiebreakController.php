@@ -63,7 +63,7 @@ class TiebreakController extends Controller
         $tiebreaks = DB::table('document_query')
             ->join('queries', 'queries.id', '=', 'document_query.query_id')
             ->join('documents', 'documents.id', '=', 'document_query.document_id')
-            ->select('document_query.*', 'queries.title', 'queries.status as qstatus', 'queries.qry_id', 
+            ->select('document_query.*', 'queries.title', 'queries.qry_id', 
                 'documents.file_name', 'documents.doc_id')
             ->where('document_query.status', 'tiebreak')
             ->where('queries.status', 'Complete')

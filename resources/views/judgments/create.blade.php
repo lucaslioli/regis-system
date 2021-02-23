@@ -110,7 +110,7 @@
 
                             @if(isset($query) && !isset($judgment) && !isset($tiebreak))
                                 <a href="{{ route('users.skipQuery', $query) }}" id="btn-skip" class="btn btn-sm btn-dark pl-3 pr-3"
-                                    data-toggle="tooltip" data-html="true" 
+                                    data-toggle="tooltip" data-html="true" data-placement="bottom"
                                     title="In case the query requires extra domain knowledge, you can skip it. This action <b>can't be undone</b>.">
                                     <i class="fas fa-forward"></i> Skip Query
                                 </a>
@@ -337,8 +337,6 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            $('#btn-skip').tooltip('enable');
-
             $("#btn-skip").on("click", function(e){
                 e.preventDefault();
                 
