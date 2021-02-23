@@ -74,9 +74,8 @@ class ProjectController extends Controller
         $preliminary_pairs = DB::table('document_query')
             ->join('queries', 'queries.id', '=', 'document_query.query_id')
             ->select('document_query.*')
-            ->where('document_query.status', '!=', 'tiebreak')
             ->where('queries.status', '!=', 'Incomplete')
-            ->orderBy('document_query.query_id')
+            ->orderBy('queries.qry_id')
             ->get();
 
         $response = array();
@@ -92,7 +91,7 @@ class ProjectController extends Controller
                 // Group and count judgments to get the one with 2 votes
                 $relevance = array_search(2, array_count_values($judgments));
 
-            // For agreed or under review pairs, gets (the) one judgment
+            // For agreed, tiebreak, or under review pairs, gets ony only one judgment
             }else{
                 $judgment = Judgment::where('query_id', $pair->query_id)
                     ->where('document_id', $pair->document_id)->first();
