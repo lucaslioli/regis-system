@@ -32,8 +32,10 @@ class TiebreakController extends Controller
     {
         // Get all queries completed
         $completed_pairs = DB::table('document_query')
-            ->where('judgments', 2)
-            ->where('status', 'review')
+            ->join('queries', 'queries.id', '=', 'document_query.query_id')
+            ->where('document_query.judgments', 2)
+            ->where('document_query.status', 'review')
+            ->where('queries.status', 'Complete')
             ->get();
 
         foreach ($completed_pairs as $pair) {
@@ -61,9 +63,10 @@ class TiebreakController extends Controller
         $tiebreaks = DB::table('document_query')
             ->join('queries', 'queries.id', '=', 'document_query.query_id')
             ->join('documents', 'documents.id', '=', 'document_query.document_id')
-            ->select('document_query.*', 'queries.title', 'queries.qry_id', 
+            ->select('document_query.*', 'queries.title', 'queries.status as qstatus', 'queries.qry_id', 
                 'documents.file_name', 'documents.doc_id')
             ->where('document_query.status', 'tiebreak')
+            ->where('queries.status', 'Complete')
             ->where('query_id', '!=', Auth::user()->current_query)
             ->whereNotIn('query_id', Auth::user()->queriesCompleted(False))
             ->paginate(15);
