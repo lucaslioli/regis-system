@@ -13,6 +13,7 @@
     <link rel="shortcut icon" href="{{ asset('images/regis-favicon.png') }}" />
 
     <!-- Scripts -->
+    <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Styles -->
