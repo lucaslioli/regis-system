@@ -26,13 +26,21 @@ class Document extends Model
             ->withTimestamps();
     }
 
-    public function judgmentsByQuery($query_id, $badges = False)
+    public function judgmentsByQuery($queryId, $badges = False, $separator = ",", $numeric = False, $kappa=False)
     {
         $judgs = '';
+        $separator .= " ";
 
         foreach ($this->judgments as $judgment)
-            if($judgment->queryy->id == $query_id)
-                $judgs .= $judgment->judgment . ", ";
+            if($judgment->queryy->id == $queryId){
+                if($kappa && $judgment->untie == 1)
+                    continue;
+
+                if($numeric)
+                    $judgs .= mapJudgment($judgment->judgment, $kappa) . $separator;
+                else
+                    $judgs .= $judgment->judgment . $separator;
+            }
 
         if($badges){
             $judgs = str_replace('Very Relevant', '<span class="badge badge-pill badge-success">Very Relevant</span>', $judgs);
@@ -45,10 +53,10 @@ class Document extends Model
     }
 
     // Status of the document-query pair
-    public function statusByQueryPair($query_id)
+    public function statusByQueryPair($queryId)
     {
         foreach ($this->queries as $query)
-            if($query->id == $query_id)
+            if($query->id == $queryId)
                 return ucfirst($query->pivot->status);
     }
 }

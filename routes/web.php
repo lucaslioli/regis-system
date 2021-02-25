@@ -75,6 +75,8 @@ Route::get('/tiebreaks/{query}/{document}/edit', 'TiebreakController@edit')->nam
 // Project
 Route::get('/project/qrels', 'ProjectController@qrelsExport')->name('project.qrels');
 Route::get('/project/qrelsPreliminary', 'ProjectController@qrelsExportPreliminary')->name('project.qrelsPreliminary');
+Route::get('/project/solvedTiebreaks', 'ProjectController@tiebreaksExport')->name('project.solvedTiebreaks');
+Route::get('/project/judgmentsKappa', 'ProjectController@judgmentsKappaExport')->name('project.judgmentsKappa');
 Route::get('/project/statistics', 'ProjectController@statistics')->name('project.statistics');
 Route::get('/project/ranking', 'ProjectController@userRanking')->name('project.ranking');
 

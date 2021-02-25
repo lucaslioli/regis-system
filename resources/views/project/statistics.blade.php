@@ -21,6 +21,15 @@
         <hr>
 
         <div class="d-flex justify-content-between">
+            <span><strong>Total judgments:</strong> {{ $total['judgments'] }}</span>
+            <span><strong>Total tiebreaks:</strong> {{ $total['tiebreaks']+$total['solved'] }}</span>
+            <span><strong>Solved tiebreaks:</strong> {{ $total['solved'] }}</span>
+            <span><strong>Remaining tiebreaks:</strong> {{ $total['tiebreaks'] }}</span>
+        </div>
+
+        <hr>
+
+        <div class="d-flex justify-content-between">
             <div id="queriesStatusChart" style="width: 500px; height: 330px;"></div>
             <div id="judgmentsChart" style="width: 550px; height: 330px;"></div>
         </div>
@@ -95,6 +104,24 @@
             </div>
         </div>
 
+        <hr>
+
+        <div class="d-flex align-items-baseline">
+            <span><strong>Download analysis data:</strong></span>
+            
+            <a href="{{ route('project.solvedTiebreaks') }}"  class="btn btn-link" type="button"
+                data-toggle="tooltip" data-placement="bottom"
+                title="Export solved tiebreaks">
+                <i class="fas fa-download"></i> Solved tiebreaks
+            </a>
+
+            <a href="{{ route('project.judgmentsKappa') }}"  class="btn btn-link" type="button"
+                data-toggle="tooltip" data-placement="bottom"
+                title="Export judgments to calculate Fleiss Kappa">
+                <i class="fas fa-download"></i> Judgments for Kappa
+            </a>
+        </div>
+
     </div>
 
 @endsection
@@ -102,8 +129,8 @@
 @section('scripts')
     {{-- scripts --}}
     <script type="text/javascript">
-        var queries_status = @php echo $queries_status; @endphp;
-        var judgments = @php echo $judgments; @endphp;
+        var queries_status = @php echo $queries_status_json; @endphp;
+        var judgments = @php echo $judgments_json; @endphp;
 
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawQueryStatusChart);

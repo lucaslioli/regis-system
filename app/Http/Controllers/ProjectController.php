@@ -111,6 +111,69 @@ class ProjectController extends Controller
         return back();
     }
 
+    /**
+     * Export file with judgments for each pair that has a tiebreak
+     */
+    public function tiebreaksExport()
+    {
+        // Get all pairs from completed queries
+        $queries = Query::whereIn("status", ['Semi Complete', 'Complete'])
+            ->get();
+
+        $response = array();
+        
+        foreach ($queries as $query) {
+
+            foreach ($query->documents as $document) {
+
+                if($document->statusByQueryPair($query->id) == "Solved"){
+                    $judgments = $document->judgmentsByQuery($query->id, False, "\t", True);
+                    // Format: Q1    BR-BG.00001    3    2    3
+                    array_push($response, $query->qry_id."\t".$document->doc_id."\t".$judgments);
+                }
+
+            }
+
+        }
+
+        Storage::disk('local')->put('tiebreaks-solved.txt', implode(PHP_EOL, $response));
+        return Storage::download('tiebreaks-solved.txt');
+
+        return back();
+    }
+
+    /** 
+     * Export file with all judgments for each pair to calculate Fleiss Kappa.
+     * Relevance levels are reperesented by letter (a, b, c and d).
+     * Tiebreak judgments are not included.
+     */
+    public function judgmentsKappaExport()
+    {
+        // Get all pairs from completed queries
+        $queries = Query::where("status", 'Complete')->get();
+
+        $response = array();
+        
+        foreach ($queries as $query) {
+
+            foreach ($query->documents as $document) {
+
+                if($document->statusByQueryPair($query->id) != "Review"){
+                    $judgments = $document->judgmentsByQuery($query->id, False, "\t", True, True);
+                    // Format: Q1-BR-BG.00001    a    b
+                    array_push($response, $query->qry_id."-".$document->doc_id."\t".$judgments);
+                }
+
+            }
+
+        }
+
+        Storage::disk('local')->put('judgments-kappa.txt', implode(PHP_EOL, $response));
+        return Storage::download('judgments-kappa.txt');
+
+        return back();
+    }
+
     public function statistics(){
         $this->authorize('id-admin');
   
@@ -119,10 +182,24 @@ class ProjectController extends Controller
         $completed_queries = Query::completedQuriesStatsData();
         $users = User::userStatsData();
 
+        $tiebreaks = DB::table('document_query')
+            ->select(DB::raw('status, count(status) as total'))
+            ->whereIn('status', ['solved', 'tiebreak'])
+            ->groupBy('status')->orderBy('status')
+            ->get();
+
+        $total = array(
+            'judgments' => ($judgments[1][1] + $judgments[2][1] + $judgments[3][1] + $judgments[4][1]),
+            'solved' => (isset($tiebreaks[0]))?$tiebreaks[0]->total:0,
+            'tiebreaks' => (isset($tiebreaks[1]))?$tiebreaks[1]->total:0,
+        );
+
         return view('project.statistics', [
-            'queries_status' => json_encode($queries_status),
-            'judgments' => json_encode($judgments),
+            'queries_status_json' => json_encode($queries_status),
+            'judgments_json' => json_encode($judgments),
             'completed_queries' => $completed_queries,
+            'total' => $total,
+            'judgments' => $judgments,
             'users' => $users]
         );
     }

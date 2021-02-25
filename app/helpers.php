@@ -63,20 +63,20 @@ if(!function_exists('highlightWords'))
 
 if(!function_exists('mapjudgment'))
 {
-    function mapJudgment($judgment)
+    function mapJudgment($judgment, $kappa=False)
     {
         switch ($judgment) {
             case 'Very Relevant':
-                return 3;
+                return ($kappa)?'d':3;
 
             case 'Relevant':
-                return 2;
+                return ($kappa)?'c':2;
 
             case 'Marginally Relevant':
-                return 1;
+                return ($kappa)?'b':1;
     
             default:
-                return 0;
+                return ($kappa)?'a':0;
         }
     }
 }
