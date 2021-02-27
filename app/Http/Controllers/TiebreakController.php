@@ -117,6 +117,7 @@ class TiebreakController extends Controller
                 'documents.file_name', 'documents.doc_id')
             ->where('query_id', '!=', Auth::user()->current_query)
             ->whereNotIn('query_id', Auth::user()->queriesCompleted(False))
+            ->where('document_query.status', 'tiebreak')
             ->where(function ($query) use ($qry) {
                 return $query->where('document_query.id', $qry)
                     ->orWhere('queries.title', 'LIKE', "%$qry%")

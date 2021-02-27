@@ -136,8 +136,8 @@ class ProjectController extends Controller
 
         }
 
-        Storage::disk('local')->put('tiebreaks-solved.txt', implode(PHP_EOL, $response));
-        return Storage::download('tiebreaks-solved.txt');
+        Storage::disk('local')->put('tiebreaks_solved.txt', implode(PHP_EOL, $response));
+        return Storage::download('tiebreaks_solved.txt');
 
         return back();
     }
@@ -168,8 +168,8 @@ class ProjectController extends Controller
 
         }
 
-        Storage::disk('local')->put('judgments-kappa.txt', implode(PHP_EOL, $response));
-        return Storage::download('judgments-kappa.txt');
+        Storage::disk('local')->put('judgments_kappa.txt', implode(PHP_EOL, $response));
+        return Storage::download('judgments_kappa.txt');
 
         return back();
     }
