@@ -172,7 +172,7 @@
                 <div class="col-md-4">
         
                     <h5 class="text-uppercase">About</h5>
-                    <p>REGIS is a test colletction for Multimodal Information Retrieval composed of queries, documents, and relevance judgements.
+                    <p>REGIS is a test colletction for Information Retrieval composed of queries, documents, and relevance judgements.
                     REGIS is being developed as part of a collaboration between the Institute of Informatics at UFRGS and Petrobras.
                     </p>
         

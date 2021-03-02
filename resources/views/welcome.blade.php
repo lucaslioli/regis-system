@@ -12,7 +12,7 @@
 
             <h2 class="cover-heading mt-3">Retrieval Evaluation for Geoscientific Information Systems</h2>
 
-            <p class="col-7 lead text-center">Welcome to REGIS, a test collection for Multimodal Information Retrieval for Geoscientific documents. You can help us providing relevance judgements for documents retrieved in response to queries.</p>
+            <p class="col-7 lead text-center">Welcome to REGIS, a test collection for Information Retrieval for Geoscientific documents. You can help us providing relevance judgements for documents retrieved in response to queries.</p>
 
             @guest
                 <div class="col-8 d-flex justify-content-center">
